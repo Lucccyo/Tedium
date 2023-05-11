@@ -1,6 +1,8 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
 
+#include <stdlib.h>
+
 struct player {
   /* health[0] -> current health
      health[1] -> max health */
@@ -16,10 +18,13 @@ struct player {
 };
 typedef struct player Player ;
 
+/* initialize a player */
+Player * create();
+
 /* moving functions */
 void go_left(int* coordinate);
 void go_right(int* coordinate);
-void go_top(int* coordinate);
+void go_up(int* coordinate);
 void go_down(int* coordinate);
 
 /* stats functions */
@@ -29,6 +34,6 @@ void update_stats(int* stats, int branch);
 void update_key(int* key_number, int update);
 
 /* display debug */
-void display(Player p);
+void display(Player * p);
 
 #endif
