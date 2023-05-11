@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "room.h": "c"
+        "room.h": "c",
+        "floor.h": "c"
     }
 }

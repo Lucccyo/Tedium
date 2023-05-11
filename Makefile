@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS= -W -Wall -Werror
-SRC=src/
+SRC=src/main.c src/room.c src/floor.c 
 EXEC=main
 	
 main:
-	$(CC) $(SRC)main.c $(SRC)room.c -o a
-		
+	$(CC) $(SRC) -o ./a.out
+
 debug:
-	$(CC) $(CFLAGS) $(SRC)main.c $(SRC)room.c -o a
+	$(CC) $(CFLAGS) $(SRC) -o ./a.out

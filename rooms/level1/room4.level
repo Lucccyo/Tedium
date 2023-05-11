@@ -28,10 +28,10 @@
 #                            #
 #                            #
 ##############################
-East : exit
+East : exit.level
 South : 
 West : 
-North : room3
+North : room3.level
 
 A
 Pv : 5

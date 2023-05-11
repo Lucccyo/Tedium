@@ -27,10 +27,10 @@
 #                            #
 #                            #
 #                            #
-##############################
+##############??##############
 East : 
-South : 
-West : room4
+South : room4.level
+West : room1.level
 North : 
 
 A

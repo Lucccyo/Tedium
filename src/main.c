@@ -1,19 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "../include/room.h"
+#include "../include/floor.h"
 
 int main() {
-    Room room = create_room();
-    for (int i = 0; i < 30; i++) {
-        for (int j = 0; j < 30; j++) {
-            printf("%c", room.tiles[i][j]);
-        }
-        printf("\n");
-    }
-    printf("North : %s\n", room.north);
-    printf("South : %s\n", room.south);
-    printf("East : %s\n", room.east);
-    printf("West : %s\n", room.west);
+    /* room creation test */
+    Room room = create_room("rooms/blank.level");
+    display_room(room);
 
+    /* floor creation test */
+    Floor floor = create_floor("rooms/level1");
+    display_floor(floor);
     return 0;
 }

@@ -8,14 +8,17 @@
 
 typedef struct Room {
     char tiles[ROOM_SIZE][ROOM_SIZE];
-    int x;
-    int y;
-    char *north;
-    char *south;
-    char *east;
-    char *west;
+    int x, y;
+    /* Will become pointer to other rooms */
+    char north_name[30];
+    char south_name[30];
+    char east_name[30];
+    char west_name[30];
 } Room;
 
-Room create_room();
+Room create_room(char *room_path);
+
+/* to_string */
+void display_room(Room room);
 
 #endif
