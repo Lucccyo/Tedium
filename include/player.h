@@ -19,7 +19,7 @@ struct player {
 typedef struct player Player ;
 
 /* initialize a player */
-Player * create();
+void reset_player(Player * player);
 
 /* moving functions */
 void go_left(int* coordinate);
