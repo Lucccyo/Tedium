@@ -1,5 +1,5 @@
-#ifndef HEADER_FILE
-#define HEADER_FILE
+#ifndef PLAYER_FILE
+#define PLAYER_FILE
 
 #include <stdlib.h>
 
