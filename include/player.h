@@ -34,6 +34,6 @@ void update_stats(int* stats, int branch);
 void update_key(int* key_number, int update);
 
 /* display debug */
-void display(Player * p);
+void display_player(Player * p);
 
 #endif

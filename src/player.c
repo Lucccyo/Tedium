@@ -23,7 +23,7 @@ void update_stats(int* stats, int branch) { (*(stats+branch))++; }
 void update_key(int* key_number, int update) { (*key_number)+=update; }
 
 /* display debug */
-void display(Player * p) {
+void display_player(Player * p) {
   printf("\n"
   "health  : (%d/%d)\n"
   "attack  : %d\n"
