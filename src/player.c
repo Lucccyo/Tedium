@@ -2,12 +2,12 @@
 #include "../include/player.h"
 
 /* initialize a player */
-void reset_player(Player * player) {
-  player->health[0] = 10; player->health[1] = 10;
-  player->stats[0] = 2; player->stats[1] = 1;
-  player->key_number = 0;
-  player->room_id = 1;
-  player->coordinate[0] = 0; player->coordinate[1] = 0;
+void reset_player(Player * p) {
+  p->health[0] = 10; p->health[1] = 10;
+  p->stats[0] = 2; p->stats[1] = 1;
+  p->key_number = 0;
+  p->room_id = 1;
+  p->coordinate[0] = 0; p->coordinate[1] = 0;
 }
 
 /* moving functions */
