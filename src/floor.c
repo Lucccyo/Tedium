@@ -5,10 +5,21 @@ Floor create_floor(char level_path[15]) {
     /* get level number in level_path */
     new_floor.id = atoi(level_path + 11);
 
+    for (int i = 0; i < FLOOR_SIZE; i++) {
+        for (int j = 0; j < FLOOR_SIZE; j++) {
+            new_floor.rooms[i][j].empty = 1;
+            new_floor.rooms[i][j].east = NULL;
+            new_floor.rooms[i][j].south = NULL;
+            new_floor.rooms[i][j].west = NULL;
+            new_floor.rooms[i][j].north = NULL;
+        }
+    }
+
     int rooms_amount = 0;
     char rooms_names[10][30];
     char rooms_done[10][30];
-    char coords[10][2];
+    /* coords contain*/
+    int coords[10][2];
     Room rooms[10];
 
     /* get the number of files with extension '.level' in level_path and their names */
@@ -31,6 +42,8 @@ Floor create_floor(char level_path[15]) {
         strcat(path, "/");
         strcat(path, rooms_names[i]);
         rooms[i] = create_room(path);
+        rooms[i].empty = 0;
+        strcpy(rooms[i].name, rooms_names[i]);
     }
 
     /* fix entry room coordinates */
@@ -42,8 +55,8 @@ Floor create_floor(char level_path[15]) {
     /* Recursive method would be MUCH better but hard to do */
     int rooms_done_amount = 1;
     while (rooms_done_amount < rooms_amount) {
-        for (int i = 0; i < rooms_done_amount; i++) {
-            for (int j = 0; j < rooms_amount; j++) {
+        for (int i = 0; i < rooms_done_amount+1; i++) {
+            for (int j = 0; j < rooms_amount+1; j++) {
                 if (strcmp(rooms_done[i], rooms_names[j]) == 0) {
                     /* check if there is a neighbor in east direction */
                     if (strcmp(rooms[j].east_name, "") != 0) {
@@ -55,10 +68,11 @@ Floor create_floor(char level_path[15]) {
                             }
                         }
                         /* if neighbor is not done, add it to rooms_done and set its coordinates */
-                        if (neighbor_done == 0) {
-                            strcpy(rooms_done[rooms_done_amount], rooms[j].east_name);
-                            coords[rooms_done_amount][0] = coords[i][0] + 1;
-                            coords[rooms_done_amount][1] = coords[i][1];
+                        if (neighbor_done == 0) { 
+                            int index = get_room_index(rooms[j].east_name, rooms_names, rooms_amount);
+                            strcpy(rooms_done[index], rooms[j].east_name);
+                            coords[index][0] = coords[i][0] + 1;
+                            coords[index][1] = coords[i][1];
                             rooms_done_amount++;
                         }
                     }
@@ -73,9 +87,10 @@ Floor create_floor(char level_path[15]) {
                         }
                         /* if neighbor is not done, add it to rooms_done and set its coordinates */
                         if (neighbor_done == 0) {
-                            strcpy(rooms_done[rooms_done_amount], rooms[j].south_name);
-                            coords[rooms_done_amount][0] = coords[i][0];
-                            coords[rooms_done_amount][1] = coords[i][1] + 1;
+                            int index = get_room_index(rooms[j].south_name, rooms_names, rooms_amount);
+                            strcpy(rooms_done[index], rooms[j].south_name);
+                            coords[index][0] = coords[i][0];
+                            coords[index][1] = coords[i][1] + 1;
                             rooms_done_amount++;
                         }
                     }
@@ -90,9 +105,10 @@ Floor create_floor(char level_path[15]) {
                         }
                         /* if neighbor is not done, add it to rooms_done and set its coordinates */
                         if (neighbor_done == 0) {
-                            strcpy(rooms_done[rooms_done_amount], rooms[j].west_name);
-                            coords[rooms_done_amount][0] = coords[i][0] - 1;
-                            coords[rooms_done_amount][1] = coords[i][1];
+                            int index = get_room_index(rooms[j].west_name, rooms_names, rooms_amount);
+                            strcpy(rooms_done[index], rooms[j].west_name);
+                            coords[index][0] = coords[i][0] - 1;
+                            coords[index][1] = coords[i][1];
                             rooms_done_amount++;
                         }
                     }
@@ -107,32 +123,95 @@ Floor create_floor(char level_path[15]) {
                         }
                         /* if neighbor is not done, add it to rooms_done and set its coordinates */
                         if (neighbor_done == 0) {
-                            strcpy(rooms_done[rooms_done_amount], rooms[j].north_name);
-                            coords[rooms_done_amount][0] = coords[i][0];
-                            coords[rooms_done_amount][1] = coords[i][1] - 1;
+                            int index = get_room_index(rooms[j].north_name, rooms_names, rooms_amount);
+                            strcpy(rooms_done[index], rooms[j].north_name);
+                            coords[index][0] = coords[i][0];
+                            coords[index][1] = coords[i][1] - 1;
                             rooms_done_amount++;
                         }
                     }
                 }
             }
-        }
+        }   
+    }
+    
+    /* Make all coordinates positives */
+    int min_x, min_y = 0;
+    for (int i = 0; i < rooms_amount; i++) {
+        if (coords[i][0] < min_x) { min_x = coords[i][0]; }
+        if (coords[i][1] < min_y) { min_y = coords[i][1]; }
     }
     for (int i = 0; i < rooms_amount; i++) {
-        printf("%s | %d, %d\n", rooms_done[i], coords[i][0], coords[i][1]);
+        coords[i][0] -= min_x;
+        coords[i][1] -= min_y;
     }
 
-    /* TODO: make all coordinates positives */
-    /* TODO: place rooms in array */
-    /* TODO: fix all pointers */
+    /* Place rooms in floor.rooms array */
+    for (int i = 0; i < rooms_amount; i++) {
+        new_floor.rooms[coords[i][1]][coords[i][0]] = rooms[i];
+    }
+
+    /* Fix pointers */
+    for (int i = 0; i < FLOOR_SIZE; i++) {
+        for (int j = 0; j < FLOOR_SIZE; j++) {
+            if (new_floor.rooms[i][j].empty == 0) {
+                /* Check east neighbor */
+                if (j < FLOOR_SIZE - 1 && !new_floor.rooms[i][j+1].empty) {
+                    new_floor.rooms[i][j].east = &new_floor.rooms[i][j+1];
+                }
+                /* Check south neighbor */
+                if (i < FLOOR_SIZE - 1 && !new_floor.rooms[i+1][j].empty) {
+                    new_floor.rooms[i][j].south = &new_floor.rooms[i+1][j];
+                }
+                /* Check west neighbor */
+                if (j > 0 && !new_floor.rooms[i][j-1].empty) {
+                    new_floor.rooms[i][j].west = &new_floor.rooms[i][j-1];
+                }
+                /* Check north neighbor */
+                if (i > 0 && !new_floor.rooms[i-1][j].empty) {
+                    new_floor.rooms[i][j].north = &new_floor.rooms[i-1][j];
+                }
+            }
+        }
+    }
     return new_floor;
 }
 
+/* return the position of room_names in rooms_names array, -1 if not present */
+int get_room_index(char room_name[30], char rooms_names[10][30], int rooms_amount) {
+    for (int i = 0; i < rooms_amount; i++) {
+        if (strcmp(room_name, rooms_names[i]) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+/* display the floor like a minimap */
+void display_floor_map(Floor floor) {
+    printf("Floor %d:\n", floor.id);
+    printf("  1 2 3 4\n");
+    for (int i = 0;  i < FLOOR_SIZE; i++) {
+        printf("%d ", i + 1);
+        for (int j = 0; j < FLOOR_SIZE; j++) {
+            if (floor.rooms[i][j].empty) { printf("  "); }
+            else { printf("X "); }
+        }
+        printf("\n");
+    }
+}
+
+/* display floor by showing room_names */
 void display_floor(Floor floor) {
-    printf("Floor %d\n", floor.id);
+    printf("Floor %d:\n", floor.id);
     for (int i = 0;  i < FLOOR_SIZE; i++) {
         for (int j = 0; j < FLOOR_SIZE; j++) {
-            /* not working because floor.rooms is not filled yet*/
-            // display_room(floor.rooms[i][j]);
+            if (floor.rooms[i][j].empty) { printf("    empty    "); }
+            else { 
+                printf(" %s ", floor.rooms[i][j].name); 
+            }
         }
+        printf("\n");
     }
 }

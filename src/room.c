@@ -2,10 +2,16 @@
 
 Room create_room(char *room_path) {
     Room new_room = {
+        .empty = 1,
+        .name = "empty",
         .east_name = "",
         .south_name = "",
         .west_name = "",
         .north_name = "",
+        .east = NULL,
+        .south = NULL,
+        .west = NULL,
+        .north = NULL,
         .tiles = {{0}},
         .x = 0,
         .y = 0
