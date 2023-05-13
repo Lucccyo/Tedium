@@ -1,5 +1,5 @@
-#ifndef HEADER_FILE
-#define HEADER_FILE
+#ifndef MONSTER_FILE
+#define MONSTER_FILE
 
 #include <stdlib.h>
 
@@ -21,7 +21,7 @@ typedef struct monster Monster ;
 void reset_monster(Monster * m, int room_id, int x, int y);
 
 /* stats functions */
-void update_health(int* health, int update);
+void update_health_monster(int* health, int update);
 
 /* display debug */
 void display_monster(Monster * m);

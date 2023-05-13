@@ -10,7 +10,7 @@ void reset_monster(Monster * m, int room_id, int x, int y) {
 }
 
 /* stats functions */
-void update_health(int* health, int update) { (*health)+=update; }
+void update_health_monster(int* health, int update) { (*health)+=update; }
 
 /* display debug */
 void display_monster(Monster * m) {
