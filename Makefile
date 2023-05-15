@@ -1,16 +1,12 @@
-# main.o: src/main.c
-# 	gcc -o src/main.o -c src/main.c -W
-
 CC=gcc
 CFLAGS= -W -Wall -Werror
-INC=-I include/
-SRC=src/
+SRC=src/main.c src/room.c src/floor.c 
 EXEC=main
 	
-main: $(SRC)main
-		$(CC) $(SRC)main.c 
-		./a.out
+main:
+	$(CC) $(SRC)
+	./a.out
 
-debug: $(SRC)main
-		$(CC) $(SRC)main.c $(CFLAGS) 
-		./a.out
+debug:
+	$(CC) $(CFLAGS) $(SRC) 
+	./a.out
