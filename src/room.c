@@ -34,17 +34,17 @@ Room create_room(char *room_path) {
         if (strspn(line, " \t\n\r") == strlen(line))
             continue;
         /* Neigbors */
-        if (strncmp(line, "East : ", 7) == 0) {
-            strncpy(new_room.east_name, line + 7, sizeof(new_room.east_name) - 1);
+        if (strncmp(line, "Est : ", 6) == 0) {
+            strncpy(new_room.east_name, line + 6, sizeof(new_room.east_name) - 1);
             new_room.east_name[strcspn(new_room.east_name, "\n")] = '\0';
-        } else if (strncmp(line, "South : ", 8) == 0) {
-            strncpy(new_room.south_name, line + 8, sizeof(new_room.south_name) - 1);
+        } else if (strncmp(line, "Sud : ", 6) == 0) {
+            strncpy(new_room.south_name, line + 6, sizeof(new_room.south_name) - 1);
             new_room.south_name[strcspn(new_room.south_name, "\n")] = '\0';
-        } else if (strncmp(line, "West : ", 7) == 0) {
-            strncpy(new_room.west_name, line + 7, sizeof(new_room.west_name) - 1);
+        } else if (strncmp(line, "Ouest : ", 8) == 0) {
+            strncpy(new_room.west_name, line + 8, sizeof(new_room.west_name) - 1);
             new_room.west_name[strcspn(new_room.west_name, "\n")] = '\0';
-        } else if (strncmp(line, "North : ", 8) == 0) {
-            strncpy(new_room.north_name, line + 8, sizeof(new_room.north_name) - 1);
+        } else if (strncmp(line, "Nord : ", 7) == 0) {
+            strncpy(new_room.north_name, line + 7, sizeof(new_room.north_name) - 1);
             new_room.north_name[strcspn(new_room.north_name, "\n")] = '\0';
         /* Tiles */
         }  else if (actual_line < 30){ 

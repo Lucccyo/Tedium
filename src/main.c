@@ -1,7 +1,43 @@
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 960
+#define WINDOW_HEIGHT 960
+#define TILE_SIZE 32
+#define DRAW_TILE_SIZE 32
 
+#include <stdio.h>
+#include <string.h>
 #include <../include/SDL2/SDL.h>
+#include "../include/texture.h"
+/* will be replaced with main game struct when it is done */
+#include "../include/room.h"
+
+void draw_room(SDL_Renderer* renderer, Room room, Texture texture) {
+    SDL_Rect Rect_dest;
+    Rect_dest.w = DRAW_TILE_SIZE;
+    Rect_dest.h = DRAW_TILE_SIZE;
+
+    SDL_Rect Rect_source;
+    Rect_source.w = TILE_SIZE;
+    Rect_source.h = TILE_SIZE;
+    Rect_source.x = 0;
+    Rect_source.y = 0;
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 30; j++) {
+            Rect_dest.x = i * DRAW_TILE_SIZE;
+            Rect_dest.y = j * DRAW_TILE_SIZE;
+            /* Wall drawing */
+            if (room.tiles[j][i] == '#') {
+                SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
+            /* Heart drawing (floor behind) */
+            } else if (room.tiles[j][i] == '3') {
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
+            /* Floor drawing */
+            } else {
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+            }
+        }
+    }
+}
 
 int main() {
     SDL_Window* window = NULL;
@@ -26,16 +62,18 @@ int main() {
 
     SDL_Event event;
     int quit = 0;
-
+    Room test_room = create_room("rooms/test.level");
+    Texture texture = load_textures(renderer);
+    display_room(test_room);
     while (!quit) {
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_QUIT) {
                 quit = 1;
             }
         }
-
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+        draw_room(renderer, test_room, texture);
         SDL_RenderPresent(renderer);
     }
 
