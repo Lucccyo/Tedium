@@ -16,9 +16,10 @@ typedef struct Floor {
     struct Floor *previous;
 } Floor;
 
-Floor create_floor(char level_path[15]);
-void display_floor_map(Floor floor);
-void display_floor(Floor floor);
+Floor* create_floor(char level_path[15]);
+void free_floor(Floor *floor);
+void display_floor_map(Floor *floor);
+void display_floor(Floor *floor);
 int get_room_index(char room_name[30], char rooms_names[10][30], int rooms_amount);
 
 #endif

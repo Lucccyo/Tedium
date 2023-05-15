@@ -28,10 +28,10 @@
 #                            #
 #                            #
 ##############################
-East : room2.level
-South : 
-West : 
-North : room3.level
+Est : room2.level
+Sud : 
+Ouest : 
+Nord : room3.level
 
 A
 Pv : 5

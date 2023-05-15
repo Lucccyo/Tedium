@@ -1,17 +1,17 @@
 #include "../include/floor.h"
 
-Floor create_floor(char level_path[15]) {
-    Floor new_floor;
+Floor* create_floor(char level_path[15]) {
     /* get level number in level_path */
-    new_floor.id = atoi(level_path + 11);
+    Floor *floor = malloc(sizeof(Floor));
+    floor->id = atoi(level_path + 11);
 
     for (int i = 0; i < FLOOR_SIZE; i++) {
         for (int j = 0; j < FLOOR_SIZE; j++) {
-            new_floor.rooms[i][j].empty = 1;
-            new_floor.rooms[i][j].east = NULL;
-            new_floor.rooms[i][j].south = NULL;
-            new_floor.rooms[i][j].west = NULL;
-            new_floor.rooms[i][j].north = NULL;
+            floor->rooms[i][j].empty = 1;
+            floor->rooms[i][j].east = NULL;
+            floor->rooms[i][j].south = NULL;
+            floor->rooms[i][j].west = NULL;
+            floor->rooms[i][j].north = NULL;
         }
     }
 
@@ -45,7 +45,6 @@ Floor create_floor(char level_path[15]) {
         rooms[i].empty = 0;
         strcpy(rooms[i].name, rooms_names[i]);
     }
-
     /* fix entry room coordinates */
     /* would be better to do it with a random room to prevent repetitive patterns */
     strcpy(rooms_done[0], rooms_names[0]);
@@ -148,33 +147,33 @@ Floor create_floor(char level_path[15]) {
 
     /* Place rooms in floor.rooms array */
     for (int i = 0; i < rooms_amount; i++) {
-        new_floor.rooms[coords[i][1]][coords[i][0]] = rooms[i];
+        floor->rooms[coords[i][1]][coords[i][0]] = rooms[i];
     }
 
     /* Fix pointers */
     for (int i = 0; i < FLOOR_SIZE; i++) {
         for (int j = 0; j < FLOOR_SIZE; j++) {
-            if (new_floor.rooms[i][j].empty == 0) {
+            if (floor->rooms[i][j].empty == 0) {
                 /* Check east neighbor */
-                if (j < FLOOR_SIZE - 1 && !new_floor.rooms[i][j+1].empty) {
-                    new_floor.rooms[i][j].east = &new_floor.rooms[i][j+1];
+                if (j < FLOOR_SIZE - 1 && !floor->rooms[i][j+1].empty) {
+                    floor->rooms[i][j].east = &floor->rooms[i][j+1];
                 }
                 /* Check south neighbor */
-                if (i < FLOOR_SIZE - 1 && !new_floor.rooms[i+1][j].empty) {
-                    new_floor.rooms[i][j].south = &new_floor.rooms[i+1][j];
+                if (i < FLOOR_SIZE - 1 && !floor->rooms[i+1][j].empty) {
+                    floor->rooms[i][j].south = &floor->rooms[i+1][j];
                 }
                 /* Check west neighbor */
-                if (j > 0 && !new_floor.rooms[i][j-1].empty) {
-                    new_floor.rooms[i][j].west = &new_floor.rooms[i][j-1];
+                if (j > 0 && !floor->rooms[i][j-1].empty) {
+                    floor->rooms[i][j].west = &floor->rooms[i][j-1];
                 }
                 /* Check north neighbor */
-                if (i > 0 && !new_floor.rooms[i-1][j].empty) {
-                    new_floor.rooms[i][j].north = &new_floor.rooms[i-1][j];
+                if (i > 0 && !floor->rooms[i-1][j].empty) {
+                    floor->rooms[i][j].north = &floor->rooms[i-1][j];
                 }
             }
         }
     }
-    return new_floor;
+    return floor;
 }
 
 /* return the position of room_names in rooms_names array, -1 if not present */
@@ -187,15 +186,20 @@ int get_room_index(char room_name[30], char rooms_names[10][30], int rooms_amoun
     return -1;
 }
 
+void free_floor(Floor* floor) {
+    free(floor);
+    floor = NULL;
+}
+
 
 /* display the floor like a minimap */
-void display_floor_map(Floor floor) {
-    printf("Floor %d:\n", floor.id);
+void display_floor_map(Floor* floor) {
+    printf("Floor %d:\n", floor->id);
     printf("  1 2 3 4\n");
     for (int i = 0;  i < FLOOR_SIZE; i++) {
         printf("%d ", i + 1);
         for (int j = 0; j < FLOOR_SIZE; j++) {
-            if (floor.rooms[i][j].empty) { printf("  "); }
+            if (floor->rooms[i][j].empty) { printf("  "); }
             else { printf("X "); }
         }
         printf("\n");
@@ -203,13 +207,13 @@ void display_floor_map(Floor floor) {
 }
 
 /* display floor by showing room_names */
-void display_floor(Floor floor) {
-    printf("Floor %d:\n", floor.id);
+void display_floor(Floor* floor) {
+    printf("Floor %d:\n", floor->id);
     for (int i = 0;  i < FLOOR_SIZE; i++) {
         for (int j = 0; j < FLOOR_SIZE; j++) {
-            if (floor.rooms[i][j].empty) { printf("    empty    "); }
+            if (floor->rooms[i][j].empty) { printf("    empty    "); }
             else { 
-                printf(" %s ", floor.rooms[i][j].name); 
+                printf(" %s ", floor->rooms[i][j].name); 
             }
         }
         printf("\n");
