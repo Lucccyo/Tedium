@@ -18,17 +18,13 @@ else ifeq ($(UNAME_S),Windows)
 	LIB=-L lib/win/ -l SDL2-2.0.0
 endif
 
-SRC=src/main.c src/room.c src/floor.c 
+SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c
 EXEC=main
 
 main:
-	$(CC) $(SRC) $(LIB) 
+	$(CC) $(SRC) $(LIB) $(INC)
 	./a.out
 
 debug:
-	$(CC) $(CFLAGS) $(SRC) $(LIB) 
-	./a.out
-
-sdl:
-	gcc ./src/test_sdl.c $(INC) $(LIB) 
+	$(CC) $(CFLAGS) $(SRC) $(LIB) $(INC)
 	./a.out
