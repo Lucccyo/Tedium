@@ -63,7 +63,7 @@ int main() {
 
     SDL_Event event;
     int quit = 0;
-    Room *test_room = create_room("rooms/test.level");
+    Room *test_room = create_room("rooms/prof.level");
     Texture texture = load_textures(renderer);
     display_room(test_room);
     while (!quit) {

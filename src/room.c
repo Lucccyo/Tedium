@@ -1,6 +1,9 @@
 #include "../include/room.h"
 
 Room* create_room(char *room_path) {
+    /* format file to remove '§' */
+    replace_character_in_file(room_path, L'§', L'P');
+
     Room *room = malloc(sizeof(Room));
 
     room->empty = 1;
@@ -20,7 +23,6 @@ Room* create_room(char *room_path) {
     }
     room->x = 0;
     room->y = 0;
-
 
     FILE *file = fopen(room_path, "r");
 
@@ -71,6 +73,47 @@ Room* create_room(char *room_path) {
 void free_room(Room *room) {
     free(room);
     room = NULL;
+}
+
+void replace_character_in_file(const char* file_path, wchar_t target_char, wchar_t replacement_char) {
+    // Set the locale to use the system's default encoding
+    setlocale(LC_ALL, ""); 
+
+    // Open the input file
+    FILE* input_file = fopen(file_path, "r");
+    if (input_file == NULL) {
+        printf("Error opening input file.\n");
+        return;
+    }
+
+    // Open a temporary file
+    FILE* temp_file = fopen("temp.level", "w");
+    if (temp_file == NULL) {
+        printf("Error opening temporary file.\n");
+        fclose(input_file);
+        return;
+    }
+
+    // Read the input file
+    wchar_t line[256];
+    while (fgetws(line, sizeof(line), input_file)) {
+        // Replace target_char with replacement_char in each line
+        for (int i = 0; line[i] != L'\0'; i++) {
+            if (line[i] == target_char) {
+                line[i] = replacement_char;
+            }
+        }
+        // Write the modified line to the temporary file
+        fwprintf(temp_file, L"%ls", line);
+    }
+
+    fclose(input_file);
+    fclose(temp_file);
+
+    if (rename("temp.level", file_path) != 0) {
+        printf("Error renaming file.\n");
+        return;
+    }
 }
 
 void display_room(Room *room) {
