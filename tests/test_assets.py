@@ -1,8 +1,8 @@
 import pygame, math
 
 pygame.init()
-MAX_CELL_X = 10
-MAX_CELL_Y = 10
+MAX_CELL_X = 30
+MAX_CELL_Y = 30
 
 block_size = 32
 WINDOW_HEIGHT = MAX_CELL_Y*block_size
@@ -37,17 +37,36 @@ def init_grid():
 
 
 tab = [
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png"  ],
-]
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],
+[  "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png", "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" , "a.png" ],]
 
 def display_img_array():
   x = 0
