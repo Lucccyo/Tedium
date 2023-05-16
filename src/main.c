@@ -9,8 +9,9 @@
 #include "../include/texture.h"
 /* will be replaced with main game struct when it is done */
 #include "../include/room.h"
+#include "../include/floor.h"
 
-void draw_room(SDL_Renderer* renderer, Room room, Texture texture) {
+void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
     SDL_Rect Rect_dest;
     Rect_dest.w = DRAW_TILE_SIZE;
     Rect_dest.h = DRAW_TILE_SIZE;
@@ -25,10 +26,10 @@ void draw_room(SDL_Renderer* renderer, Room room, Texture texture) {
             Rect_dest.x = i * DRAW_TILE_SIZE;
             Rect_dest.y = j * DRAW_TILE_SIZE;
             /* Wall drawing */
-            if (room.tiles[j][i] == '#') {
+            if (room->tiles[j][i] == '#') {
                 SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
             /* Heart drawing (floor behind) */
-            } else if (room.tiles[j][i] == '3') {
+            } else if (room->tiles[j][i] == '3') {
                 SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
                 SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
             /* Floor drawing */
@@ -62,7 +63,7 @@ int main() {
 
     SDL_Event event;
     int quit = 0;
-    Room test_room = create_room("rooms/test.level");
+    Room *test_room = create_room("rooms/test.level");
     Texture texture = load_textures(renderer);
     display_room(test_room);
     while (!quit) {

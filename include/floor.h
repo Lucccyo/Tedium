@@ -9,12 +9,13 @@
 #include <dirent.h>
 #include "../include/room.h"
 
-typedef struct Floor {
+typedef struct Floor Floor;
+struct Floor {
     int id;
-    Room rooms[FLOOR_SIZE][FLOOR_SIZE];
-    struct Floor *next;
-    struct Floor *previous;
-} Floor;
+    Room *rooms[FLOOR_SIZE][FLOOR_SIZE];
+    Floor *next;
+    Floor *previous;
+};
 
 Floor* create_floor(char level_path[15]);
 void free_floor(Floor *floor);

@@ -23,9 +23,10 @@ struct Room {
     Room *west;
 };
 
-Room create_room(char *room_path);
+Room* create_room(char *room_path);
+void free_room(Room *room);
 
 /* to_string */
-void display_room(Room room);
+void display_room(Room *room);
 
 #endif
