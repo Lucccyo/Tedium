@@ -4,7 +4,12 @@
 #define ROOM_SIZE 30
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+/* used to remove problematic non-ascii char from level files */
+#include <wchar.h>
+#include <wctype.h>
+#include <locale.h>
 
 typedef struct Room Room;
 struct Room {
@@ -22,9 +27,20 @@ struct Room {
     Room *west;
 };
 
-Room create_room(char *room_path);
+/* generate a room from the specified file and return a pointer to it */
+Room* create_room_from_file(char *room_path);
 
-/* to_string */
-void display_room(Room room);
+/* procedurally generate a room accoding to doors given and return a pointer to it */
+/* doors[0]->north | doors[1]->south | doors[2]-> east| doors[3]->west */
+Room* generate_room(int doors[4], char name[30]);
+
+/* Free the specified room and all of its attributes */
+void free_room(Room *room);
+
+/* rewrite file_path and replace target_char with replacement_char */
+void replace_character_in_file(const char* file_path, wchar_t target_char, wchar_t replacement_char);
+
+/* to_string function */
+void display_room(Room *room);
 
 #endif

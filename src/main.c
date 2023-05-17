@@ -1,41 +1,46 @@
 #define WINDOW_WIDTH 720
 #define WINDOW_HEIGHT 720
-#define COLUMNS 30
-#define ROWS 30
-#define TILE_WIDTH WINDOW_WIDTH / COLUMNS
-#define TILE_HEIGHT WINDOW_HEIGHT / ROWS
+#define TILE_SIZE 24
+#define DRAW_TILE_SIZE 24
 
+#include <stdio.h>
+#include <string.h>
 #include <../include/SDL2/SDL.h>
+#include "../include/texture.h"
+/* will be replaced with main game struct when it is done */
+#include "../include/room.h"
+#include "../include/floor.h"
 
-void Afficher(SDL_Renderer *renderer, SDL_Texture *texture, int textureIndex)
-{
-    int i, j;
-
+void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
     SDL_Rect Rect_dest;
-    Rect_dest.w = TILE_WIDTH;
-    Rect_dest.h = TILE_HEIGHT;
+    Rect_dest.w = DRAW_TILE_SIZE;
+    Rect_dest.h = DRAW_TILE_SIZE;
 
     SDL_Rect Rect_source;
-    Rect_source.w = 20;
-    Rect_source.h = 20;
-
-    for (i = 0; i < COLUMNS; i++)
-    {
-        for (j = 0; j < ROWS; j++)
-        {
-            Rect_dest.x = i * TILE_WIDTH;
-            Rect_dest.y = j * TILE_HEIGHT;
-
-            Rect_source.x = textureIndex % 16 * 20;
-            Rect_source.y = (int)(textureIndex / 16) * 20;
-
-            SDL_RenderCopy(renderer, texture, &Rect_source, &Rect_dest);
+    Rect_source.w = TILE_SIZE;
+    Rect_source.h = TILE_SIZE;
+    Rect_source.x = 0;
+    Rect_source.y = 0;
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 30; j++) {
+            Rect_dest.x = i * DRAW_TILE_SIZE;
+            Rect_dest.y = j * DRAW_TILE_SIZE;
+            /* Wall drawing */
+            if (room->tiles[j][i] == '#') {
+                SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
+            /* Heart drawing (floor behind) */
+            } else if (room->tiles[j][i] == '3') {
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
+            /* Floor drawing */
+            } else {
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+            }
         }
     }
 }
 
-int main()
-{
+int main() {
     SDL_Surface *screen;
     SDL_Event event;
 
@@ -65,16 +70,14 @@ int main()
         return 1;
     }
 
-    // load assets
-    SDL_Surface *tileset = SDL_LoadBMP("gfx/tilemap.bmp");
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, tileset);
-
-    while (!quit)
-    {
-        while (SDL_PollEvent(&event) != 0)
-        {
-            if (event.type == SDL_QUIT)
-            {
+    SDL_Event event;
+    int quit = 0;
+    Room *test_room = create_room_from_file("rooms/prof.level");
+    Texture texture = load_textures(renderer);
+    display_room(test_room);
+    while (!quit) {
+        while (SDL_PollEvent(&event) != 0) {
+            if (event.type == SDL_QUIT) {
                 quit = 1;
                 break;
             }
@@ -97,23 +100,14 @@ int main()
                 }
             }
         }
-
-        // listen for keyboard events
-
-        // display graphics
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 225);
-
-        Afficher(renderer, texture, index);
-
+        draw_room(renderer, test_room, texture);
         SDL_RenderPresent(renderer);
     }
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-
-    SDL_DestroyTexture(texture);
-    SDL_FreeSurface(tileset);
 
     SDL_Quit();
     return 0;
