@@ -18,6 +18,6 @@ struct maze {
 typedef struct maze Maze;
 
 void reset_maze(Maze * m, Player * p, Hashtbl * monsters);
-
+void add_floor(Maze * m, Floor * f);
 
 #endif
