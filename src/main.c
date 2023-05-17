@@ -1,7 +1,7 @@
-#define WINDOW_WIDTH 960
-#define WINDOW_HEIGHT 960
-#define TILE_SIZE 32
-#define DRAW_TILE_SIZE 32
+#define WINDOW_WIDTH 720
+#define WINDOW_HEIGHT 720
+#define TILE_SIZE 24
+#define DRAW_TILE_SIZE 24
 
 #include <stdio.h>
 #include <string.h>
@@ -63,7 +63,7 @@ int main() {
 
     SDL_Event event;
     int quit = 0;
-    Room *test_room = create_room("rooms/prof.level");
+    Room *test_room = create_room_from_file("rooms/prof.level");
     Texture texture = load_textures(renderer);
     display_room(test_room);
     while (!quit) {

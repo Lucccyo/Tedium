@@ -3,7 +3,7 @@
 
 int main() {
     /* room creation test */
-    Room *room = create_room("rooms/prof.level");
+    Room *room = create_room_from_file("rooms/prof.level");
     display_room(room);
     free_room(room);
 

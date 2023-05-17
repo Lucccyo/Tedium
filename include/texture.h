@@ -3,8 +3,9 @@
 
 #include <../include/SDL2/SDL.h>
 
-/* Contains all SDL_Texutures used in the game */
+/* Contains all SDL_Textures used in the game */
 typedef struct {
+    SDL_Texture* tileset;
     SDL_Texture* floor;
     SDL_Texture* wall;
     SDL_Texture* heart;

@@ -9,12 +9,7 @@ Floor* create_floor(char level_path[15]) {
     /* create empty rooms */
     for (int i = 0; i < FLOOR_SIZE; i++) {
         for (int j = 0; j < FLOOR_SIZE; j++) {
-            floor->rooms[i][j] = create_room("rooms/empty.level");
-            floor->rooms[i][j]->empty = 1;
-            floor->rooms[i][j]->east = NULL;
-            floor->rooms[i][j]->south = NULL;
-            floor->rooms[i][j]->west = NULL;
-            floor->rooms[i][j]->north = NULL;
+            floor->rooms[i][j] = create_room_from_file("rooms/empty.level");
         }
     }
 
@@ -43,17 +38,16 @@ Floor* create_floor(char level_path[15]) {
         strcpy(path, level_path);
         strcat(path, "/");
         strcat(path, rooms_names[i]);
-        rooms[i] = create_room(path);
+        rooms[i] = create_room_from_file(path);
         rooms[i]->empty = 0;
         strcpy(rooms[i]->name, rooms_names[i]);
     }
+    
     /* fix entry room coordinates */
-    /* would be better to do it with a random room to prevent repetitive patterns */
     strcpy(rooms_done[0], rooms_names[0]);
     coords[0][0] = 0; coords[0][1] = 0;
 
     /* iterate trough neighbors until every room is done */
-    /* Recursive method would be MUCH better but hard to do */
     int rooms_done_amount = 1;
     while (rooms_done_amount < rooms_amount) {
         for (int i = 0; i < rooms_done_amount+1; i++) {

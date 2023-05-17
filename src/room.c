@@ -1,11 +1,11 @@
 #include "../include/room.h"
 
-Room* create_room(char *room_path) {
+Room* create_room_from_file(char *room_path) {
     /* format file to remove '§' */
     replace_character_in_file(room_path, L'§', L'P');
 
+    /* Room initialization */
     Room *room = malloc(sizeof(Room));
-
     room->empty = 1;
     strcpy(room->name, "");
     strcpy(room->north_name, "");
@@ -24,14 +24,14 @@ Room* create_room(char *room_path) {
     room->x = 0;
     room->y = 0;
 
-    FILE *file = fopen(room_path, "r");
+    /* Used as temp variable for monsters stats */
+    int hp, force, armor;
 
     char line[31];
     int actual_line = 0;
 
-    if (file == NULL) {
-        printf("Error while oppening file.\n");
-    }
+    FILE *file = fopen(room_path, "r");
+    if (file == NULL) { printf("Error while oppening file.\n"); }
 
     while (fgets(line, sizeof(line), file)) {
         /* End of file handling */
@@ -59,14 +59,40 @@ Room* create_room(char *room_path) {
             actual_line++;
         /* Monsters */
         } else if (strncmp(line, "A ", 1) == 0) {
-            /* TODO: create monster in hashtbl*/
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Pv : %d", &hp);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Force : %d", &force);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Armure : %d", &armor);
+            /* TODO: populate hashtable */
         } else if (strncmp(line, "B : ", 1) == 0) {
-            /* TODO: create monster in hashtbl*/
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Pv : %d", &hp);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Force : %d", &force);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Armure : %d", &armor);
+            /* TODO: populate hashtable */
         } else if (strncmp(line, "C : ", 1) == 0) {
-            /* TODO: create monster in hashtbl*/
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Pv : %d", &hp);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Force : %d", &force);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Armure : %d", &armor);
+            /* TODO: populate hashtable */
         }
     }
     fclose(file);
+    return room;
+}
+
+Room* generate_room(int direction[4], char name[30]) {
+    /* Room initialization */
+    Room *room = malloc(sizeof(Room));
+    room->empty = 0;
+
     return room;
 }
 
