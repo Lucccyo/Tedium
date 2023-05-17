@@ -71,6 +71,8 @@ int main()
 
     while (!quit)
     {
+        // TODO listen for keyboard events for player movement
+        // TODO listen for mouse clicks for GUI
         while (SDL_PollEvent(&event) != 0)
         {
             if (event.type == SDL_QUIT)
@@ -97,8 +99,6 @@ int main()
                 }
             }
         }
-
-        // listen for keyboard events
 
         // display graphics
         SDL_RenderClear(renderer);
