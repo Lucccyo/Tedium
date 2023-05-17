@@ -41,14 +41,12 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
 }
 
 int main() {
-    SDL_Surface *screen;
     SDL_Event event;
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
     int quit = 0;
-    int index = 1;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -70,8 +68,6 @@ int main() {
         return 1;
     }
 
-    SDL_Event event;
-    int quit = 0;
     Room *test_room = create_room_from_file("rooms/prof.level");
     Texture texture = load_textures(renderer);
     display_room(test_room);
@@ -80,24 +76,6 @@ int main() {
             if (event.type == SDL_QUIT) {
                 quit = 1;
                 break;
-            }
-
-            switch (event.type)
-            {
-            /* Look for a keypress */
-            case SDL_KEYDOWN:
-                /* Check the SDLKey values and move change the coords */
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_LEFT:
-                    index -= 1;
-                    break;
-                case SDLK_RIGHT:
-                    index += 1;
-                    break;
-                default:
-                    break;
-                }
             }
         }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
