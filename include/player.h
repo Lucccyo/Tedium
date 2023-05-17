@@ -2,11 +2,7 @@
 #define PLAYER_FILE
 
 #include <stdlib.h>
-enum
-{
-   attack,
-   defense
-};
+enum { attack, defense };
 
 struct player {
   /* health[0] -> current health
