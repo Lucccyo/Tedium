@@ -30,7 +30,7 @@
 ##############################
 Est : room2.level
 Sud : 
-Ouest : 
+Ouest : entry.level
 Nord : room3.level
 
 A
