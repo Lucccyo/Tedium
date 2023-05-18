@@ -15,12 +15,7 @@ typedef struct Room Room;
 struct Room {
     char tiles[ROOM_SIZE][ROOM_SIZE];
     int x, y;
-    char name[30];
-    int empty;
-    char north_name[30];
-    char south_name[30];
-    char east_name[30];
-    char west_name[30];
+    char name[15];
     Room *north;
     Room *south;
     Room *east;
@@ -28,11 +23,7 @@ struct Room {
 };
 
 /* generate a room from the specified file and return a pointer to it */
-Room* create_room_from_file(char *room_path);
-
-/* procedurally generate a room accoding to doors given and return a pointer to it */
-/* doors[0]->north | doors[1]->south | doors[2]-> east| doors[3]->west */
-Room* generate_room(int doors[4], char name[30]);
+Room* create_room_from_file(char *room_path, Room *rooms_done[], int rooms_done_amount);
 
 /* Free the specified room and all of its attributes */
 void free_room(Room *room);

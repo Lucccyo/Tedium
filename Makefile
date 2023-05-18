@@ -28,3 +28,7 @@ main:
 debug:
 	$(CC) $(CFLAGS) $(SRC) $(LIB) $(INC)
 	./a.out
+
+test-floor:
+	$(CC) -W -Wall src/floor.c src/room.c tests/test_floor.c
+	./a.out

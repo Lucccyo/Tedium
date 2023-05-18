@@ -2,18 +2,13 @@
 #include "../include/floor.h"
 
 int main() {
-    /* room creation test */
-    Room *room = create_room_from_file("rooms/prof.level");
-    display_room(room);
-    free_room(room);
 
     /* floor creation test */
-    Floor *test_floor = create_floor("rooms/level1");
-    display_floor(test_floor);
+    printf("Floor creation test\n");
+    Floor *test_floor = create_floor("maze/floor1");
+    printf("Floor created succesfully !\n");
 
-    printf("Room in y1 | x0 is : %s\n", test_floor->rooms[1][0]->name);
-    Room *east_neighbor = test_floor->rooms[1][0]->east;
-    printf("east neighbor is : %s\n", east_neighbor->name);
+    display_rooms_names(test_floor);
     free(test_floor);
     return 0;
 }
