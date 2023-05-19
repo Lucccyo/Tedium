@@ -14,7 +14,7 @@ Floor* create_floor(char level_path[]) {
     strcpy(new_path, level_path);
     strcat(new_path, "/entry.level");
     
-    create_room_from_file(new_path, floor->rooms, rooms_amount);
+    create_room_from_file(new_path, floor->rooms, &rooms_amount);
 
     return floor;
 }

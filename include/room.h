@@ -23,7 +23,7 @@ struct Room {
 };
 
 /* generate a room from the specified file and return a pointer to it */
-Room* create_room_from_file(char *room_path, Room *rooms_done[], int rooms_done_amount);
+Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount);
 
 /* Free the specified room and all of its attributes */
 void free_room(Room *room);
