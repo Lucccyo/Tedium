@@ -251,23 +251,23 @@ int main()
             default:
                 break;
                 case SDLK_LEFT:
-                    if (target_room->west != NULL) {
-                        target_room = target_room->west;
+                    if (target_room->neighbors[WEST] != NULL) {
+                        target_room = target_room->neighbors[WEST];
                     }
                     break;
                 case SDLK_RIGHT:
-                    if (target_room->east != NULL) {
-                        target_room = target_room->east;
+                    if (target_room->neighbors[EAST] != NULL) {
+                        target_room = target_room->neighbors[EAST];
                     }
                     break;
                 case SDLK_UP:
-                    if (target_room->north != NULL) {
-                        target_room = target_room->north;
+                    if (target_room->neighbors[NORTH] != NULL) {
+                        target_room = target_room->neighbors[NORTH];
                     }
                     break;
                 case SDLK_DOWN:
-                    if (target_room->south != NULL) {
-                        target_room = target_room->south;
+                    if (target_room->neighbors[SOUTH] != NULL) {
+                        target_room = target_room->neighbors[SOUTH];
                     }
                     break;
                 default:
