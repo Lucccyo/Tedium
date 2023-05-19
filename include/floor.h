@@ -19,6 +19,5 @@ struct Floor {
 Floor* create_floor(char level_path[], Hashtbl *monsters);
 void free_floor(Floor *floor);
 void display_rooms_names(Floor* floor);
-void display_floor(Floor *floor);
 
 #endif

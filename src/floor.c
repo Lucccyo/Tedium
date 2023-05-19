@@ -5,16 +5,15 @@ Floor* create_floor(char level_path[], Hashtbl *monsters) {
     
     Floor *floor = malloc(sizeof(Floor));
     floor->id = atoi(&level_path[10]);
-    printf("floor id : %d\n", floor->id);
     
     int rooms_amount = 0;
 
-    /* create the first room */
-    char new_path[30];
-    strcpy(new_path, level_path);
-    strcat(new_path, "/entry.level");
+    /* generate rooms recursively */
+    char starting_room[30];
+    strcpy(starting_room, level_path);
+    strcat(starting_room, "entry.level");
     
-    create_room_from_file(new_path, floor->rooms, &rooms_amount, monsters);
+    generate_rooms_from_file(starting_room, floor->rooms, &rooms_amount, monsters);
 
     return floor;
 }
@@ -35,17 +34,3 @@ void display_rooms_names(Floor* floor) {
         }
     }
 }
-
-/* NEED REWORK */
-// void display_floor(Floor* floor) {
-//     printf("Floor %d:\n", floor->id);
-//     for (int i = 0;  i < FLOOR_SIZE; i++) {
-//         for (int j = 0; j < FLOOR_SIZE; j++) {
-//             if (floor->rooms[i][j]->empty) { printf("    empty    "); }
-//             else { 
-//                 printf(" %s ", floor->rooms[i][j]->name); 
-//             }
-//         }
-//         printf("\n");
-//     }
-// }

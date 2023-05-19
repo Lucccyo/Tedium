@@ -12,19 +12,26 @@
 #include <locale.h>
 #include "../include/monster_hashtbl.h"
 
+typedef enum {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST
+} Direction;
+
 typedef struct Room Room;
 struct Room {
     char tiles[ROOM_SIZE][ROOM_SIZE];
     int x, y;
     char name[15];
-    Room *north;
-    Room *south;
-    Room *east;
-    Room *west;
+    Room *neighbors[4];
 };
 
-/* generate a room from the specified file and return a pointer to it */
-Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount, Hashtbl *monsters);
+/* generate rooms from the specified folder and return a pointer to it fill the rooms_done array with all the rooms created. */
+Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount, Hashtbl *monsters);
+
+/* Check neigbor existence and link pointer / create neigbor */
+void handle_neighbor(Room* room, char *path, char *line, Direction direction, Room** rooms_done, int* rooms_done_amount, Hashtbl* monsters);
 
 /* Free the specified room and all of its attributes */
 void free_room(Room *room);

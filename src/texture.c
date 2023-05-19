@@ -13,8 +13,7 @@ Texture load_textures(SDL_Renderer* renderer) {
 
     SDL_FreeSurface(tileset_surface);
 
-
-    /* Must be removed */
+    /* everything after must be removed once we use a tilset */
     SDL_Surface *floor_image = SDL_LoadBMP("img/floor.bmp");
     SDL_Surface *wall_image = SDL_LoadBMP("img/wall.bmp");
     SDL_Surface *heart_image = SDL_LoadBMP("img/heart.bmp");
