@@ -31,4 +31,5 @@ debug:
 
 test-floor:
 	$(CC) -W -Wall src/floor.c src/room.c tests/test_floor.c src/monster_hashtbl.c
+	$(CC) -W -Wall src/floor.c src/room.c tests/test_floor.c src/monster_hashtbl.c
 	./a.out
