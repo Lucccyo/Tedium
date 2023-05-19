@@ -13,6 +13,7 @@
 #include "../include/room.h"
 #include "../include/floor.h"
 #include "../include/monster_hashtbl.h"
+#include "../include/monster_hashtbl.h"
 #include "../include/player.h"
 
 void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
@@ -249,6 +250,29 @@ int main()
                 }
             default:
                 break;
+                case SDLK_LEFT:
+                    if (target_room->west != NULL) {
+                        target_room = target_room->west;
+                    }
+                    break;
+                case SDLK_RIGHT:
+                    if (target_room->east != NULL) {
+                        target_room = target_room->east;
+                    }
+                    break;
+                case SDLK_UP:
+                    if (target_room->north != NULL) {
+                        target_room = target_room->north;
+                    }
+                    break;
+                case SDLK_DOWN:
+                    if (target_room->south != NULL) {
+                        target_room = target_room->south;
+                    }
+                    break;
+                default:
+                    break;
+                }
             }
         }
 
