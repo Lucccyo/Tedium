@@ -6,19 +6,13 @@ Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done
     printf("creating room : %s\n", room_path);
 
     /* Room initialization */
-    Room *room = malloc(sizeof(Room));
-    room->east = NULL;
-    room->south = NULL;
-    room->west = NULL;
-    room->north = NULL;
+    Room *room = calloc(1, sizeof(Room));
     strcpy(room->name, room_path + 12);
     for (int i = 0; i < ROOM_SIZE; i++) {
         for (int j = 0; j < ROOM_SIZE; j++) {
             room->tiles[i][j] = ' ';
         }
     }
-    room->x = 0;
-    room->y = 0;
 
     /* fill the floor room list */
     rooms_done[*rooms_done_amount] = room;
