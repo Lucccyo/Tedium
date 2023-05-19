@@ -124,7 +124,7 @@ int main()
     Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
     reset_hashtbl(h);
 
-    Floor *test_floor = create_floor("maze/floor1", h);
+    Floor *test_floor = create_floor("maze/floor1/", h);
     Room *target_room = test_floor->rooms[0];
 
     Texture texture = load_textures(renderer);
