@@ -1,6 +1,7 @@
 #include "../include/texture.h"   
    
 Texture load_textures(SDL_Renderer* renderer) {
+    /* need complete rework, only one texture will be used in the future */
     Texture textures;
 
     SDL_Surface *tileset_surface = SDL_LoadBMP("img/floor.bmp");

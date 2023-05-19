@@ -1,6 +1,6 @@
 #include "../include/room.h"
 
-Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount) {
+Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount, Hashtbl *monsters) {
     /* format file to replace '§' with 'P'*/
     replace_character_in_file(room_path, L'§', L'Z');
     printf("creating room : %s\n", room_path);
@@ -66,7 +66,7 @@ Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done
                 char new_room_path[30] = "";
                 strncpy(new_room_path, room_path, strlen(room_path) - strlen(room->name));
                 strcat(new_room_path, neighbor_name);
-                room->east = create_room_from_file(new_room_path, rooms_done, rooms_done_amount);
+                room->east = create_room_from_file(new_room_path, rooms_done, rooms_done_amount, monsters);
             }
         } else if (strncmp(line, "Sud : ", 6) == 0 && strlen(line) > 6 && line[6] != '\n') {
             char neighbor_name[30] = "";
@@ -89,7 +89,7 @@ Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done
                 char new_room_path[30] = "";
                 strncpy(new_room_path, room_path, strlen(room_path) - strlen(room->name));
                 strcat(new_room_path, neighbor_name);
-                room->south = create_room_from_file(new_room_path, rooms_done, rooms_done_amount);
+                room->south = create_room_from_file(new_room_path, rooms_done, rooms_done_amount, monsters);
             }
         } else if (strncmp(line, "Ouest : ", 8) == 0 && strlen(line) > 8 && line[8] != '\n') {
             char neighbor_name[30] = "";
@@ -112,7 +112,7 @@ Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done
                 char new_room_path[30] = "";
                 strncpy(new_room_path, room_path, strlen(room_path) - strlen(room->name));
                 strcat(new_room_path, neighbor_name);
-                room->west = create_room_from_file(new_room_path, rooms_done, rooms_done_amount);
+                room->west = create_room_from_file(new_room_path, rooms_done, rooms_done_amount, monsters);
             }
         } else if (strncmp(line, "Nord : ", 7) == 0 && strlen(line) > 7 && line[7] != '\n') {
             char neighbor_name[30] = "";
@@ -135,7 +135,7 @@ Room* create_room_from_file(char *room_path, Room *rooms_done[], int *rooms_done
                 char new_room_path[30] = "";
                 strncpy(new_room_path, room_path, strlen(room_path) - strlen(room->name));
                 strcat(new_room_path, neighbor_name);
-                room->north = create_room_from_file(new_room_path, rooms_done, rooms_done_amount);
+                room->north = create_room_from_file(new_room_path, rooms_done, rooms_done_amount, monsters);
             }
         /* Monsters */
         } else if (strncmp(line, "A ", 1) == 0) {
