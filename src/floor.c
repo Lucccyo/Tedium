@@ -1,6 +1,6 @@
 #include "../include/floor.h"
 
-Floor* create_floor(char level_path[]) {
+Floor* create_floor(char level_path[], Hashtbl *monsters) {
     /* get level number in level_path */
     
     Floor *floor = malloc(sizeof(Floor));
@@ -14,7 +14,7 @@ Floor* create_floor(char level_path[]) {
     strcpy(new_path, level_path);
     strcat(new_path, "/entry.level");
     
-    create_room_from_file(new_path, floor->rooms, &rooms_amount);
+    create_room_from_file(new_path, floor->rooms, &rooms_amount, monsters);
 
     return floor;
 }

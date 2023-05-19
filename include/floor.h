@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <dirent.h>
 #include "../include/room.h"
 
 typedef struct Floor Floor;
@@ -17,7 +16,7 @@ struct Floor {
     Floor *previous;
 };
 
-Floor* create_floor(char level_path[]);
+Floor* create_floor(char level_path[], Hashtbl *monsters);
 void free_floor(Floor *floor);
 void display_rooms_names(Floor* floor);
 void display_floor(Floor *floor);

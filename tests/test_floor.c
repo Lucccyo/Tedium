@@ -3,9 +3,12 @@
 
 int main() {
 
+    Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
+    reset_hashtbl(h);
+
     /* floor creation test */
     printf("Floor creation test\n");
-    Floor *test_floor = create_floor("maze/floor1");
+    Floor *test_floor = create_floor("maze/floor1", h);
     printf("Floor created succesfully !\n");
 
     /* display floor test */
