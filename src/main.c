@@ -77,6 +77,7 @@ int main()
     Uint32 lastUpdate = SDL_GetTicks();
 
     int quit = 0;
+    int clicked = 0;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -146,13 +147,39 @@ int main()
     int DDown = 0;
 
     Texture texture = load_textures(renderer);
-    while (!quit) {
+
+    // gui test
+    SDL_Surface *clickme = SDL_LoadBMP("gfx/clickme.bmp");
+    SDL_Texture *clickmebtn = SDL_CreateTextureFromSurface(renderer, clickme);
+    SDL_FreeSurface(clickme);
+
+    Button *newButton = create_button(16, 16, 200, 100, clickmebtn, &onClick);
+    SDL_Rect *current;
+
+    // display_room(test_room);
+
+    while (!quit)
+    {
         // physics
         Uint32 current = SDL_GetTicks();
         float dT = (current - lastUpdate) / 500.0f;
 
-        while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_QUIT) {
+        while (SDL_PollEvent(&event) != 0)
+        {
+            switch (event.type)
+            {
+            case SDL_MOUSEBUTTONDOWN:
+                clicked = button_clicked(event.button, newButton);
+                if (clicked)
+                {
+                    (*newButton->callback)(1);
+                    current = &newButton->rect;
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                current = NULL;
+                break;
+            case SDL_QUIT:
                 quit = 1;
                 break;
             }
@@ -279,16 +306,28 @@ int main()
             player->coordinate[0] = 0;
         }
 
+        SDL_RenderClear(renderer);
+
         // physics - Set updated time
         lastUpdate = current;
         //object.position += object.velocity * dT;
 
         // graphics
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
 
         // display stuff here
         draw_room(renderer, target_room, texture);
+
+        // draw button test
+        display_button(renderer, newButton);
+
+        if (current != NULL)
+        {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderDrawRect(renderer, current);
+        }
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // set background black before presenting
         draw_player(renderer, player, plrtexture);
 
         // draw button test
