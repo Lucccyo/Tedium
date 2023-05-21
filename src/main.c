@@ -18,6 +18,8 @@
 
 void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
 {
+void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
+{
     SDL_Rect Rect_dest;
     Rect_dest.w = DRAW_TILE_SIZE;
     Rect_dest.h = DRAW_TILE_SIZE;
@@ -27,6 +29,11 @@ void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
     Rect_source.h = TILE_SIZE;
     Rect_source.x = 0;
     Rect_source.y = 0;
+
+    for (int i = 0; i < 30; i++)
+    {
+        for (int j = 0; j < 30; j++)
+        {
 
     for (int i = 0; i < 30; i++)
     {
@@ -70,6 +77,13 @@ void onClick(int num)
 
 int main()
 {
+void onClick(int num)
+{
+    SDL_Log("click me clicked %i", num);
+}
+
+int main()
+{
     SDL_Event event;
 
     SDL_Window *window = NULL;
@@ -79,6 +93,7 @@ int main()
 
     int quit = 0;
     int clicked = 0;
+    int clicked = 0;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -87,13 +102,15 @@ int main()
     }
 
     window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-    if (window == NULL) {
+    if (window == NULL)
+    {
         printf("Error creating window: %s\n", SDL_GetError());
         return 1;
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == NULL) {
+    if (renderer == NULL)
+    {
         printf("Error creating renderer: %s\n", SDL_GetError());
         return 1;
     }
@@ -148,8 +165,8 @@ int main()
     int DDown = 0;
 
     Texture texture = load_textures(renderer);
-
-    // gui test
+    while (!quit)
+    {
         // physics
         Uint32 current = SDL_GetTicks();
         float dT = (current - lastUpdate) / 500.0f;
@@ -165,18 +182,54 @@ int main()
 
     while (!quit)
     {
+        while (SDL_PollEvent(&event) != 0)
+        {
+            if (event.type == SDL_QUIT)
+            {
+
+                // gui test
+                SDL_Surface *clickme = SDL_LoadBMP("gfx/clickme.bmp");
+                SDL_Texture *clickmebtn = SDL_CreateTextureFromSurface(renderer, clickme);
+                SDL_FreeSurface(clickme);
+
+                Button *newButton = create_button(16, 16, 200, 100, clickmebtn, &onClick);
+                SDL_Rect *current;
+
+                // display_room(test_room);
+
+                while (SDL_PollEvent(&event) != 0)
+                {
+                    switch (event.type)
+                    {
+                    case SDL_MOUSEBUTTONDOWN:
+                        clicked = button_clicked(event.button, newButton);
+                        if (clicked)
+                        {
+                            (*newButton->callback)(1);
+                            current = &newButton->rect;
+                        }
+                        break;
+                    case SDL_MOUSEBUTTONUP:
+                        current = NULL;
+                        break;
+                    case SDL_QUIT:
+                        quit = 1;
+                        break;
+                    default:
+                        continue;
+                    }
         // physics
         Uint32 current = SDL_GetTicks();
         float dT = (current - lastUpdate) / 500.0f;
 
         while (SDL_PollEvent(&event) != 0)
         {
-            switch (event.type)
-            {
-            case SDL_MOUSEBUTTONDOWN:
-                clicked = button_clicked(event.button, newButton);
-                if (clicked)
-                {
+                    switch (event.type)
+                    {
+                            case SDL_MOUSEBUTTONDOWN:
+                        clicked = button_clicked(event.button, newButton);
+                        if (clicked)
+                        {
                     (*newButton->callback)(1);
                     current = &newButton->rect;
                 }
@@ -275,46 +328,49 @@ int main()
                     }
                     break;
 
-                case SDLK_z:
-                    ZDown = 1;
-                    break;
-                case SDLK_q:
-                    QDown = 1;
-                    break;
-                case SDLK_s:
-                    SDown = 1;
-                    break;
-                case SDLK_d:
-                    DDown = 1;
-                    break;
-                default:
-                    break;
+                        case SDLK_z:
+                            ZDown = 1;
+                            break;
+                        case SDLK_q:
+                            QDown = 1;
+                            break;
+                        case SDLK_s:
+                            SDown = 1;
+                            break;
+                        case SDLK_d:
+                            DDown = 1;
+                            break;
+                        default:
+                            break;
+                        }
+                    case SDL_KEYUP:
+                        /* Check the SDLKey values and change room if neighbor exists */
+                        switch (event.key.keysym.sym)
+                        {
+                        case SDLK_z:
+                            ZDown = 0;
+                            break;
+                        case SDLK_q:
+                            QDown = 0;
+                            break;
+                        case SDLK_s:
+                            SDown = 0;
+                            break;
+                        case SDLK_d:
+                            DDown = 0;
+                            break;
+                        default:
+                            break;
+                        }
+                    default:
+                        break;
+                    }
                 }
-            case SDL_KEYUP:
-                /* Check the SDLKey values and change room if neighbor exists */
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_z:
-                    ZDown = 0;
-                    break;
-                case SDLK_q:
-                    QDown = 0;
-                    break;
-                case SDLK_s:
-                    SDown = 0;
-                    break;
-                case SDLK_d:
-                    DDown = 0;
-                    break;
-                default:
-                    break;
-                }
-            default:
-                break;
             }
         }
 
-        if (ZDown) {
+        if (ZDown)
+        {
             player->coordinate[1] -= speed * dT;
             if (player->coordinate[1] > 0)
                 break;
