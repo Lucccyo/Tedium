@@ -7,11 +7,13 @@
 #include <string.h>
 #include <../include/SDL2/SDL.h>
 #include "../include/texture.h"
+#include "../include/gui.h"
 /* will be replaced with main game struct when it is done */
 #include "../include/room.h"
 #include "../include/floor.h"
 
-void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
+void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
+{
     SDL_Rect Rect_dest;
     Rect_dest.w = DRAW_TILE_SIZE;
     Rect_dest.h = DRAW_TILE_SIZE;
@@ -21,32 +23,47 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
     Rect_source.h = TILE_SIZE;
     Rect_source.x = 0;
     Rect_source.y = 0;
-    for (int i = 0; i < 30; i++) {
-        for (int j = 0; j < 30; j++) {
+
+    for (int i = 0; i < 30; i++)
+    {
+        for (int j = 0; j < 30; j++)
+        {
             Rect_dest.x = i * DRAW_TILE_SIZE;
             Rect_dest.y = j * DRAW_TILE_SIZE;
+
             /* Wall drawing */
-            if (room->tiles[j][i] == '#') {
+            if (room->tiles[j][i] == '#')
+            {
                 SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
-            /* Heart drawing (floor behind) */
-            } else if (room->tiles[j][i] == '3') {
-                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                /* Heart drawing (floor behind) */
+            }
+            else if (room->tiles[j][i] == '3')
+            {
                 SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
-            /* Floor drawing */
-            } else {
+                /* Floor drawing */
+            }
+            else
+            {
                 SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
             }
         }
     }
 }
 
-int main() {
+void onClick(int num)
+{
+    SDL_Log("click me clicked %i", num);
+}
+
+int main()
+{
     SDL_Event event;
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
     int quit = 0;
+    int clicked = 0;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -70,17 +87,57 @@ int main() {
 
     Room *test_room = create_room_from_file("rooms/prof.level");
     Texture texture = load_textures(renderer);
-    display_room(test_room);
-    while (!quit) {
-        while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_QUIT) {
+
+    // gui test
+    SDL_Surface *clickme = SDL_LoadBMP("gfx/clickme.bmp");
+    SDL_Texture *clickmebtn = SDL_CreateTextureFromSurface(renderer, clickme);
+    SDL_FreeSurface(clickme);
+
+    Button *newButton = create_button(16, 16, 200, 100, clickmebtn, &onClick);
+    SDL_Rect *current;
+
+    // display_room(test_room);
+
+    while (!quit)
+    {
+
+        while (SDL_PollEvent(&event) != 0)
+        {
+            switch (event.type)
+            {
+            case SDL_MOUSEBUTTONDOWN:
+                clicked = button_clicked(event.button, newButton);
+                if (clicked)
+                {
+                    (*newButton->callback)(1);
+                    current = &newButton->rect;
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                current = NULL;
+                break;
+            case SDL_QUIT:
                 quit = 1;
                 break;
+            default:
+                continue;
             }
         }
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
         SDL_RenderClear(renderer);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         draw_room(renderer, test_room, texture);
+
+        // draw button test
+        display_button(renderer, newButton);
+
+        if (current != NULL)
+        {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderDrawRect(renderer, current);
+        }
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // set background black before presenting
         SDL_RenderPresent(renderer);
     }
 
