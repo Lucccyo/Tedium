@@ -8,12 +8,15 @@
 #include <../include/SDL2/SDL.h>
 #include "../include/texture.h"
 #include "../include/gui.h"
+#include "../include/gui.h"
 /* will be replaced with main game struct when it is done */
 #include "../include/room.h"
 #include "../include/floor.h"
 #include "../include/monster_hashtbl.h"
 #include "../include/player.h"
 
+void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
+{
 void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
 {
     SDL_Rect Rect_dest;
@@ -30,36 +33,49 @@ void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
     {
         for (int j = 0; j < 30; j++)
         {
+
+    for (int i = 0; i < 30; i++)
+    {
+        for (int j = 0; j < 30; j++)
+        {
             Rect_dest.x = i * DRAW_TILE_SIZE;
             Rect_dest.y = j * DRAW_TILE_SIZE;
-            switch (room->tiles[j][i]) {
-                case '#':
-                    SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
-                    break;
-                case '!':
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture.key, &Rect_source, &Rect_dest);
-                    break;
-                case '1':
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture.sword, &Rect_source, &Rect_dest);
-                    break;
-                case '2':
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture.shield, &Rect_source, &Rect_dest);
-                    break;
-                case '3':
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
-                    break;
-                default:
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    break;
+            switch (room->tiles[j][i])
+            {
+            case '#':
+                SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
+                break;
+            case '!':
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                SDL_RenderCopy(renderer, texture.key, &Rect_source, &Rect_dest);
+                break;
+            case '1':
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                SDL_RenderCopy(renderer, texture.sword, &Rect_source, &Rect_dest);
+                break;
+            case '2':
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                SDL_RenderCopy(renderer, texture.shield, &Rect_source, &Rect_dest);
+                break;
+            case '3':
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
+                break;
+            default:
+                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                break;
             }
         }
     }
 }
 
+void onClick(int num)
+{
+    SDL_Log("click me clicked %i", num);
+}
+
+int main()
+{
 void onClick(int num)
 {
     SDL_Log("click me clicked %i", num);
@@ -76,6 +92,7 @@ int main()
 
     int quit = 0;
     int clicked = 0;
+    int clicked = 0;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -84,19 +101,20 @@ int main()
     }
 
     window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-    if (window == NULL) {
+    if (window == NULL)
+    {
         printf("Error creating window: %s\n", SDL_GetError());
         return 1;
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == NULL) {
+    if (renderer == NULL)
+    {
         printf("Error creating renderer: %s\n", SDL_GetError());
         return 1;
     }
 
-
-    Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
+    Hashtbl *h = (Hashtbl *)malloc(sizeof(Hashtbl));
     reset_hashtbl(h);
 
     Floor *test_floor = create_floor("maze/floor1/", h);
@@ -117,8 +135,8 @@ int main()
     int DDown = 0;
 
     Texture texture = load_textures(renderer);
-
-    // gui test
+    while (!quit)
+    {
         // physics
         Uint32 current = SDL_GetTicks();
         float dT = (current - lastUpdate) / 500.0f;
@@ -134,15 +152,51 @@ int main()
 
     while (!quit)
     {
+        while (SDL_PollEvent(&event) != 0)
+        {
+            if (event.type == SDL_QUIT)
+            {
+
+                // gui test
+                SDL_Surface *clickme = SDL_LoadBMP("gfx/clickme.bmp");
+                SDL_Texture *clickmebtn = SDL_CreateTextureFromSurface(renderer, clickme);
+                SDL_FreeSurface(clickme);
+
+                Button *newButton = create_button(16, 16, 200, 100, clickmebtn, &onClick);
+                SDL_Rect *current;
+
+                // display_room(test_room);
+
+                while (SDL_PollEvent(&event) != 0)
+                {
+                    switch (event.type)
+                    {
+                    case SDL_MOUSEBUTTONDOWN:
+                        clicked = button_clicked(event.button, newButton);
+                        if (clicked)
+                        {
+                            (*newButton->callback)(1);
+                            current = &newButton->rect;
+                        }
+                        break;
+                    case SDL_MOUSEBUTTONUP:
+                        current = NULL;
+                        break;
+                    case SDL_QUIT:
+                        quit = 1;
+                        break;
+                    default:
+                        continue;
+                    }
 
         while (SDL_PollEvent(&event) != 0)
         {
-            switch (event.type)
-            {
-            case SDL_MOUSEBUTTONDOWN:
-                clicked = button_clicked(event.button, newButton);
-                if (clicked)
-                {
+                    switch (event.type)
+                    {
+                            case SDL_MOUSEBUTTONDOWN:
+                        clicked = button_clicked(event.button, newButton);
+                        if (clicked)
+                        {
                     (*newButton->callback)(1);
                     current = &newButton->rect;
                 }
@@ -155,67 +209,74 @@ int main()
                 break;
             default:
                 continue;
-                case SDLK_LEFT:
-                    if (target_room->neighbors[WEST] != NULL) {
-                        target_room = target_room->neighbors[WEST];
-                    }
-                    break;
-                case SDLK_RIGHT:
-                    if (target_room->neighbors[EAST] != NULL) {
-                        target_room = target_room->neighbors[EAST];
-                    }
-                    break;
-                case SDLK_UP:
-                    if (target_room->neighbors[NORTH] != NULL) {
-                        target_room = target_room->neighbors[NORTH];
-                    }
-                    break;
-                case SDLK_DOWN:
-                    if (target_room->neighbors[SOUTH] != NULL) {
-                        target_room = target_room->neighbors[SOUTH];
-                    }
-                    break;
+                        case SDLK_LEFT:
+                            if (target_room->neighbors[WEST] != NULL)
+                            {
+                                target_room = target_room->neighbors[WEST];
+                            }
+                            break;
+                        case SDLK_RIGHT:
+                            if (target_room->neighbors[EAST] != NULL)
+                            {
+                                target_room = target_room->neighbors[EAST];
+                            }
+                            break;
+                        case SDLK_UP:
+                            if (target_room->neighbors[NORTH] != NULL)
+                            {
+                                target_room = target_room->neighbors[NORTH];
+                            }
+                            break;
+                        case SDLK_DOWN:
+                            if (target_room->neighbors[SOUTH] != NULL)
+                            {
+                                target_room = target_room->neighbors[SOUTH];
+                            }
+                            break;
 
-                case SDLK_z:
-                    ZDown = 1;
-                    break;
-                case SDLK_q:
-                    QDown = 1;
-                    break;
-                case SDLK_s:
-                    SDown = 1;
-                    break;
-                case SDLK_d:
-                    DDown = 1;
-                    break;
-                default:
-                    break;
+                        case SDLK_z:
+                            ZDown = 1;
+                            break;
+                        case SDLK_q:
+                            QDown = 1;
+                            break;
+                        case SDLK_s:
+                            SDown = 1;
+                            break;
+                        case SDLK_d:
+                            DDown = 1;
+                            break;
+                        default:
+                            break;
+                        }
+                    case SDL_KEYUP:
+                        /* Check the SDLKey values and change room if neighbor exists */
+                        switch (event.key.keysym.sym)
+                        {
+                        case SDLK_z:
+                            ZDown = 0;
+                            break;
+                        case SDLK_q:
+                            QDown = 0;
+                            break;
+                        case SDLK_s:
+                            SDown = 0;
+                            break;
+                        case SDLK_d:
+                            DDown = 0;
+                            break;
+                        default:
+                            break;
+                        }
+                    default:
+                        break;
+                    }
                 }
-            case SDL_KEYUP:
-                /* Check the SDLKey values and change room if neighbor exists */
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_z:
-                    ZDown = 0;
-                    break;
-                case SDLK_q:
-                    QDown = 0;
-                    break;
-                case SDLK_s:
-                    SDown = 0;
-                    break;
-                case SDLK_d:
-                    DDown = 0;
-                    break;
-                default:
-                    break;
-                }
-            default:
-                break;
             }
         }
 
-        if (ZDown) {
+        if (ZDown)
+        {
             player->coordinate[1] -= speed * dT;
             if (player->coordinate[1] > 0)
                 break;
@@ -269,11 +330,6 @@ int main()
             player->coordinate[0] = 0;
         }
 
-        // physics - Set updated time
-        lastUpdate = current;
-        //object.position += object.velocity * dT;
-
-        // graphics
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
         // display stuff here
