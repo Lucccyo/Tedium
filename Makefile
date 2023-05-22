@@ -18,7 +18,7 @@ else ifeq ($(UNAME_S),Windows)
 	LIB=-L lib/win/ -l SDL2-2.0.0
 endif
 
-SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c
+SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c src/monster_hashtbl.c
 EXEC=main
 
 main:
@@ -27,4 +27,8 @@ main:
 
 debug:
 	$(CC) $(CFLAGS) $(SRC) $(LIB) $(INC)
+	./a.out
+
+test-floor:
+	$(CC) -W -Wall src/floor.c src/room.c tests/test_floor.c src/monster_hashtbl.c
 	./a.out

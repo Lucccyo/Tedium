@@ -1,28 +1,25 @@
 #include "../include/room.h"
 
-Room* create_room_from_file(char *room_path) {
-    /* format file to remove '§' */
-    replace_character_in_file(room_path, L'§', L'P');
+Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount, Hashtbl *monsters) {
+    /* format file to replace '§' with 'Z' */
+    replace_character_in_file(room_path, L'§', L'Z');
 
     /* Room initialization */
-    Room *room = malloc(sizeof(Room));
-    room->empty = 1;
-    strcpy(room->name, "");
-    strcpy(room->north_name, "");
-    strcpy(room->south_name, "");
-    strcpy(room->east_name, "");
-    strcpy(room->west_name, "");
-    room->east = NULL;
-    room->south = NULL;
-    room->west = NULL;
-    room->north = NULL;
+    Room *room = calloc(1, sizeof(Room));
     for (int i = 0; i < ROOM_SIZE; i++) {
         for (int j = 0; j < ROOM_SIZE; j++) {
             room->tiles[i][j] = ' ';
         }
     }
-    room->x = 0;
-    room->y = 0;
+
+    /* format room_path to keep only the level name */
+    char *name = strchr(room_path + 1, '/');
+    name = strchr(name + 1, '/');
+    strcpy(room->name, name + 1);
+
+    /* fill the floor room list */
+    rooms_done[*rooms_done_amount] = room;
+    (*rooms_done_amount)++;
 
     /* Used as temp variable for monsters stats */
     int hp, force, armor;
@@ -40,23 +37,19 @@ Room* create_room_from_file(char *room_path) {
         /* Empty line handling */
         if (strspn(line, " \t\n\r") == strlen(line))
             continue;
-        /* Neigbors */
-        if (strncmp(line, "Est : ", 6) == 0) {
-            strncpy(room->east_name, line + 6, sizeof(room->east_name) - 1);
-            room->east_name[strcspn(room->east_name, "\n")] = '\0';
-        } else if (strncmp(line, "Sud : ", 6) == 0) {
-            strncpy(room->south_name, line + 6, sizeof(room->south_name) - 1);
-            room->south_name[strcspn(room->south_name, "\n")] = '\0';
-        } else if (strncmp(line, "Ouest : ", 8) == 0) {
-            strncpy(room->west_name, line + 8, sizeof(room->west_name) - 1);
-            room->west_name[strcspn(room->west_name, "\n")] = '\0';
-        } else if (strncmp(line, "Nord : ", 7) == 0) {
-            strncpy(room->north_name, line + 7, sizeof(room->north_name) - 1);
-            room->north_name[strcspn(room->north_name, "\n")] = '\0';
         /* Tiles */
-        }  else if (actual_line < 30){ 
+        if (actual_line < 30){ 
             strncpy(room->tiles[actual_line], line, 30);
             actual_line++;
+        /* Neigbors */
+        } else if (strncmp(line, "Est : ", 6) == 0 && strlen(line) > 6 && line[6] != '\n') {
+            handle_neighbor(room, room_path, line, EAST, rooms_done, rooms_done_amount, monsters);
+        } else if (strncmp(line, "Sud : ", 6) == 0 && strlen(line) > 6 && line[6] != '\n') {
+            handle_neighbor(room, room_path, line, SOUTH, rooms_done, rooms_done_amount, monsters);
+        } else if (strncmp(line, "Ouest : ", 8) == 0 && strlen(line) > 8 && line[8] != '\n') {
+            handle_neighbor(room, room_path, line, WEST, rooms_done, rooms_done_amount, monsters);
+        } else if (strncmp(line, "Nord : ", 7) == 0 && strlen(line) > 7 && line[7] != '\n') {
+            handle_neighbor(room, room_path, line, NORTH, rooms_done, rooms_done_amount, monsters);
         /* Monsters */
         } else if (strncmp(line, "A ", 1) == 0) {
             fgets(line, sizeof(line), file);
@@ -85,15 +78,49 @@ Room* create_room_from_file(char *room_path) {
         }
     }
     fclose(file);
+    
+    /* format file again to replace 'Z' with '§' */
+    replace_character_in_file(room_path, L'Z', L'§');
+    
     return room;
 }
 
-Room* generate_room(int direction[4], char name[30]) {
-    /* Room initialization */
-    Room *room = malloc(sizeof(Room));
-    room->empty = 0;
-
-    return room;
+void handle_neighbor(Room* room, char *path, char *line, Direction direction, Room** rooms_done, int* rooms_done_amount, Hashtbl* monsters) {
+    char neighbor_name[30] = "";
+    switch (direction) {
+        case EAST:
+            strncpy(neighbor_name, line + 6, strlen(line) - 6);
+            break;
+        case SOUTH:
+            strncpy(neighbor_name, line + 6, strlen(line) - 6);
+            break;
+        case WEST:
+            strncpy(neighbor_name, line + 8, strlen(line) - 8);
+            break;
+        case NORTH:
+            strncpy(neighbor_name, line + 7, strlen(line) - 7);
+            break;
+        default:
+            break;
+        }
+    neighbor_name[strlen(neighbor_name) - 1] = '\0';
+    // if room already exists in rooms_done, link it, else create it
+    int room_exists = 0;
+    int i;
+    for (i = 0; i < *rooms_done_amount; i++) {
+        if (strcmp(rooms_done[i]->name, neighbor_name) == 0) {
+            room_exists = 1;
+            break;
+        }
+    }
+    if (room_exists == 1) {
+        room->neighbors[direction] = rooms_done[i];
+    } else {
+        char new_path[30] = "";
+        strncpy(new_path, path, strlen(path) - strlen(room->name));
+        strcat(new_path, neighbor_name);
+        room->neighbors[direction] = generate_rooms_from_file(new_path, rooms_done, rooms_done_amount, monsters);
+    }
 }
 
 void free_room(Room *room) {
@@ -150,8 +177,8 @@ void display_room(Room *room) {
         }
         printf("\n");
     }
-    printf("North : %s\n", room->north_name);
-    printf("South : %s\n", room->south_name);
-    printf("East : %s\n", room->east_name);
-    printf("West : %s\n", room->west_name);
+    if (room->neighbors[NORTH] != NULL) { printf("North : %s\n", room->neighbors[NORTH]->name); }
+    if (room->neighbors[SOUTH] != NULL) { printf("South : %s\n", room->neighbors[SOUTH]->name); }
+    if (room->neighbors[EAST] != NULL)  { printf("East : %s\n", room->neighbors[EAST]->name); }
+    if (room->neighbors[WEST] != NULL)  { printf("West : %s\n", room->neighbors[WEST]->name); }
 }

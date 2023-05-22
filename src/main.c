@@ -10,6 +10,7 @@
 /* will be replaced with main game struct when it is done */
 #include "../include/room.h"
 #include "../include/floor.h"
+#include "../include/monster_hashtbl.h"
 
 void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
     SDL_Rect Rect_dest;
@@ -25,16 +26,29 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
         for (int j = 0; j < 30; j++) {
             Rect_dest.x = i * DRAW_TILE_SIZE;
             Rect_dest.y = j * DRAW_TILE_SIZE;
-            /* Wall drawing */
-            if (room->tiles[j][i] == '#') {
-                SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
-            /* Heart drawing (floor behind) */
-            } else if (room->tiles[j][i] == '3') {
-                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
-            /* Floor drawing */
-            } else {
-                SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+            switch (room->tiles[j][i]) {
+                case '#':
+                    SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
+                    break;
+                case '!':
+                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture.key, &Rect_source, &Rect_dest);
+                    break;
+                case '1':
+                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture.sword, &Rect_source, &Rect_dest);
+                    break;
+                case '2':
+                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture.shield, &Rect_source, &Rect_dest);
+                    break;
+                case '3':
+                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
+                    break;
+                default:
+                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                    break;
             }
         }
     }
@@ -55,32 +69,67 @@ int main() {
     }
 
     window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-    if (window == NULL)
-    {
+    if (window == NULL) {
         printf("Error creating window: %s\n", SDL_GetError());
         return 1;
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == NULL)
-    {
+    if (renderer == NULL) {
         printf("Error creating renderer: %s\n", SDL_GetError());
         return 1;
     }
 
-    Room *test_room = create_room_from_file("rooms/prof.level");
+
+    Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
+    reset_hashtbl(h);
+
+    Floor *test_floor = create_floor("maze/floor1/", h);
+    Room *target_room = test_floor->rooms[0];
+
     Texture texture = load_textures(renderer);
-    display_room(test_room);
     while (!quit) {
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_QUIT) {
                 quit = 1;
                 break;
             }
+
+            switch (event.type)
+            {
+            /* Look for a keypress */
+            case SDL_KEYDOWN:
+                /* Check the SDLKey values and change room if neighbor exists */
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_LEFT:
+                    if (target_room->neighbors[WEST] != NULL) {
+                        target_room = target_room->neighbors[WEST];
+                    }
+                    break;
+                case SDLK_RIGHT:
+                    if (target_room->neighbors[EAST] != NULL) {
+                        target_room = target_room->neighbors[EAST];
+                    }
+                    break;
+                case SDLK_UP:
+                    if (target_room->neighbors[NORTH] != NULL) {
+                        target_room = target_room->neighbors[NORTH];
+                    }
+                    break;
+                case SDLK_DOWN:
+                    if (target_room->neighbors[SOUTH] != NULL) {
+                        target_room = target_room->neighbors[SOUTH];
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
         }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        draw_room(renderer, test_room, texture);
+        draw_room(renderer, target_room, texture);
         SDL_RenderPresent(renderer);
     }
 

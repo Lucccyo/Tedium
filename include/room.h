@@ -10,29 +10,28 @@
 #include <wchar.h>
 #include <wctype.h>
 #include <locale.h>
+#include "../include/monster_hashtbl.h"
+
+typedef enum {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST
+} Direction;
 
 typedef struct Room Room;
 struct Room {
     char tiles[ROOM_SIZE][ROOM_SIZE];
     int x, y;
-    char name[30];
-    int empty;
-    char north_name[30];
-    char south_name[30];
-    char east_name[30];
-    char west_name[30];
-    Room *north;
-    Room *south;
-    Room *east;
-    Room *west;
+    char name[15];
+    Room *neighbors[4];
 };
 
-/* generate a room from the specified file and return a pointer to it */
-Room* create_room_from_file(char *room_path);
+/* generate rooms from the specified folder and return a pointer to it fill the rooms_done array with all the rooms created. */
+Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount, Hashtbl *monsters);
 
-/* procedurally generate a room accoding to doors given and return a pointer to it */
-/* doors[0]->north | doors[1]->south | doors[2]-> east| doors[3]->west */
-Room* generate_room(int doors[4], char name[30]);
+/* Check neigbor existence and link pointer / create neigbor */
+void handle_neighbor(Room* room, char *path, char *line, Direction direction, Room** rooms_done, int* rooms_done_amount, Hashtbl* monsters);
 
 /* Free the specified room and all of its attributes */
 void free_room(Room *room);
