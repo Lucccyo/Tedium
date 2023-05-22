@@ -12,6 +12,27 @@
 #include "../include/floor.h"
 #include "../include/monster_hashtbl.h"
 
+void draw_map(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
+    SDL_Rect Rect_dest;
+    Rect_dest.w = DRAW_TILE_SIZE/2;
+    Rect_dest.h = DRAW_TILE_SIZE/2;
+    SDL_Rect Rect_source;
+    Rect_source.w = TILE_SIZE;
+    Rect_source.h = TILE_SIZE;
+    for (int i = 0; i < FLOOR_SIZE; i++) {
+        if (floor->rooms[i] == NULL) { break; }
+        if (floor->rooms[i] == target_room) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        } else {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        }
+        Rect_dest.x = floor->rooms[i]->x * DRAW_TILE_SIZE;
+        Rect_dest.y = floor->rooms[i]->y * DRAW_TILE_SIZE;
+        SDL_RenderDrawRect(renderer, &Rect_dest);
+    }
+}
+
+
 void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
     SDL_Rect Rect_dest;
     Rect_dest.w = DRAW_TILE_SIZE;
@@ -28,7 +49,9 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
             Rect_dest.y = j * DRAW_TILE_SIZE;
             switch (room->tiles[j][i]) {
                 case '#':
-                    SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
+                    if (j - 1 >= 0 && room->tiles[j-1][i] != '#') {
+                        SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
+                    } else { SDL_RenderCopy(renderer, texture.noir, &Rect_source, &Rect_dest); }
                     break;
                 case '!':
                     SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
@@ -130,6 +153,7 @@ int main() {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         draw_room(renderer, target_room, texture);
+        draw_map(renderer, test_floor, target_room);
         SDL_RenderPresent(renderer);
     }
 

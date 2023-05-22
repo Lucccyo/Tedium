@@ -12,7 +12,7 @@ int main() {
     printf("Floor created succesfully !\n");
 
     /* display floor test */
-    display_rooms_names(test_floor);
+    display_floor(test_floor);
 
     /* display east neighbor of entry room test */
     display_room(test_floor->rooms[0]->neighbors[EAST]);
