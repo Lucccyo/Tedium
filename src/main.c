@@ -55,10 +55,15 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
 }
 
 int main() {
+    SDL_Event event;
+
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    int quit = 0;
+
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
         printf("Error inititializing SDL: %s\n", SDL_GetError());
         return 1;
     }
@@ -75,8 +80,6 @@ int main() {
         return 1;
     }
 
-    SDL_Event event;
-    int quit = 0;
 
     Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
     reset_hashtbl(h);
