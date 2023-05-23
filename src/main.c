@@ -17,8 +17,8 @@ void draw_light(SDL_Renderer* renderer, int x, int y) {
     SDL_Texture *light = SDL_CreateTextureFromSurface(renderer, light_surface);
     SDL_SetTextureBlendMode(light, SDL_BLENDMODE_ADD);
     SDL_Rect Rect_dest;
-    Rect_dest.w = TILE_SIZE * 3;
-    Rect_dest.h = TILE_SIZE * 3;
+    Rect_dest.w = TILE_SIZE * 5;
+    Rect_dest.h = TILE_SIZE * 5;
     Rect_dest.x = x;
     Rect_dest.y = y;
     SDL_RenderCopy(renderer, light, NULL, &Rect_dest);
