@@ -150,6 +150,10 @@ int main()
     Texture texture = load_textures(renderer);
 
     // gui test
+        // physics
+        Uint32 current = SDL_GetTicks();
+        float dT = (current - lastUpdate) / 500.0f;
+
     SDL_Surface *clickme = SDL_LoadBMP("gfx/clickme.bmp");
     SDL_Texture *clickmebtn = SDL_CreateTextureFromSurface(renderer, clickme);
     SDL_FreeSurface(clickme);
@@ -270,9 +274,43 @@ int main()
                         target_room = target_room->neighbors[SOUTH];
                     }
                     break;
+
+                case SDLK_z:
+                    ZDown = 1;
+                    break;
+                case SDLK_q:
+                    QDown = 1;
+                    break;
+                case SDLK_s:
+                    SDown = 1;
+                    break;
+                case SDLK_d:
+                    DDown = 1;
+                    break;
                 default:
                     break;
                 }
+            case SDL_KEYUP:
+                /* Check the SDLKey values and change room if neighbor exists */
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_z:
+                    ZDown = 0;
+                    break;
+                case SDLK_q:
+                    QDown = 0;
+                    break;
+                case SDLK_s:
+                    SDown = 0;
+                    break;
+                case SDLK_d:
+                    DDown = 0;
+                    break;
+                default:
+                    break;
+                }
+            default:
+                break;
             }
         }
 
@@ -330,17 +368,18 @@ int main()
             player->coordinate[0] = 0;
         }
 
-        SDL_RenderClear(renderer);
-
         // physics - Set updated time
         lastUpdate = current;
         //object.position += object.velocity * dT;
 
         // graphics
+        SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
         // display stuff here
-        draw_room(renderer, target_room, texture);
+        draw_room(renderer, test_room, texture);
+        draw_player(renderer, player, plrtexture);
+
 
         // draw button test
         display_button(renderer, newButton);
