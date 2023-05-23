@@ -1,10 +1,11 @@
 #include<../include/renderer.h>
 
-void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Texture textures) {
+void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture texture) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    draw_room(renderer, target_room, textures);
+    draw_room(renderer, target_room, texture);
     draw_light(renderer, 250, 250);
     draw_minimap(renderer, floor, target_room);
+    draw_player(renderer, player, texture);
 }
 
 void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
@@ -78,4 +79,9 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
         Rect_dest.y = floor->rooms[i]->y * DRAW_TILE_SIZE + 10;
         SDL_RenderDrawRect(renderer, &Rect_dest);
     }
+}
+
+void draw_player(SDL_Renderer *renderer, Player *player, Texture texture) {
+    SDL_Rect newRect = {player->coordinate[0], player->coordinate[1], 24, 24};
+    SDL_RenderCopy(renderer, texture.player, NULL, &newRect);
 }

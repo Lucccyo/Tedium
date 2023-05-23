@@ -21,6 +21,7 @@ Texture load_textures(SDL_Renderer* renderer) {
     SDL_Surface *sword_image = SDL_LoadBMP("img/sword.bmp");
     SDL_Surface *shield_image = SDL_LoadBMP("img/shield.bmp");
     SDL_Surface *key_image = SDL_LoadBMP("img/key.bmp");
+    SDL_Surface *player_image = SDL_LoadBMP("img/player.bmp");
 
     /* Replacement of cyan with tranparent color */
     SDL_SetTextureBlendMode(textures.tileset, SDL_BLENDMODE_BLEND);
@@ -31,6 +32,7 @@ Texture load_textures(SDL_Renderer* renderer) {
     SDL_SetTextureBlendMode(textures.sword, SDL_BLENDMODE_BLEND);
     SDL_SetTextureBlendMode(textures.shield, SDL_BLENDMODE_BLEND);
     SDL_SetTextureBlendMode(textures.key, SDL_BLENDMODE_BLEND);
+    SDL_SetTextureBlendMode(textures.player, SDL_BLENDMODE_BLEND);
 
     textures.floor = SDL_CreateTextureFromSurface(renderer, floor_image);
     textures.wall = SDL_CreateTextureFromSurface(renderer, wall_image);
@@ -39,6 +41,7 @@ Texture load_textures(SDL_Renderer* renderer) {
     textures.sword = SDL_CreateTextureFromSurface(renderer, sword_image);
     textures.shield = SDL_CreateTextureFromSurface(renderer, shield_image);
     textures.key = SDL_CreateTextureFromSurface(renderer, key_image);
+    textures.player = SDL_CreateTextureFromSurface(renderer, player_image);
 
     SDL_FreeSurface(floor_image);
     SDL_FreeSurface(wall_image);
@@ -47,5 +50,7 @@ Texture load_textures(SDL_Renderer* renderer) {
     SDL_FreeSurface(sword_image);
     SDL_FreeSurface(shield_image);
     SDL_FreeSurface(key_image);
+    SDL_FreeSurface(player_image);
+    
     return textures;
 }

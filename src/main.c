@@ -6,6 +6,7 @@
 /* will be replaced with main game struct when it is done */
 #include "../include/room.h"
 #include "../include/floor.h"
+#include "../include/player.h"
 #include "../include/monster_hashtbl.h"
 
 int main() {
@@ -13,6 +14,8 @@ int main() {
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
+    
+    Uint32 last_update = SDL_GetTicks();
 
     int quit = 0;
 
@@ -34,54 +37,66 @@ int main() {
         return 1;
     }
 
+    /* Temporary objects tests */
     Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
     reset_hashtbl(h);
-
     Floor *test_floor = create_floor("maze/floor1/", h);
     Room *target_room = test_floor->rooms[0];
 
+    /* movement test purpose only */
+    Player *player =  malloc(sizeof(Player));
+    player->coordinate[0] = WINDOW_WIDTH / 2;
+    player->coordinate[1] = WINDOW_HEIGHT / 2;
+    int speed = 50;
+
+    /* input states array */
+    int key_states[SDL_NUM_SCANCODES];
+
     Texture texture = load_textures(renderer);
+
     while (!quit) {
+        Uint32 current_time = SDL_GetTicks();
+        float delta_time = (current_time - last_update) / 500.0f;
+
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_QUIT) {
                 quit = 1;
                 break;
             }
-
-            switch (event.type)
-            {
-            /* Look for a keypress */
-            case SDL_KEYDOWN:
-                /* Check the SDLKey values and change room if neighbor exists */
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_LEFT:
-                    if (target_room->neighbors[WEST] != NULL) {
-                        target_room = target_room->neighbors[WEST];
-                    }
+            switch (event.type) {
+                /* Look for a keypress */
+                case SDL_KEYDOWN:
+                    /* Check the SDLKey values and change room if neighbor exists */
+                    key_states[event.key.keysym.scancode] = 1;
                     break;
-                case SDLK_RIGHT:
-                    if (target_room->neighbors[EAST] != NULL) {
-                        target_room = target_room->neighbors[EAST];
-                    }
-                    break;
-                case SDLK_UP:
-                    if (target_room->neighbors[NORTH] != NULL) {
-                        target_room = target_room->neighbors[NORTH];
-                    }
-                    break;
-                case SDLK_DOWN:
-                    if (target_room->neighbors[SOUTH] != NULL) {
-                        target_room = target_room->neighbors[SOUTH];
-                    }
+                case SDL_KEYUP:
+                    key_states[event.key.keysym.scancode] = 0;
                     break;
                 default:
                     break;
-                }
             }
         }
+        /* movements tests will probably be moved to maze with
+         a function that take a pointer to key_states 
+         will need to use trigo to move correctly, actually, moving in diagonal is faster */
+        if (key_states[SDL_SCANCODE_UP]) {
+            player->coordinate[1] -= speed * delta_time;
+        }
+        if (key_states[SDL_SCANCODE_DOWN]) {
+            player->coordinate[1] += speed * delta_time;
+        }
+        if (key_states[SDL_SCANCODE_LEFT]) {
+            player->coordinate[0] -= speed * delta_time;
+        }
+        if (key_states[SDL_SCANCODE_RIGHT]) {
+            player->coordinate[0] += speed * delta_time;
+        }
+
+        last_update = current_time;
+
+        /* drawing */
         SDL_RenderClear(renderer);
-        draw_game(renderer, test_floor, target_room, texture);
+        draw_game(renderer, test_floor, target_room, player, texture);
         SDL_RenderPresent(renderer);
     }
 

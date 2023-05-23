@@ -13,6 +13,7 @@ typedef struct {
     SDL_Texture* shield;
     SDL_Texture* heart;
     SDL_Texture* key;
+    SDL_Texture* player;
 
 } Texture;
 
