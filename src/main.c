@@ -12,26 +12,34 @@
 #include "../include/floor.h"
 #include "../include/monster_hashtbl.h"
 
+void draw_light(SDL_Renderer* renderer, int x, int y) {
+    SDL_Surface *light_surface = SDL_LoadBMP("img/light.bmp");
+    SDL_Texture *light = SDL_CreateTextureFromSurface(renderer, light_surface);
+    SDL_SetTextureBlendMode(light, SDL_BLENDMODE_ADD);
+    SDL_Rect Rect_dest;
+    Rect_dest.w = TILE_SIZE * 3;
+    Rect_dest.h = TILE_SIZE * 3;
+    Rect_dest.x = x;
+    Rect_dest.y = y;
+    SDL_RenderCopy(renderer, light, NULL, &Rect_dest);
+}
+
 void draw_map(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     SDL_Rect Rect_dest;
     Rect_dest.w = DRAW_TILE_SIZE/2;
     Rect_dest.h = DRAW_TILE_SIZE/2;
-    SDL_Rect Rect_source;
-    Rect_source.w = TILE_SIZE;
-    Rect_source.h = TILE_SIZE;
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
         if (floor->rooms[i] == target_room) {
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_SetRenderDrawColor(renderer, 76, 0, 153, 255);
         } else {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 102, 255);
         }
-        Rect_dest.x = floor->rooms[i]->x * DRAW_TILE_SIZE;
-        Rect_dest.y = floor->rooms[i]->y * DRAW_TILE_SIZE;
+        Rect_dest.x = WINDOW_WIDTH - 100 + floor->rooms[i]->x * DRAW_TILE_SIZE;
+        Rect_dest.y = floor->rooms[i]->y * DRAW_TILE_SIZE + 10;
         SDL_RenderDrawRect(renderer, &Rect_dest);
     }
 }
-
 
 void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
     SDL_Rect Rect_dest;
@@ -103,7 +111,6 @@ int main() {
         return 1;
     }
 
-
     Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
     reset_hashtbl(h);
 
@@ -153,6 +160,7 @@ int main() {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         draw_room(renderer, target_room, texture);
+        draw_light(renderer, 250, 250);
         draw_map(renderer, test_floor, target_room);
         SDL_RenderPresent(renderer);
     }
