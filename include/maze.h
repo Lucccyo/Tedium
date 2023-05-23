@@ -1,6 +1,5 @@
 #ifndef MAZE_FILE
 #define MAZE_FILE
-
 #include <stdlib.h>
 #include "../include/player.h"
 #include "../include/room.h"
@@ -17,7 +16,7 @@ struct maze {
 };
 typedef struct maze Maze;
 
-void create_maze(char path[]);
+Maze * create_maze(char path[]);
 void add_floor(Maze * m, Floor * f);
 
 #endif

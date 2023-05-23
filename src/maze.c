@@ -6,7 +6,7 @@
 #include "../include/maze.h"
 #include "../include/monster_hashtbl.h"
 
-void create_maze(char path_to_dir[]) {
+Maze * create_maze(char path_to_dir[]) {
   Maze * maze = (Maze*) malloc(sizeof(Maze));
   Player * player = (Player*) malloc(sizeof(Player));
   reset_player(player);
@@ -28,18 +28,14 @@ void create_maze(char path_to_dir[]) {
         Floor *floor = create_floor(path, maze->monsters);
         maze->floors[maze->max_floor] = floor;
         (maze->max_floor)++;
-        printf("%s\n", path);
       }
     }
   }
   closedir(fd);
+  return maze;
 }
 
 void add_floor(Maze * m, Floor * f){
   m->floors[m->max_floor] = f;
   (m->max_floor)++;
-}
-
-int main(){
-  create_maze("maze/");
 }
