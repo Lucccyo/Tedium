@@ -1,7 +1,13 @@
 #include <stdio.h>
+#include "SDL2/SDL.h"
 #include "../include/player.h"
 
 /* initialize a player */
+Player* init_player() {
+  Player *p = malloc(sizeof(Player));
+  return p;
+} 
+
 void reset_player(Player * p) {
   p->health[0] = 10; p->health[1] = 10;
   p->stats[0] = 2; p->stats[1] = 1;
@@ -24,20 +30,26 @@ void update_stats(int* stats, int branch) { (*(stats+branch))++; }
 void update_key(int* key_number, int update) { (*key_number)+=update; }
 
 /* display debug */
-void display_player(Player * p) {
+void draw_player(SDL_Renderer *renderer, Player *player, SDL_Texture *texture) {
+  SDL_Rect newRect = {player->coordinate[0], player->coordinate[1], 24, 24};
+  SDL_RenderCopy(renderer, texture, NULL, &newRect);
+}
+
+void display_player(Player * p)
+{
   printf("\n"
-  "health  : (%d/%d)\n"
-  "attack  : %d\n"
-  "defense : %d\n"
-  "key_number : %d\n"
-  "room_id : %d\n"
-  "coordinates : (%d;%d)\n\n",
-  p->health[0],
-  p->health[1],
-  p->stats[0],
-  p->stats[1],
-  p->key_number,
-  p->room_id,
-  p->coordinate[0],
-  p->coordinate[1]);
+          "health  : (%d/%d)\n"
+          "attack  : %d\n"
+          "defense : %d\n"
+          "key_number : %d\n"
+          "room_id : %d\n"
+          "coordinates : (%d;%d)\n\n",
+          p->health[0],
+          p->health[1],
+          p->stats[0],
+          p->stats[1],
+          p->key_number,
+          p->room_id,
+          p->coordinate[0],
+          p->coordinate[1]);
 }

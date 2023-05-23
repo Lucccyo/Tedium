@@ -12,6 +12,7 @@
 #include "../include/room.h"
 #include "../include/floor.h"
 #include "../include/monster_hashtbl.h"
+#include "../include/player.h"
 
 void draw_room(SDL_Renderer *renderer, Room *room, Texture texture)
 {
@@ -71,6 +72,8 @@ int main()
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
+    Uint32 lastUpdate = SDL_GetTicks();
+
     int quit = 0;
     int clicked = 0;
 
@@ -99,9 +102,27 @@ int main()
     Floor *test_floor = create_floor("maze/floor1/", h);
     Room *target_room = test_floor->rooms[0];
 
+    SDL_Surface *plrimg = SDL_LoadBMP("gfx/player.bmp");
+    SDL_Texture *plrtexture = SDL_CreateTextureFromSurface(renderer, plrimg);
+    SDL_FreeSurface(plrimg);
+
+    Player *player = init_player();
+    player->coordinate[0] = (int)WINDOW_WIDTH / 2;
+    player->coordinate[1] = (int)WINDOW_HEIGHT / 2;
+    int speed = 50;
+
+    int ZDown = 0;
+    int QDown = 0;
+    int SDown = 0;
+    int DDown = 0;
+
     Texture texture = load_textures(renderer);
 
     // gui test
+        // physics
+        Uint32 current = SDL_GetTicks();
+        float dT = (current - lastUpdate) / 500.0f;
+
     SDL_Surface *clickme = SDL_LoadBMP("gfx/clickme.bmp");
     SDL_Texture *clickmebtn = SDL_CreateTextureFromSurface(renderer, clickme);
     SDL_FreeSurface(clickme);
@@ -154,15 +175,111 @@ int main()
                         target_room = target_room->neighbors[SOUTH];
                     }
                     break;
+
+                case SDLK_z:
+                    ZDown = 1;
+                    break;
+                case SDLK_q:
+                    QDown = 1;
+                    break;
+                case SDLK_s:
+                    SDown = 1;
+                    break;
+                case SDLK_d:
+                    DDown = 1;
+                    break;
                 default:
                     break;
                 }
+            case SDL_KEYUP:
+                /* Check the SDLKey values and change room if neighbor exists */
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_z:
+                    ZDown = 0;
+                    break;
+                case SDLK_q:
+                    QDown = 0;
+                    break;
+                case SDLK_s:
+                    SDown = 0;
+                    break;
+                case SDLK_d:
+                    DDown = 0;
+                    break;
+                default:
+                    break;
+                }
+            default:
+                break;
             }
         }
 
-        SDL_RenderClear(renderer);
+        if (ZDown) {
+            player->coordinate[1] -= speed * dT;
+            if (player->coordinate[1] > 0)
+                break;
+            player->coordinate[1] = 0;
+            if (target_room->neighbors[NORTH] == NULL)
+                break;
+
+            target_room = target_room->neighbors[NORTH];
+            player->coordinate[1] = WINDOW_HEIGHT - 32;
+        }
+
+        if (QDown)
+        {
+            player->coordinate[0] -= speed * dT;
+
+            if (player->coordinate[0] > 0)
+                break;
+
+            player->coordinate[0] = 0;
+            if (target_room->neighbors[WEST] == NULL)
+                break;
+
+            target_room = target_room->neighbors[WEST];
+            player->coordinate[0] = WINDOW_WIDTH - 32;
+        }
+
+        if (SDown)
+        {
+            player->coordinate[1] += speed * dT;
+            if (player->coordinate[1] + 32 < WINDOW_HEIGHT)
+                break;
+            player->coordinate[1] = WINDOW_HEIGHT - 32;
+            if (target_room->neighbors[SOUTH] == NULL)
+                break;
+
+            target_room = target_room->neighbors[SOUTH];
+            player->coordinate[1] = 0;
+        }
+
+        if (DDown)
+        {
+            player->coordinate[0] += speed * dT;
+
+            if (player->coordinate[0] + 32 < WINDOW_WIDTH)
+                break;
+            player->coordinate[0] = WINDOW_WIDTH - 32;
+            if (target_room->neighbors[EAST] == NULL)
+                break;
+
+            target_room = target_room->neighbors[EAST];
+            player->coordinate[0] = 0;
+        }
+
+        // physics - Set updated time
+        lastUpdate = current;
+        //object.position += object.velocity * dT;
+
+        // graphics
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+        // display stuff here
         draw_room(renderer, test_room, texture);
+        draw_player(renderer, player, plrtexture);
+
 
         // draw button test
         display_button(renderer, newButton);

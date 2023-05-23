@@ -19,7 +19,8 @@ struct player {
 typedef struct player Player ;
 
 /* initialize a player */
-void reset_player(Player * p);
+Player *init_player();
+void reset_player(Player *p);
 
 /* moving functions */
 void go_left  (int* coordinate);
@@ -35,6 +36,7 @@ void update_stats(int* stats, int branch);
 void update_key(int* key_number, int update);
 
 /* display debug */
-void display_player(Player * p);
+void draw_player(SDL_Renderer *renderer, Player *player, SDL_Texture *texture);
+void display_player(Player *p);
 
 #endif
