@@ -16,8 +16,13 @@ struct Floor {
     Floor *previous;
 };
 
+/* return a floor pointer and fill it with all the rooms from the path provided */
 Floor* create_floor(char level_path[], Hashtbl *monsters);
+
+/* free the floor and all the rooms in it */
 void free_floor(Floor *floor);
-void display_rooms_names(Floor* floor);
+
+/* print floor id and a list of all the rooms in it */
+void display_floor(Floor* floor);
 
 #endif

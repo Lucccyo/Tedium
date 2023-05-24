@@ -8,10 +8,12 @@ typedef struct {
     SDL_Texture* tileset;
     SDL_Texture* floor;
     SDL_Texture* wall;
+    SDL_Texture* noir;
     SDL_Texture* sword;
     SDL_Texture* shield;
     SDL_Texture* heart;
     SDL_Texture* key;
+    SDL_Texture* player;
 
 } Texture;
 

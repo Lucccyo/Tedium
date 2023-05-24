@@ -12,6 +12,10 @@ Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_d
         }
     }
 
+    /* Absurd values so the set_coordinates function can check if they have been modified */
+    room->x = -100;
+    room->y = -100;
+
     /* format room_path to keep only the level name */
     char *name = strchr(room_path + 1, '/');
     name = strchr(name + 1, '/');

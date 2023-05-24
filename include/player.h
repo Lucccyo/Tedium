@@ -35,7 +35,6 @@ void update_stats(int* stats, int branch);
 void update_key(int* key_number, int update);
 
 /* display debug */
-void draw_player(SDL_Renderer *renderer, Player *player, SDL_Texture *texture);
 void display_player(Player *p);
 
 #endif
