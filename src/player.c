@@ -27,13 +27,7 @@ void update_stats(int* stats, int branch) { (*(stats+branch))++; }
 void update_key(int* key_number, int update) { (*key_number)+=update; }
 
 /* display debug */
-void draw_player(SDL_Renderer *renderer, Player *player, SDL_Texture *texture) {
-  SDL_Rect newRect = {player->coordinate[0], player->coordinate[1], 24, 24};
-  SDL_RenderCopy(renderer, texture, NULL, &newRect);
-}
-
-void display_player(Player * p)
-{
+void display_player(Player * p) {
   printf("\n"
           "health  : (%d/%d)\n"
           "attack  : %d\n"

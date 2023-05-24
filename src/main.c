@@ -18,8 +18,6 @@ int main() {
     
     Uint32 last_update = SDL_GetTicks();
 
-    Uint32 lastUpdate = SDL_GetTicks();
-
     int quit = 0;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
