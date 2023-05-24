@@ -18,8 +18,7 @@ int main() {
     Uint32 last_update = SDL_GetTicks();
 
     int quit = 0;
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("Error inititializing SDL: %s\n", SDL_GetError());
         return 1;
     }
@@ -49,6 +48,9 @@ int main() {
 
     /* input states array */
     int key_states[SDL_NUM_SCANCODES];
+    for (int i = 0; i < SDL_NUM_SCANCODES; i++) {
+        key_states[i] = 0;
+    }
 
     Texture * texture = load_textures(renderer);
 
@@ -65,31 +67,42 @@ int main() {
                 /* Look for a keypress */
                 case SDL_KEYDOWN:
                     key_states[event.key.keysym.scancode] = 1;
+                    SDL_Log("active : %u", event.key.keysym.scancode);
                     break;
                 case SDL_KEYUP:
                     key_states[event.key.keysym.scancode] = 0;
+                    SDL_Log("inactive : %u", event.key.keysym.scancode);
                     break;
                 default:
                     break;
             }
         }
+        
         /* movements tests will probably be moved to maze with
-           a function that take a pointer to key_states
-           will need to use trigo to move correctly, actually, moving in diagonal is faster */
-        if (key_states[SDLK_z]) {
+         a function that take a pointer to key_states 
+         will need to use trigo to move correctly, actually, moving in diagonal is faster */
+        if (key_states[SDL_SCANCODE_W]) 
+        {
             player->coordinate[1] -= speed * delta_time;
+            SDL_Log("player up");
         }
-        if (key_states[SDLK_s]) {
-            player->coordinate[1] += speed * delta_time;
-        }
-        if (key_states[SDLK_q]) {
+        if (key_states[SDL_SCANCODE_A])
+        {
             player->coordinate[0] -= speed * delta_time;
+            SDL_Log("player left");
         }
-        if (key_states[SDLK_d]) {
+        if (key_states[SDL_SCANCODE_S])
+        {
+            player->coordinate[1] += speed * delta_time;
+            SDL_Log("player down");
+        }
+        if (key_states[SDL_SCANCODE_D])
+        {
             player->coordinate[0] += speed * delta_time;
+            SDL_Log("player right");
         }
 
-        last_update = current_time;
+        last_update = SDL_GetTicks();
 
         /* drawing */
         SDL_RenderClear(renderer);
