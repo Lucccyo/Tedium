@@ -123,193 +123,124 @@ int main()
     player->coordinate[1] = (int)WINDOW_HEIGHT / 2;
     int speed = 50;
 
-
-    Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
-    reset_hashtbl(h);
-
-    Floor *test_floor = create_floor("maze/floor1/", h);
-    Room *target_room = test_floor->rooms[0];
-
-    SDL_Surface *plrimg = SDL_LoadBMP("gfx/player.bmp");
-    SDL_Texture *plrtexture = SDL_CreateTextureFromSurface(renderer, plrimg);
-    SDL_FreeSurface(plrimg);
-
-    SDL_Surface *clickme = SDL_LoadBMP("gfx/clickme.bmp");
-    SDL_Texture *clickmebtn = SDL_CreateTextureFromSurface(renderer, clickme);
-    SDL_FreeSurface(clickme);
-
-    Button *newButton = create_button(16, 16, 200, 100, clickmebtn, &onClick);
-    SDL_Rect *current;
-
-    Player *player = init_player();
-    player->coordinate[0] = (int)WINDOW_WIDTH / 2;
-    player->coordinate[1] = (int)WINDOW_HEIGHT / 2;
-    int speed = 50;
-
     Texture texture = load_textures(renderer);
     while (!quit)
     {
+        // physics
+        Uint32 ctime = SDL_GetTicks();
+        float dT = (ctime - lastUpdate) / 500.0f;
+
         while (SDL_PollEvent(&event) != 0)
         {
             if (event.type == SDL_QUIT)
             {
-
-                // gui test
-                SDL_Surface *clickme = SDL_LoadBMP("gfx/clickme.bmp");
-                SDL_Texture *clickmebtn = SDL_CreateTextureFromSurface(renderer, clickme);
-                SDL_FreeSurface(clickme);
-
-                Button *newButton = create_button(16, 16, 200, 100, clickmebtn, &onClick);
-                SDL_Rect *current;
-
-                // display_room(test_room);
-
-                while (SDL_PollEvent(&event) != 0)
+                switch (event.type)
                 {
-                    switch (event.type)
+                case SDL_MOUSEBUTTONDOWN:
+                    clicked = button_clicked(event.button, newButton);
+                    if (clicked)
                     {
-                    case SDL_MOUSEBUTTONDOWN:
-                        clicked = button_clicked(event.button, newButton);
-                        if (clicked)
-                        {
-                            (*newButton->callback)(1);
-                            current = &newButton->rect;
-                        }
-                        break;
-                    case SDL_MOUSEBUTTONUP:
-                        current = NULL;
-                        break;
-                    case SDL_QUIT:
-                        quit = 1;
-                        break;
-                    default:
-                        continue;
+                        (*newButton->callback)(1);
+                        current = &newButton->rect;
                     }
-        // physics
-        Uint32 current = SDL_GetTicks();
-        float dT = (current - lastUpdate) / 500.0f;
+                    break;
+                case SDL_MOUSEBUTTONUP:
+                    current = NULL;
+                    break;
 
-        while (SDL_PollEvent(&event) != 0)
-        {
-            switch (event.type)
-            {
-            case SDL_MOUSEBUTTONDOWN:
-                clicked = button_clicked(event.button, newButton);
-                if (clicked)
-                {
-                    (*newButton->callback)(1);
-                    current = &newButton->rect;
-                }
-                break;
-            case SDL_MOUSEBUTTONUP:
-                current = NULL;
-                break;
+                case SDLK_LEFT:
+                    if (target_room->neighbors[WEST] != NULL)
+                    {
+                        target_room = target_room->neighbors[WEST];
+                    }
+                    break;
+                case SDLK_RIGHT:
+                    if (target_room->neighbors[EAST] != NULL)
+                    {
+                        target_room = target_room->neighbors[EAST];
+                    }
+                    break;
+                case SDLK_UP:
+                    if (target_room->neighbors[NORTH] != NULL)
+                    {
+                        target_room = target_room->neighbors[NORTH];
+                    }
+                    break;
+                case SDLK_DOWN:
+                    if (target_room->neighbors[SOUTH] != NULL)
+                    {
+                        target_room = target_room->neighbors[SOUTH];
+                    }
+                    break;
 
-            case SDLK_LEFT:
-                if (target_room->neighbors[WEST] != NULL)
-                {
-                    target_room = target_room->neighbors[WEST];
-                }
-                break;
-            case SDLK_RIGHT:
-                if (target_room->neighbors[EAST] != NULL)
-                {
-                    target_room = target_room->neighbors[EAST];
-                }
-                break;
-            case SDLK_UP:
-                if (target_room->neighbors[NORTH] != NULL)
-                {
+                case SDLK_z:
+                    player->coordinate[1] -= speed * dT;
+                    if (player->coordinate[1] > 0)
+                        break;
+                    player->coordinate[1] = 0;
+                    if (target_room->neighbors[NORTH] == NULL)
+                        break;
+
                     target_room = target_room->neighbors[NORTH];
-                }
-                break;
-            case SDLK_DOWN:
-                if (target_room->neighbors[SOUTH] != NULL)
-                {
+                    player->coordinate[1] = WINDOW_HEIGHT - 32;
+                    break;
+                case SDLK_q:
+                    player->coordinate[0] -= speed * dT;
+
+                    if (player->coordinate[0] > 0)
+                        break;
+
+                    player->coordinate[0] = 0;
+                    if (target_room->neighbors[WEST] == NULL)
+                        break;
+
+                    target_room = target_room->neighbors[WEST];
+                    player->coordinate[0] = WINDOW_WIDTH - 32;
+                    break;
+                case SDLK_s:
+                    player->coordinate[1] += speed * dT;
+                    if (player->coordinate[1] + 32 < WINDOW_HEIGHT)
+                        break;
+                    player->coordinate[1] = WINDOW_HEIGHT - 32;
+                    if (target_room->neighbors[SOUTH] == NULL)
+                        break;
+
                     target_room = target_room->neighbors[SOUTH];
+                    player->coordinate[1] = 0;
+                    break;
+                case SDLK_d:
+                    player->coordinate[0] += speed * dT;
+
+                    if (player->coordinate[0] + 32 < WINDOW_WIDTH)
+                        break;
+                    player->coordinate[0] = WINDOW_WIDTH - 32;
+                    if (target_room->neighbors[EAST] == NULL)
+                        break;
+
+                    target_room = target_room->neighbors[EAST];
+                    player->coordinate[0] = 0;
+                    break;
+
+                case SDL_QUIT:
+                    quit = 1;
+                    break;
+
+                default:
+                    continue;
                 }
-                break;
-
-            case SDLK_z:
-                player->coordinate[1] -= speed * dT;
-                if (player->coordinate[1] > 0)
-                    break;
-                player->coordinate[1] = 0;
-                if (target_room->neighbors[NORTH] == NULL)
-                    break;
-
-                target_room = target_room->neighbors[NORTH];
-                player->coordinate[1] = WINDOW_HEIGHT - 32;
-                break;
-            case SDLK_q:
-                player->coordinate[0] -= speed * dT;
-
-                if (player->coordinate[0] > 0)
-                    break;
-
-                player->coordinate[0] = 0;
-                if (target_room->neighbors[WEST] == NULL)
-                    break;
-
-                target_room = target_room->neighbors[WEST];
-                player->coordinate[0] = WINDOW_WIDTH - 32;
-                break;
-            case SDLK_s:
-                player->coordinate[1] += speed * dT;
-                if (player->coordinate[1] + 32 < WINDOW_HEIGHT)
-                    break;
-                player->coordinate[1] = WINDOW_HEIGHT - 32;
-                if (target_room->neighbors[SOUTH] == NULL)
-                    break;
-
-                target_room = target_room->neighbors[SOUTH];
-                player->coordinate[1] = 0;
-                break;
-            case SDLK_d:
-                player->coordinate[0] += speed * dT;
-
-                if (player->coordinate[0] + 32 < WINDOW_WIDTH)
-                    break;
-                player->coordinate[0] = WINDOW_WIDTH - 32;
-                if (target_room->neighbors[EAST] == NULL)
-                    break;
-
-                target_room = target_room->neighbors[EAST];
-                player->coordinate[0] = 0;
-                break;
-
-            case SDL_QUIT:
-                quit = 1;
-                break;
-
-            default:
-                continue;
             }
         }
 
         // physics - Set updated time
         lastUpdate = current;
-        //object.position += object.velocity * dT;
+        // object.position += object.velocity * dT;
 
         // graphics
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
 
         // display stuff here
         draw_room(renderer, test_floor, texture);
-        draw_player(renderer, player, plrtexture);
-
-        // draw button test
-        display_button(renderer, newButton);
-
-        if (current != NULL)
-        {
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-            SDL_RenderDrawRect(renderer, current);
-        }
-
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // set background black before presenting
         draw_player(renderer, player, plrtexture);
 
         // draw button test
