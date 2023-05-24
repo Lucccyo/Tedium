@@ -231,7 +231,7 @@ int main()
         SDL_RenderClear(renderer);
 
         // display stuff here
-        draw_room(renderer, test_floor, texture);
+        //draw_room(renderer, test_floor, texture);
         draw_player(renderer, player, plrtexture);
 
         // draw button test
