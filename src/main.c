@@ -19,7 +19,6 @@ int main() {
     Uint32 last_update = SDL_GetTicks();
 
     int quit = 0;
-
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         printf("Error inititializing SDL: %s\n", SDL_GetError());
@@ -44,8 +43,9 @@ int main() {
     Floor *test_floor = create_floor("maze/floor1/", h);
     Room *target_room = test_floor->rooms[0];
 
+    printf("blabla\n");
     /* movement test purpose only */
-    Player *player =  malloc(sizeof(Player));
+    Player *player =  create_player();
     player->coordinate[0] = WINDOW_WIDTH / 2;
     player->coordinate[1] = WINDOW_HEIGHT / 2;
     int speed = 10;
