@@ -10,17 +10,17 @@
 #include "../include/SDL2/SDL.h"
 #include "../include/texture.h"
 #include "../include/floor.h"
-#include "../include/room.h"    
+#include "../include/room.h"
 #include "../include/player.h"
 #include "../include/monster.h"
 #include "../include/player.h"
 
 /* Call all the draw function in correct order */
 /* Probably going to replace all args with a maze struct once it's done */
-void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture texture);
+void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture * texture);
 
 /* Draw the provided room on the screen */
-void draw_room(SDL_Renderer* renderer, Room *room, Texture texture);
+void draw_room(SDL_Renderer* renderer, Room *room, Texture * texture);
 
 /* Draw light.bmp on the provided coordinates */
 void draw_light(SDL_Renderer* renderer, int x, int y);
@@ -29,6 +29,6 @@ void draw_light(SDL_Renderer* renderer, int x, int y);
 void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room);
 
 /* Draw the player (test sprite actually) */
-void draw_player(SDL_Renderer *renderer, Player *player, Texture texture);
+void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture);
 
-#endif  
+#endif

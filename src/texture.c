@@ -1,15 +1,15 @@
-#include "../include/texture.h"   
-   
-Texture load_textures(SDL_Renderer* renderer) {
-    /* need complete rework, only one texture will be used in the future */
-    Texture textures;
+#include "../include/texture.h"
 
+Texture * load_textures(SDL_Renderer* renderer) {
+    /* need complete rework, only one texture will be used in the future */
+
+    Texture * textures = (Texture *) malloc(sizeof(Texture));
     SDL_Surface *tileset_surface = SDL_LoadBMP("img/floor.bmp");
 
     Uint32 colorkey = SDL_MapRGB(tileset_surface->format, 0, 255, 255);
     SDL_SetColorKey(tileset_surface, SDL_TRUE, colorkey);
 
-    textures.tileset = SDL_CreateTextureFromSurface(renderer, tileset_surface);
+    textures->tileset = SDL_CreateTextureFromSurface(renderer, tileset_surface);
 
     SDL_FreeSurface(tileset_surface);
 
@@ -23,25 +23,14 @@ Texture load_textures(SDL_Renderer* renderer) {
     SDL_Surface *key_image = SDL_LoadBMP("img/key.bmp");
     SDL_Surface *player_image = SDL_LoadBMP("img/player.bmp");
 
-    /* Replacement of cyan with tranparent color */
-    SDL_SetTextureBlendMode(textures.tileset, SDL_BLENDMODE_BLEND);
-    SDL_SetTextureBlendMode(textures.floor, SDL_BLENDMODE_BLEND);
-    SDL_SetTextureBlendMode(textures.wall, SDL_BLENDMODE_BLEND);
-    SDL_SetTextureBlendMode(textures.noir, SDL_BLENDMODE_BLEND);
-    SDL_SetTextureBlendMode(textures.heart, SDL_BLENDMODE_BLEND);
-    SDL_SetTextureBlendMode(textures.sword, SDL_BLENDMODE_BLEND);
-    SDL_SetTextureBlendMode(textures.shield, SDL_BLENDMODE_BLEND);
-    SDL_SetTextureBlendMode(textures.key, SDL_BLENDMODE_BLEND);
-    SDL_SetTextureBlendMode(textures.player, SDL_BLENDMODE_BLEND);
-
-    textures.floor = SDL_CreateTextureFromSurface(renderer, floor_image);
-    textures.wall = SDL_CreateTextureFromSurface(renderer, wall_image);
-    textures.noir = SDL_CreateTextureFromSurface(renderer, noir_image);
-    textures.heart = SDL_CreateTextureFromSurface(renderer, heart_image);
-    textures.sword = SDL_CreateTextureFromSurface(renderer, sword_image);
-    textures.shield = SDL_CreateTextureFromSurface(renderer, shield_image);
-    textures.key = SDL_CreateTextureFromSurface(renderer, key_image);
-    textures.player = SDL_CreateTextureFromSurface(renderer, player_image);
+    textures->floor = SDL_CreateTextureFromSurface(renderer, floor_image);
+    textures->wall = SDL_CreateTextureFromSurface(renderer, wall_image);
+    textures->noir = SDL_CreateTextureFromSurface(renderer, noir_image);
+    textures->heart = SDL_CreateTextureFromSurface(renderer, heart_image);
+    textures->sword = SDL_CreateTextureFromSurface(renderer, sword_image);
+    textures->shield = SDL_CreateTextureFromSurface(renderer, shield_image);
+    textures->key = SDL_CreateTextureFromSurface(renderer, key_image);
+    textures->player = SDL_CreateTextureFromSurface(renderer, player_image);
 
     SDL_FreeSurface(floor_image);
     SDL_FreeSurface(wall_image);
@@ -51,6 +40,6 @@ Texture load_textures(SDL_Renderer* renderer) {
     SDL_FreeSurface(shield_image);
     SDL_FreeSurface(key_image);
     SDL_FreeSurface(player_image);
-    
+
     return textures;
 }

@@ -15,7 +15,6 @@ int main() {
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
-    
     Uint32 last_update = SDL_GetTicks();
 
     int quit = 0;
@@ -43,9 +42,7 @@ int main() {
     Floor *test_floor = create_floor("maze/floor1/", h);
     Room *target_room = test_floor->rooms[0];
 
-    printf("blabla\n");
-    /* movement test purpose only */
-    Player *player =  create_player();
+    Player *player = create_player();
     player->coordinate[0] = WINDOW_WIDTH / 2;
     player->coordinate[1] = WINDOW_HEIGHT / 2;
     int speed = 10;
@@ -53,7 +50,7 @@ int main() {
     /* input states array */
     int key_states[SDL_NUM_SCANCODES];
 
-    Texture texture = load_textures(renderer);
+    Texture * texture = load_textures(renderer);
 
     while (!quit) {
         Uint32 current_time = SDL_GetTicks();
@@ -77,8 +74,8 @@ int main() {
             }
         }
         /* movements tests will probably be moved to maze with
-         a function that take a pointer to key_states 
-         will need to use trigo to move correctly, actually, moving in diagonal is faster */
+           a function that take a pointer to key_states
+           will need to use trigo to move correctly, actually, moving in diagonal is faster */
         if (key_states[SDLK_z]) {
             player->coordinate[1] -= speed * delta_time;
         }

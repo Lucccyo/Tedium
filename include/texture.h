@@ -17,6 +17,6 @@ typedef struct {
 
 } Texture;
 
-Texture load_textures(SDL_Renderer* renderer);
+Texture * load_textures(SDL_Renderer* renderer);
 
 #endif

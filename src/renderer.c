@@ -1,6 +1,6 @@
 #include<../include/renderer.h>
 
-void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture texture) {
+void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture * texture) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     draw_room(renderer, target_room, texture);
     draw_minimap(renderer, floor, target_room);
@@ -8,7 +8,7 @@ void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *
     draw_player(renderer, player, texture);
 }
 
-void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
+void draw_room(SDL_Renderer* renderer, Room *room, Texture * texture) {
     SDL_Rect Rect_dest;
     Rect_dest.w = DRAW_TILE_SIZE;
     Rect_dest.h = DRAW_TILE_SIZE;
@@ -25,27 +25,27 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture texture) {
             switch (room->tiles[j][i]) {
                 case '#':
                     if (j - 1 >= 0 && room->tiles[j-1][i] != '#') {
-                        SDL_RenderCopy(renderer, texture.wall, &Rect_source, &Rect_dest);
-                    } else { SDL_RenderCopy(renderer, texture.noir, &Rect_source, &Rect_dest); }
+                        SDL_RenderCopy(renderer, texture->wall, &Rect_source, &Rect_dest);
+                    } else { SDL_RenderCopy(renderer, texture->noir, &Rect_source, &Rect_dest); }
                     break;
                 case '!':
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture.key, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->key, &Rect_source, &Rect_dest);
                     break;
                 case '1':
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture.sword, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->sword, &Rect_source, &Rect_dest);
                     break;
                 case '2':
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture.shield, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->shield, &Rect_source, &Rect_dest);
                     break;
                 case '3':
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture.heart, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->heart, &Rect_source, &Rect_dest);
                     break;
                 default:
-                    SDL_RenderCopy(renderer, texture.floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
                     break;
             }
         }
@@ -81,7 +81,7 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     }
 }
 
-void draw_player(SDL_Renderer *renderer, Player *player, Texture texture) {
+void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
     SDL_Rect newRect = {player->coordinate[0], player->coordinate[1], 24, 24};
-    SDL_RenderCopy(renderer, texture.player, NULL, &newRect);
+    SDL_RenderCopy(renderer, texture->player, NULL, &newRect);
 }
