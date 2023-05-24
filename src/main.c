@@ -47,7 +47,7 @@ int main() {
     Player *player =  malloc(sizeof(Player));
     player->coordinate[0] = WINDOW_WIDTH / 2;
     player->coordinate[1] = WINDOW_HEIGHT / 2;
-    int speed = 50;
+    int speed = 10;
 
     /* input states array */
     int key_states[SDL_NUM_SCANCODES];
@@ -66,7 +66,6 @@ int main() {
             switch (event.type) {
                 /* Look for a keypress */
                 case SDL_KEYDOWN:
-                    /* Check the SDLKey values and change room if neighbor exists */
                     key_states[event.key.keysym.scancode] = 1;
                     break;
                 case SDL_KEYUP:
@@ -79,16 +78,16 @@ int main() {
         /* movements tests will probably be moved to maze with
          a function that take a pointer to key_states 
          will need to use trigo to move correctly, actually, moving in diagonal is faster */
-        if (key_states[SDL_SCANCODE_UP]) {
+        if (key_states[SDLK_z]) {
             player->coordinate[1] -= speed * delta_time;
         }
-        if (key_states[SDL_SCANCODE_DOWN]) {
+        if (key_states[SDLK_s]) {
             player->coordinate[1] += speed * delta_time;
         }
-        if (key_states[SDL_SCANCODE_LEFT]) {
+        if (key_states[SDLK_q]) {
             player->coordinate[0] -= speed * delta_time;
         }
-        if (key_states[SDL_SCANCODE_RIGHT]) {
+        if (key_states[SDLK_d]) {
             player->coordinate[0] += speed * delta_time;
         }
 

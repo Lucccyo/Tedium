@@ -3,8 +3,8 @@
 void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture texture) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     draw_room(renderer, target_room, texture);
-    draw_light(renderer, 250, 250);
     draw_minimap(renderer, floor, target_room);
+    draw_light(renderer, player->coordinate[0] - LIGHT_SIZE / 2 + TILE_SIZE / 2, player->coordinate[1] - LIGHT_SIZE / 2 + TILE_SIZE / 2);
     draw_player(renderer, player, texture);
 }
 

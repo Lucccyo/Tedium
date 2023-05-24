@@ -5,6 +5,7 @@
 #define WINDOW_HEIGHT 720
 #define TILE_SIZE 24
 #define DRAW_TILE_SIZE 24
+#define LIGHT_SIZE 120
 
 #include "../include/SDL2/SDL.h"
 #include "../include/texture.h"
