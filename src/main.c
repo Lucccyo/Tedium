@@ -94,7 +94,7 @@ int main() {
     SDL_Texture *plrtexture = SDL_CreateTextureFromSurface(renderer, plrimg);
     SDL_FreeSurface(plrimg);
 
-    Player *player = init_player();
+    Player *player = create_player();
     player->coordinate[0] = (int)WINDOW_WIDTH / 2;
     player->coordinate[1] = (int)WINDOW_HEIGHT / 2;
     int speed = 50;

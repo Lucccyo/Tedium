@@ -18,9 +18,8 @@ struct player {
 };
 typedef struct player Player ;
 
-/* initialize a player */
-Player *init_player();
-void reset_player(Player *p);
+/* create a player */
+Player * create_player();
 
 /* moving functions */
 void go_left  (int* coordinate);

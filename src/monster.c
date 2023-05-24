@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include "../include/monster.h"
 
-/* initialize a monster */
-void reset_monster(Monster * m, int x, int y, int room_id) {
+/* create a monster */
+Monster * create_monster(int x, int y, int room_id){
+  Monster * m = malloc(sizeof(Monster));
   m->health[0] = 10; m->health[1] = 10;
   m->stats[0] = 2; m->stats[1] = 1;
   m->room_id = room_id;
   m->coordinate[0] = x; m->coordinate[1] = y;
+  return m;
 }
 
 /* stats functions */

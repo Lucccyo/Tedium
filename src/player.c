@@ -2,18 +2,15 @@
 #include "SDL2/SDL.h"
 #include "../include/player.h"
 
-/* initialize a player */
-Player* init_player() {
+/* create a player */
+Player * create_player() {
   Player *p = malloc(sizeof(Player));
-  return p;
-} 
-
-void reset_player(Player * p) {
   p->health[0] = 10; p->health[1] = 10;
   p->stats[0] = 2; p->stats[1] = 1;
   p->key_number = 0;
   p->room_id = 1;
   p->coordinate[0] = 0; p->coordinate[1] = 0;
+  return p;
 }
 
 /* moving functions */

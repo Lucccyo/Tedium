@@ -17,8 +17,8 @@ struct monster {
 };
 typedef struct monster Monster ;
 
-/* initialize a monster */
-void reset_monster(Monster * m, int x, int y, int room_id);
+/* create a monster */
+Monster * create_monster(int x, int y, int room_id);
 
 /* stats functions */
 void update_health_monster(int* health, int update);
