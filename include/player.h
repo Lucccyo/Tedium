@@ -18,8 +18,8 @@ struct player {
 };
 typedef struct player Player ;
 
-/* initialize a player */
-void reset_player(Player * p);
+/* create a player */
+Player * create_player();
 
 /* moving functions */
 void go_left  (int* coordinate);
@@ -33,5 +33,8 @@ void update_health(int* health, int update);
 void update_max_health(int* health, int update);
 void update_stats(int* stats, int branch);
 void update_key(int* key_number, int update);
+
+/* display debug */
+void display_player(Player *p);
 
 #endif

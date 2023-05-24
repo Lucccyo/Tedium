@@ -8,6 +8,7 @@
 #include "../include/floor.h"
 #include "../include/player.h"
 #include "../include/monster_hashtbl.h"
+#include "../include/player.h"
 
 int main() {
     SDL_Event event;
@@ -16,6 +17,8 @@ int main() {
     SDL_Renderer *renderer = NULL;
     
     Uint32 last_update = SDL_GetTicks();
+
+    Uint32 lastUpdate = SDL_GetTicks();
 
     int quit = 0;
 
