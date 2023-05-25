@@ -33,8 +33,11 @@ Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_d
 /* Check neigbor existence and link pointer / create neigbor */
 void handle_neighbor(Room* room, char *path, char *line, Direction direction, Room** rooms_done, int* rooms_done_amount, Hashtbl* monsters);
 
-/* Set all the coordinates by recursively traveling through rooms neighbors */
+/* Set all the coordinates by recussrsively traveling through rooms neighbors */
 void set_rooms_coordinates(Room *room);
+
+/* Randomly add decorations on the floor tiles s*/
+void add_decorations(Room *room);
 
 /* Free the specified room and all of its attributes */
 void free_room(Room *room);

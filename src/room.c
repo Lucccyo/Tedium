@@ -82,10 +82,11 @@ Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_d
         }
     }
     fclose(file);
-    
     /* format file again to replace 'Z' with '§' */
     replace_character_in_file(room_path, L'Z', L'§');
-    
+
+    add_decorations(room);
+
     return room;
 }
 
@@ -124,6 +125,21 @@ void handle_neighbor(Room* room, char *path, char *line, Direction direction, Ro
         strncpy(new_path, path, strlen(path) - strlen(room->name));
         strcat(new_path, neighbor_name);
         room->neighbors[direction] = generate_rooms_from_file(new_path, rooms_done, rooms_done_amount, monsters);
+    }
+}
+
+void add_decorations(Room *room) {
+    /* must be set in the maze creation to have the same seed for all rooms */
+    srand(time(NULL));
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 30; j++) {
+            if (room->tiles[i][j] == ' ' && rand() % 100 < 5) {
+                int decoration_value = rand() % 5 + 4;
+                char decoration_char[2];
+                sprintf(decoration_char, "%d", decoration_value);
+                room->tiles[i][j] = decoration_char[0];
+            }
+        }
     }
 }
 

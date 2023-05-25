@@ -6,14 +6,41 @@
 /* Contains all SDL_Textures used in the game */
 typedef struct {
     SDL_Texture* tileset;
+
     SDL_Texture* floor;
     SDL_Texture* wall;
     SDL_Texture* noir;
-    SDL_Texture* sword;
-    SDL_Texture* shield;
-    SDL_Texture* heart;
+    SDL_Texture* attack_powerup;
+    SDL_Texture* defense_powerup;
+    SDL_Texture* health_powerup;
     SDL_Texture* key;
+    SDL_Texture* potion;
     SDL_Texture* player;
+    SDL_Texture* skull;
+    SDL_Texture* torch;
+    SDL_Texture* light;
+    SDL_Texture* blood;
+
+    /* potion animation test */
+    SDL_Texture* potion_animation0;
+    SDL_Texture* potion_animation1;
+    SDL_Texture* potion_animation2;
+    SDL_Texture* potion_animation3;
+
+    /* fire animation test */
+    SDL_Texture* fire_animation0;
+    SDL_Texture* fire_animation1;
+    SDL_Texture* fire_animation2;
+
+    /* fire light animation test */
+    SDL_Texture* fire_light_animation0;
+    SDL_Texture* fire_light_animation1;
+
+    /* key animation test */
+    SDL_Texture* key_animation0;
+    SDL_Texture* key_animation1;
+    SDL_Texture* key_animation2;
+    SDL_Texture* key_animation3;
 
 } Texture;
 

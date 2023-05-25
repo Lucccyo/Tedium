@@ -9,6 +9,7 @@
 #include "../include/player.h"
 #include "../include/monster_hashtbl.h"
 #include "../include/player.h"
+#include "../include/animator.h"
 
 int main() {
     SDL_Event event;
@@ -54,6 +55,9 @@ int main() {
 
     Texture * texture = load_textures(renderer);
 
+    /* animator creation */
+    Animator *animator = create_animator();
+
     while (!quit) {
         Uint32 current_time = SDL_GetTicks();
         float delta_time = (current_time - last_update) / 500.0f;
@@ -66,6 +70,23 @@ int main() {
             switch (event.type) {
                 /* Look for a keypress */
                 case SDL_KEYDOWN:
+                    if (event.key.keysym.scancode == SDL_SCANCODE_UP) {
+                        if (target_room->neighbors[NORTH] != NULL) {
+                            target_room = target_room->neighbors[NORTH];
+                        }
+                    } else if (event.key.keysym.scancode == SDL_SCANCODE_DOWN) {
+                        if (target_room->neighbors[SOUTH] != NULL) {
+                            target_room = target_room->neighbors[SOUTH];
+                        }
+                    } else if (event.key.keysym.scancode == SDL_SCANCODE_LEFT) {
+                        if (target_room->neighbors[WEST] != NULL) {
+                            target_room = target_room->neighbors[WEST];
+                        }
+                    } else if (event.key.keysym.scancode == SDL_SCANCODE_RIGHT) {
+                        if (target_room->neighbors[EAST] != NULL) {
+                            target_room = target_room->neighbors[EAST];
+                        }
+                    }
                     key_states[event.key.keysym.scancode] = 1;
                     SDL_Log("active : %u", event.key.keysym.scancode);
                     break;
@@ -106,7 +127,8 @@ int main() {
 
         /* drawing */
         SDL_RenderClear(renderer);
-        draw_game(renderer, test_floor, target_room, player, texture);
+        animation_step(animator);
+        draw_game(renderer, test_floor, target_room, player, texture, animator);
         SDL_RenderPresent(renderer);
     }
 
