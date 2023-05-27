@@ -3,7 +3,7 @@
 int main() {
 
     printf("Maze creation test\n");
-    Maze * maze = create_maze("maze/");
+    Maze * maze = create_maze("maze/", 0, 0);
     printf("Maze created succesfully !\n");
     return 0;
 }

@@ -3,21 +3,21 @@
 #include "../include/player.h"
 
 /* create a player */
-Player * create_player() {
+Player * create_player(int x, int y) {
   Player *p = malloc(sizeof(Player));
   p->health[0] = 10; p->health[1] = 10;
   p->stats[0] = 2; p->stats[1] = 1;
   p->key_number = 0;
   p->room_id = 1;
-  p->coordinate[0] = 0; p->coordinate[1] = 0;
+  p->coordinate[0] = x; p->coordinate[1] = y;
   return p;
 }
 
 /* moving functions */
-void go_left  (int* coordinate) { (*coordinate)--; }
-void go_right (int* coordinate) { (*coordinate)++; }
-void go_up    (int* coordinate) { (*(coordinate+1))--; }
-void go_down  (int* coordinate) { (*(coordinate+1))++; }
+void go_left  (int* coordinate) {(*coordinate)--;}
+void go_right (int* coordinate) {(*coordinate)++; }
+void go_up    (int* coordinate) {(*(coordinate+1))--; }
+void go_down  (int* coordinate) {(*(coordinate+1))++; }
 
 /* stats functions */
 void full_health(int* health) { *health = *(health+1); }
