@@ -144,12 +144,15 @@ int main() {
   Texture *texture = load_textures(renderer);
   Interface *interface = load_interfaces(renderer, maze);
 
-  Interface *interface = load_interfaces(renderer);
-  while (!quit) {
-        if (get_current_screen() == 0)
-        {
-        quit = 1;
-        break;
+    Interface *interface = load_interfaces(renderer);
+
+    while (!quit)
+    {
+
+
+        if (get_current_screen() == 0) {
+            quit = 1;
+            break;
         }
 
     while (SDL_PollEvent(&event) != 0) {
