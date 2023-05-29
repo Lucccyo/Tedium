@@ -11,12 +11,15 @@
 #include "../include/maze.h"
 
 
-int event_on_tiles(char tile, State * state, Direction i) {
+int event_on_tiles(char * tile, State * state, Direction i) {
   /* return 1 if the player can go on this tile and 0 otherwise */
   /* operates here events of special tiles */
-  switch (tile) {
-    case '#': return 0; break;
+  switch (*tile) {
+    case '#':
+      // empty
+      return 0; break;
     case '?':
+      // exit
       *(state->current_room) = *(state->current_room->neighbors[i]);
       switch (i) {
         case NORTH : state->player->coordinate[y] = 29; break;
@@ -26,12 +29,39 @@ int event_on_tiles(char tile, State * state, Direction i) {
       }
       return 1;
       break;
-    default:  return 1; break;
+    case '!':
+      // key
+      update_key(&(state->player->key_number), 1);
+      *tile = ' ';
+      return 1;
+      break;
+    case '1':
+      // attack powerup
+      // increase by one the attack of the player
+      update_stats((state->player->stats), attack);
+      *tile = ' ';
+      return 1;
+      break;
+    case '2':
+      // defense powerup
+      // increase by one the defense of the player
+      update_stats((state->player->stats), defense);
+      *tile = ' ';
+      return 1;
+      break;
+    case '3':
+      // health powerup
+      // increase by three health and max_health
+      update_max_health((state->player->health), 3);
+      *tile = ' ';
+      return 1;
+      break;
+    default: return 1; break;
   }
   return 0;
 }
 
-void move(State * state, char next_tile, void (*pf)(int *), Direction d) {
+void move(State * state, char *next_tile, void (*pf)(int *), Direction d) {
   if (event_on_tiles(next_tile, state, d))
     (*pf)(state->player->coordinate);
 }
@@ -103,19 +133,22 @@ int main()
           switch (event.key.keysym.sym) {
             case SDLK_a:
             case SDLK_LEFT:
-              move(maze->state, c_room->tiles[player->coordinate[1]][(player->coordinate[0] - 1)], &go_left, WEST);
+              move(maze->state, &(c_room->tiles[player->coordinate[1]][(player->coordinate[0] - 1)]), &go_left, WEST);
               break;
             case SDLK_d:
             case SDLK_RIGHT:
-              move(maze->state, c_room->tiles[player->coordinate[1]][(player->coordinate[0] + 1)], &go_right, EAST);
+              move(maze->state, &(c_room->tiles[player->coordinate[1]][(player->coordinate[0] + 1)]), &go_right, EAST);
               break;
             case SDLK_w:
             case SDLK_UP:
-              move(maze->state, c_room->tiles[(player->coordinate[1]) - 1][player->coordinate[0]], &go_up, NORTH);
+              move(maze->state, &(c_room->tiles[(player->coordinate[1]) - 1][player->coordinate[0]]), &go_up, NORTH);
               break;
             case SDLK_s:
             case SDLK_DOWN:
-              move(maze->state, c_room->tiles[(player->coordinate[1]) + 1][player->coordinate[0]], &go_down, SOUTH);
+              move(maze->state, &(c_room->tiles[(player->coordinate[1]) + 1][player->coordinate[0]]), &go_down, SOUTH);
+              break;
+            case SDLK_p:
+              display_player(player);
               break;
             case SDL_MOUSEBUTTONDOWN:
               for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
