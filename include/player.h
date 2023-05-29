@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 enum {x, y};
+enum {attack, defense};
 enum {health, max_health};
 
 struct player {
