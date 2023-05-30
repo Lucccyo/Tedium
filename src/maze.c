@@ -10,8 +10,7 @@ Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
   Maze * maze = (Maze*) malloc(sizeof(Maze));
   State * state = (State*) malloc(sizeof(State));
   Player * player = create_player(x_player, y_player);
-  Hashtbl * monsters = (Hashtbl*) malloc(sizeof(Hashtbl));
-  reset_hashtbl(monsters);
+  Hashtbl * monsters = create_hashtbl();
   maze->state = state;
   maze->monsters = monsters;
   maze->max_floor = 0;

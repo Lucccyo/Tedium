@@ -82,6 +82,5 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
 
 void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
     SDL_Rect newRect = {player->coordinate[0]*TILE_SIZE, player->coordinate[1]*TILE_SIZE, 24, 24};
-    // SDL_Rect newRect = {15, 15, 24, 24};
     SDL_RenderCopy(renderer, texture->player, NULL, &newRect);
 }

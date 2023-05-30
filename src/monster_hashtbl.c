@@ -13,7 +13,8 @@ void reset_elem (Elem * e, int x, int y, int room_id, struct monster * m) {
   e->value = m;
 }
 
-void reset_hashtbl (Hashtbl * h) {
+Hashtbl * create_hashtbl () {
+  Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
   for (int i = 0 ; i < MAX_SIZE ; i++) {
     Elem * e = (Elem*) malloc(sizeof(Elem));
     e->key = -1;
@@ -21,6 +22,7 @@ void reset_hashtbl (Hashtbl * h) {
   }
   h->cap = MAX_SIZE;
   h->size = 0;
+  return h;
 }
 
 int hash(int x, int y, int room_id, int array_cap) {

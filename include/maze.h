@@ -1,6 +1,9 @@
 #ifndef MAZE_FILE
 #define MAZE_FILE
 #include <stdlib.h>
+
+#define MAX_FLOOR 30
+
 #include "../include/player.h"
 #include "../include/room.h"
 #include "../include/floor.h"
@@ -16,7 +19,7 @@ typedef struct state State;
 
 struct maze {
   int max_floor;
-  Floor * floors[34];
+  Floor * floors[MAX_FLOOR];
   Hashtbl * monsters;
   State * state;
 

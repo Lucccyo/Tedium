@@ -22,8 +22,8 @@ struct player {
 };
 typedef struct player Player ;
 
-/* create a player */
-Player * create_player(int x, int y);
+/* create a player starting at (x_grid, y_grid) */
+Player * create_player(int x_grid, int y_grid);
 
 /* moving functions */
 void go_left  (int* coordinate);

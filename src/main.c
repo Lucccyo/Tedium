@@ -11,7 +11,7 @@
 #include "../include/maze.h"
 
 
-int event_on_tiles(char * tile, State * state, Direction i) {
+int event_on_tiles(char * tile, State * state, Direction dir) {
   /* return 1 if the player can go on this tile and 0 otherwise */
   /* operates here events of special tiles */
   switch (*tile) {
@@ -20,8 +20,8 @@ int event_on_tiles(char * tile, State * state, Direction i) {
       return 0; break;
     case '?':
       // exit
-      *(state->current_room) = *(state->current_room->neighbors[i]);
-      switch (i) {
+      *(state->current_room) = *(state->current_room->neighbors[dir]);
+      switch (dir) {
         case NORTH : state->player->coordinate[y] = 29; break;
         case SOUTH : state->player->coordinate[y] =  0; break;
         case EAST  : state->player->coordinate[x] =  0; break;
@@ -91,7 +91,7 @@ int main() {
     return 1;
   }
 
-  /* Creation of main structure */
+  /* Creation of main structure and initialize player at coordinate (15;15) */
   Maze * maze = create_maze("maze/", 15, 15);
 
   /* Overload certain maze declarations to reduce later code */
