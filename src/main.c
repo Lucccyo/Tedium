@@ -145,25 +145,25 @@ int main()
             case SDLK_p:
               display_player(player);
               break;
-            case SDL_MOUSEBUTTONDOWN:
-              for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
-              {
-                if (gui_clicked(event.button, interface->menu[i]))
-                {
-                  interface->menu[i]->callback(i);
-                }
-              }
-              for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
-              {
-                if (gui_clicked(event.button, interface->hud[i]))
-                {
-                  interface->menu[i]->callback(i);
-                }
-              }
-              break;
             default:
               break;
           } break;
+        case SDL_MOUSEBUTTONDOWN:
+          for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
+          {
+              if (gui_clicked(event.button, interface->menu[i]))
+              {
+                interface->menu[i]->callback(i);
+              }
+          }
+          for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
+          {
+              if (gui_clicked(event.button, interface->hud[i]))
+              {
+                interface->menu[i]->callback(i);
+              }
+          }
+          break;
         default: break;
       }
     }
