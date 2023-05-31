@@ -41,5 +41,27 @@ Texture * load_textures(SDL_Renderer* renderer) {
     SDL_FreeSurface(key_image);
     SDL_FreeSurface(player_image);
 
+    /* gui textures */
+    SDL_Surface *menu_asset = SDL_LoadBMP("gfx/menu.bmp");
+    SDL_Surface *close_btn_asset = SDL_LoadBMP("gfx/close_btn.bmp");
+    SDL_Surface *quit_btn_asset = SDL_LoadBMP("gfx/quit_btn.bmp");
+    SDL_Surface *restart_btn_asset = SDL_LoadBMP("gfx/restart_btn.bmp");
+    SDL_Surface *resume_btn_asset = SDL_LoadBMP("gfx/resume_btn.bmp");
+    SDL_Surface *credits_btn_asset = SDL_LoadBMP("gfx/credits_btn.bmp");
+
+    textures->menu = SDL_CreateTextureFromSurface(renderer, menu_asset);
+    textures->close = SDL_CreateTextureFromSurface(renderer, close_btn_asset);
+    textures->quit = SDL_CreateTextureFromSurface(renderer, quit_btn_asset);
+    textures->restart = SDL_CreateTextureFromSurface(renderer, restart_btn_asset);
+    textures->resume = SDL_CreateTextureFromSurface(renderer, resume_btn_asset);
+    textures->credits = SDL_CreateTextureFromSurface(renderer, credits_btn_asset);
+
+    SDL_FreeSurface(menu_asset);
+    SDL_FreeSurface(close_btn_asset);
+    SDL_FreeSurface(quit_btn_asset);
+    SDL_FreeSurface(restart_btn_asset);
+    SDL_FreeSurface(resume_btn_asset);
+    SDL_FreeSurface(credits_btn_asset);
+
     return textures;
 }

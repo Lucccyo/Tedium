@@ -4,19 +4,26 @@
 #include <../include/SDL2/SDL.h>
 
 /* Contains all SDL_Textures used in the game */
-typedef struct {
-    SDL_Texture* tileset;
-    SDL_Texture* floor;
-    SDL_Texture* wall;
-    SDL_Texture* noir;
-    SDL_Texture* sword;
-    SDL_Texture* shield;
-    SDL_Texture* heart;
-    SDL_Texture* key;
-    SDL_Texture* player;
+typedef struct
+{
+    SDL_Texture *tileset;
+    SDL_Texture *floor;
+    SDL_Texture *wall;
+    SDL_Texture *noir;
+    SDL_Texture *sword;
+    SDL_Texture *shield;
+    SDL_Texture *heart;
+    SDL_Texture *key;
+    SDL_Texture *player;
+    SDL_Texture *menu;
+    SDL_Texture *close;
+    SDL_Texture *quit;
+    SDL_Texture *restart;
+    SDL_Texture *resume;
+    SDL_Texture *credits;
 
 } Texture;
 
-Texture * load_textures(SDL_Renderer* renderer);
+Texture *load_textures(SDL_Renderer *renderer);
 
 #endif
