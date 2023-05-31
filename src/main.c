@@ -9,7 +9,8 @@
 #include "../include/player.h"
 #include "../include/monster_hashtbl.h"
 #include "../include/maze.h"
-
+#include "../include/gui.h"
+#include "../include/interface.h"
 
 int event_on_tiles(char * tile, State * state, Direction dir) {
   /* return 1 if the player can go on this tile and 0 otherwise */
@@ -111,18 +112,10 @@ int main()
 
     while (!quit)
     {
-
-
         if (get_current_screen() == 0) {
             quit = 1;
             break;
         }
-
-    Texture * texture = load_textures(renderer);
-
-    while (!quit) {
-        Uint32 current_time = SDL_GetTicks();
-        float delta_time = (current_time - last_update) / 500.0f;
 
     while (SDL_PollEvent(&event) != 0) {
       switch (event.type) {
