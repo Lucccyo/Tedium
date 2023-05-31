@@ -121,6 +121,7 @@ int main()
 
   while (!quit)
   {
+    // Quit game on quit button clicked
     if (get_current_screen() == 0)
     {
       quit = 1;
@@ -137,6 +138,8 @@ int main()
       case SDL_KEYDOWN:
         switch (event.key.keysym.sym)
         {
+          
+        // player movement on key pressed
         case SDLK_a:
         case SDLK_q:
         case SDLK_LEFT:
@@ -155,19 +158,28 @@ int main()
         case SDLK_DOWN:
           move(maze->state, &(c_room->tiles[(player->coordinate[1]) + 1][player->coordinate[0]]), &go_down, SOUTH);
           break;
+
+        // debug print player's stats
         case SDLK_p:
           display_player(player);
           break;
+
+        // show GUI menu window on escape
         case SDLK_ESCAPE:
-          if (get_current_screen() == 2) {
+          if (get_current_screen() == 2)
+          {
             set_current_screen(1);
-          } else {
+          }
+          else
+          {
             set_current_screen(2);
-          }  
+          }
         default:
           break;
         }
         break;
+
+      // Look for GUI clicks on mouse down
       case SDL_MOUSEBUTTONDOWN:
         for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
         {

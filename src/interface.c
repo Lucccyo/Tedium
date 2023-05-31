@@ -85,6 +85,7 @@ void gui_display(SDL_Renderer *renderer, GUI_Element *element)
 
 void draw_gui(SDL_Renderer *renderer, Interface *interface)
 {
+    // set all the frames to hidden
     for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
     {
         interface->menu[i]->displayed = 0;
@@ -94,6 +95,7 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface)
         interface->hud[i]->displayed = 0;
     }
 
+    // show the correct interfaces depending on the state
     switch (current_screen)
     {
     case 1: // menu screen
