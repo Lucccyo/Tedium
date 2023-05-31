@@ -7,13 +7,13 @@
 #define DRAW_TILE_SIZE 24
 #define LIGHT_SIZE 120
 
-#include "../include/SDL2/SDL.h"
-#include "../include/texture.h"
-#include "../include/floor.h"
-#include "../include/room.h"
-#include "../include/player.h"
-#include "../include/monster.h"
-#include "../include/player.h"
+#include "SDL2/SDL.h"
+#include "texture.h"
+#include "floor.h"
+#include "room.h"
+#include "player.h"
+#include "monster.h"
+#include "player.h"
 
 /* Call all the draw function in correct order */
 /* Probably going to replace all args with a maze struct once it's done */

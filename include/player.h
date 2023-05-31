@@ -32,11 +32,11 @@ void go_up    (int* coordinate);
 void go_down  (int* coordinate);
 
 /* stats functions */
-void full_health(int* health);
-void update_health(int* health, int update);
-void update_max_health(int* health, int update);
-void update_stats(int* stats, int branch);
-void update_key(int* key_number, int update);
+void full_health (int* health);
+void update_health (int* health, int update);
+void update_max_health (int* health, int update);
+void update_stats (int* stats, int branch);
+void update_key (int* key_number, int update);
 
 /* display debug */
 void display_player(Player *p);

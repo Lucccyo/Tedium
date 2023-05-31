@@ -10,7 +10,6 @@ struct monster {
   /* stats[0] -> attack damage
      stats[1] -> defense */
   int stats[2];
-  int room_id;
   /* coordinate[0] -> x position in current room
      coordinate[1] -> y position in current room */
   int coordinate[2];
@@ -18,7 +17,7 @@ struct monster {
 typedef struct monster Monster ;
 
 /* create a monster */
-Monster * create_monster(int x, int y, int room_id);
+Monster * create_monster(int health_max, int attack, int defense, int x, int y);
 
 /* stats functions */
 void update_health_monster(int* health, int update);

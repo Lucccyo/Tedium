@@ -43,6 +43,22 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture * texture) {
                     SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
                     SDL_RenderCopy(renderer, texture->heart, &Rect_source, &Rect_dest);
                     break;
+                case 'o':
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->door, &Rect_source, &Rect_dest);
+                    break;
+                case 'A':
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->monster_a, &Rect_source, &Rect_dest);
+                    break;
+                case 'B':
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->monster_b, &Rect_source, &Rect_dest);
+                    break;
+                case 'C':
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->monster_c, &Rect_source, &Rect_dest);
+                    break;
                 default:
                     SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
                     break;

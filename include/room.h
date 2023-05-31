@@ -10,7 +10,7 @@
 #include <wchar.h>
 #include <wctype.h>
 #include <locale.h>
-#include "../include/monster_hashtbl.h"
+#include "monster_hashtbl.h"
 
 typedef enum {
     NORTH,

@@ -6,8 +6,6 @@ Texture * load_textures(SDL_Renderer* renderer) {
     Texture * textures = (Texture *) malloc(sizeof(Texture));
     SDL_Surface *tileset_surface = SDL_LoadBMP("img/floor.bmp");
 
-    Uint32 colorkey = SDL_MapRGB(tileset_surface->format, 0, 255, 255);
-    SDL_SetColorKey(tileset_surface, SDL_TRUE, colorkey);
 
     textures->tileset = SDL_CreateTextureFromSurface(renderer, tileset_surface);
 
@@ -22,6 +20,10 @@ Texture * load_textures(SDL_Renderer* renderer) {
     SDL_Surface *shield_image = SDL_LoadBMP("img/shield.bmp");
     SDL_Surface *key_image = SDL_LoadBMP("img/key.bmp");
     SDL_Surface *player_image = SDL_LoadBMP("img/player.bmp");
+    SDL_Surface *monster_a_image = SDL_LoadBMP("img/monster_a.bmp");
+    SDL_Surface *monster_b_image = SDL_LoadBMP("img/monster_b.bmp");
+    SDL_Surface *monster_c_image = SDL_LoadBMP("img/monster_c.bmp");
+    SDL_Surface *door_image = SDL_LoadBMP("img/door.bmp");
 
     textures->floor = SDL_CreateTextureFromSurface(renderer, floor_image);
     textures->wall = SDL_CreateTextureFromSurface(renderer, wall_image);
@@ -31,6 +33,10 @@ Texture * load_textures(SDL_Renderer* renderer) {
     textures->shield = SDL_CreateTextureFromSurface(renderer, shield_image);
     textures->key = SDL_CreateTextureFromSurface(renderer, key_image);
     textures->player = SDL_CreateTextureFromSurface(renderer, player_image);
+    textures->monster_a = SDL_CreateTextureFromSurface(renderer, monster_a_image);
+    textures->monster_b = SDL_CreateTextureFromSurface(renderer, monster_b_image);
+    textures->monster_c = SDL_CreateTextureFromSurface(renderer, monster_c_image);
+    textures->door = SDL_CreateTextureFromSurface(renderer, door_image);
 
     SDL_FreeSurface(floor_image);
     SDL_FreeSurface(wall_image);
@@ -40,6 +46,10 @@ Texture * load_textures(SDL_Renderer* renderer) {
     SDL_FreeSurface(shield_image);
     SDL_FreeSurface(key_image);
     SDL_FreeSurface(player_image);
+    SDL_FreeSurface(monster_a_image);
+    SDL_FreeSurface(monster_b_image);
+    SDL_FreeSurface(monster_c_image);
+    SDL_FreeSurface(door_image);
 
     return textures;
 }
