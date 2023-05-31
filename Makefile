@@ -18,7 +18,7 @@ else ifeq ($(UNAME_S),Windows)
 	LIB=-L lib/win/ -l SDL2-2.0.0
 endif
 
-SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c src/monster_hashtbl.c src/renderer.c src/animator.c
+SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c src/monster_hashtbl.c src/renderer.c src/maze.c src/animator.c
 EXEC=main
 
 main:

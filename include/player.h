@@ -3,6 +3,10 @@
 
 #include <stdlib.h>
 
+enum {x, y};
+enum {attack, defense};
+enum {health, max_health};
+
 struct player {
   /* health[0] -> current health
      health[1] -> max health */
@@ -18,8 +22,8 @@ struct player {
 };
 typedef struct player Player ;
 
-/* create a player */
-Player * create_player();
+/* create a player starting at (x_grid, y_grid) */
+Player * create_player(int x_grid, int y_grid);
 
 /* moving functions */
 void go_left  (int* coordinate);
