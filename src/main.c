@@ -149,6 +149,7 @@ int main()
 
   while (!quit)
   {
+    // Quit game on quit button clicked
     if (get_current_screen() == 0)
     {
       quit = 1;
