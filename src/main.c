@@ -132,14 +132,16 @@ int main()
         case SDL_KEYDOWN:
           switch (event.key.keysym.sym) {
             case SDLK_a:
+            case SDLK_q:
             case SDLK_LEFT:
-              move(maze->state, &(c_room->tiles[player->coordinate[1]][(player->coordinate[0] - 1)]), &go_left, WEST);
-              break;
+            move(maze->state, &(c_room->tiles[player->coordinate[1]][(player->coordinate[0] - 1)]), &go_left, WEST);
+            break;
             case SDLK_d:
             case SDLK_RIGHT:
               move(maze->state, &(c_room->tiles[player->coordinate[1]][(player->coordinate[0] + 1)]), &go_right, EAST);
               break;
             case SDLK_w:
+            case SDLK_z:
             case SDLK_UP:
               move(maze->state, &(c_room->tiles[(player->coordinate[1]) - 1][player->coordinate[0]]), &go_up, NORTH);
               break;
