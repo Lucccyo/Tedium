@@ -117,24 +117,26 @@ int main() {
   SDL_Window *window = NULL;
   SDL_Renderer *renderer = NULL;
 
-  int quit = 0;
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    printf("Error inititializing SDL: %s\n", SDL_GetError());
-    return 1;
-  }
+    int quit = 0;
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        printf("Error inititializing SDL: %s\n", SDL_GetError());
+        return 1;
+    }
 
-  window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED,
-           SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-  if (window == NULL) {
-    printf("Error creating window: %s\n", SDL_GetError());
-    return 1;
-  }
+    window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    if (window == NULL)
+    {
+        printf("Error creating window: %s\n", SDL_GetError());
+        return 1;
+    }
 
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  if (renderer == NULL) {
-    printf("Error creating renderer: %s\n", SDL_GetError());
-    return 1;
-  }
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == NULL)
+    {
+        printf("Error creating renderer: %s\n", SDL_GetError());
+        return 1;
+    }
 
   /* Creation of main structure and initialize player at coordinate (15;15) */
   Maze * maze = create_maze("maze/", 15, 15);
@@ -142,12 +144,14 @@ int main() {
   Texture *texture = load_textures(renderer);
   Interface *interface = load_interfaces(renderer, maze);
 
+  Interface *interface = load_interfaces(renderer);
   while (!quit) {
-    // Quit game on quit button clicked
-    if (get_current_screen() == 0) {
-      quit = 1;
-      break;
-    }
+        if (get_current_screen() == 0)
+        {
+        quit = 1;
+        break;
+        }
+
     while (SDL_PollEvent(&event) != 0) {
       switch (event.type) {
         case SDL_QUIT:

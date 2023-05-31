@@ -51,7 +51,6 @@ Texture * load_textures(SDL_Renderer* renderer) {
     SDL_FreeSurface(restart_btn_asset);
     SDL_FreeSurface(resume_btn_asset);
     SDL_FreeSurface(credits_btn_asset);
-
     return textures;
 }
 
