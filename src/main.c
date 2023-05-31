@@ -66,8 +66,6 @@ void move(State * state, char *next_tile, void (*pf)(int *), Direction d) {
   if (event_on_tiles(next_tile, state, d))
     (*pf)(state->player->coordinate);
 }
-#include "../include/gui.h"
-#include "../include/interface.h"
 
 int main()
 {
