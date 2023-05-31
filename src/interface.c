@@ -4,10 +4,14 @@
 #include "../include/gui.h"
 #include "../include/renderer.h"
 
-int current_screen = 1;
+int current_screen = 2;
 
 int get_current_screen() {
     return current_screen;
+}
+
+void set_current_screen(int screen) {
+    current_screen = screen;
 }
 
 void onClick(int index)
@@ -42,42 +46,33 @@ Interface *load_interfaces(SDL_Renderer *renderer)
 
     /* gui textures */
     SDL_Surface *menu_asset = SDL_LoadBMP("gfx/menu.bmp");
-    SDL_Surface *close_btn_asset = SDL_LoadBMP("gfx/close_btn.bmp");
     SDL_Surface *quit_btn_asset = SDL_LoadBMP("gfx/quit_btn.bmp");
     SDL_Surface *restart_btn_asset = SDL_LoadBMP("gfx/restart_btn.bmp");
     SDL_Surface *resume_btn_asset = SDL_LoadBMP("gfx/resume_btn.bmp");
     SDL_Surface *credits_btn_asset = SDL_LoadBMP("gfx/credits_btn.bmp");
-    SDL_Surface *button_asset = SDL_LoadBMP("gfx/button.bmp");
 
     SDL_Texture *menu = SDL_CreateTextureFromSurface(renderer, menu_asset);
-    SDL_Texture *close = SDL_CreateTextureFromSurface(renderer, close_btn_asset);
     SDL_Texture *quit = SDL_CreateTextureFromSurface(renderer, quit_btn_asset);
     SDL_Texture *restart = SDL_CreateTextureFromSurface(renderer, restart_btn_asset);
     SDL_Texture *resume = SDL_CreateTextureFromSurface(renderer, resume_btn_asset);
     SDL_Texture *credits = SDL_CreateTextureFromSurface(renderer, credits_btn_asset);
-    SDL_Texture *button = SDL_CreateTextureFromSurface(renderer, button_asset);
 
     SDL_FreeSurface(menu_asset);
-    SDL_FreeSurface(close_btn_asset);
     SDL_FreeSurface(quit_btn_asset);
     SDL_FreeSurface(restart_btn_asset);
     SDL_FreeSurface(resume_btn_asset);
     SDL_FreeSurface(credits_btn_asset);
-    SDL_FreeSurface(button_asset);
 
     //
     int posx = (int)(WINDOW_WIDTH / 2 - 161*2 / 2);
     int posy = (int)(WINDOW_HEIGHT / 2 - 220*2 / 2);
     GUI_Element *menu_el = gui_create(posx, posy, 161*2, 220*2, menu, &onClick);
-    GUI_Element *close_el = gui_create((int)(posx + 161*2 - 23*2), (int)(posy), 23*2, 23*2, close, &onCloseClick);
-    GUI_Element *quit_el = gui_create((int)(posx + 161 - 81), (int)(posy + 220 / 2 + 26), 81 * 2, 26 * 2, quit, &onQuitClick);
+    GUI_Element *resume_el = gui_create((int)(posx + 161 - 81), (int)(posy + 220 / 2 + 26), 81 * 2, 26 * 2, resume, &onCloseClick);
+    GUI_Element *quit_el = gui_create((int)(posx + 161 - 81), (int)(posy + 220 / 2 + 26 + 26 * 2.5), 81 * 2, 26 * 2, quit, &onQuitClick);
 
     interface->menu[0] = menu_el;
-    interface->menu[1] = close_el;
+    interface->menu[1] = resume_el;
     interface->menu[2] = quit_el;
-
-    GUI_Element *button_el = gui_create(16, (int)(WINDOW_HEIGHT / 2 - 75 / 2), 75, 75, button, &onMenuButtonClick);
-    interface->hud[0] = button_el;
 
     return interface;
 }
@@ -101,13 +96,13 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface)
 
     switch (current_screen)
     {
-    case 1:
+    case 1: // menu screen
         for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
         {
             gui_display(renderer, interface->menu[i]);
         }
         break;
-    case 2:
+    case 2: // hud
         for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
         {
             gui_display(renderer, interface->hud[i]);
