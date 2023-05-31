@@ -21,8 +21,8 @@ struct hashtbl {
 };
 typedef struct hashtbl Hashtbl;
 
+Hashtbl * create_hashtbl ();
 void reset_elem (Elem * e, int x, int y, int room_id, struct monster * m);
-void reset_hashtbl (Hashtbl * h);
 void insert_monster (Hashtbl * h, int x, int y, int room_id, struct monster * m);
 void display_h (Hashtbl * h);
 void display_e (Elem * h);

@@ -4,7 +4,6 @@ void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     draw_room(renderer, target_room, texture);
     draw_minimap(renderer, floor, target_room);
-    draw_light(renderer, player->coordinate[0] - LIGHT_SIZE / 2 + TILE_SIZE / 2, player->coordinate[1] - LIGHT_SIZE / 2 + TILE_SIZE / 2);
     draw_player(renderer, player, texture);
 }
 
@@ -70,7 +69,7 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     Rect_dest.h = DRAW_TILE_SIZE/2;
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
-        if (floor->rooms[i] == target_room) {
+        if (floor->rooms[i]->x == target_room->x && floor->rooms[i]->y == target_room->y) {
             SDL_SetRenderDrawColor(renderer, 76, 0, 153, 255);
         } else {
             SDL_SetRenderDrawColor(renderer, 0, 0, 102, 255);
@@ -82,6 +81,6 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
 }
 
 void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
-    SDL_Rect newRect = {player->coordinate[0], player->coordinate[1], 24, 24};
+    SDL_Rect newRect = {player->coordinate[0]*TILE_SIZE, player->coordinate[1]*TILE_SIZE, 24, 24};
     SDL_RenderCopy(renderer, texture->player, NULL, &newRect);
 }

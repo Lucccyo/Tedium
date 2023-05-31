@@ -1,10 +1,10 @@
 #include "../include/room.h"
 #include "../include/floor.h"
+#include "../include/monster_hashtbl.h"
 
 int main() {
 
-    Hashtbl * h = (Hashtbl*) malloc(sizeof(Hashtbl));
-    reset_hashtbl(h);
+    Hashtbl * h = create_hashtbl();
 
     /* floor creation test */
     printf("Floor creation test\n");

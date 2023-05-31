@@ -6,13 +6,12 @@
 #include "../include/maze.h"
 #include "../include/monster_hashtbl.h"
 
-Maze * create_maze(char path_to_dir[]) {
+Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
   Maze * maze = (Maze*) malloc(sizeof(Maze));
-  Player * player = (Player*) malloc(sizeof(Player));
-  reset_player(player);
-  Hashtbl * monsters = (Hashtbl*) malloc(sizeof(Hashtbl));
-  reset_hashtbl(monsters);
-  maze->player = player;
+  State * state = (State*) malloc(sizeof(State));
+  Player * player = create_player(x_player, y_player);
+  Hashtbl * monsters = create_hashtbl();
+  maze->state = state;
   maze->monsters = monsters;
   maze->max_floor = 0;
   DIR *fd;
@@ -32,10 +31,10 @@ Maze * create_maze(char path_to_dir[]) {
     }
   }
   closedir(fd);
+  maze->state->current_floor = maze->floors[0];
+  Room *starting_room = malloc(sizeof(Room));
+  memcpy(starting_room, maze->floors[0]->rooms[0], sizeof(Room));
+  maze->state->current_room = starting_room;
+  maze->state->player = player;
   return maze;
-}
-
-void add_floor(Maze * m, Floor * f){
-  m->floors[m->max_floor] = f;
-  (m->max_floor)++;
 }
