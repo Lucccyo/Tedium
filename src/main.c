@@ -112,31 +112,32 @@ void move(Maze * maze, int x, int y, void (*pf)(int *), Direction d) {
     (*pf)(maze->state->player->coordinate);
 }
 
-int main() {
+int main()
+{
   SDL_Event event;
   SDL_Window *window = NULL;
   SDL_Renderer *renderer = NULL;
 
-    int quit = 0;
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        printf("Error inititializing SDL: %s\n", SDL_GetError());
-        return 1;
-    }
+  int quit = 0;
+  if (SDL_Init(SDL_INIT_VIDEO) < 0)
+  {
+    printf("Error inititializing SDL: %s\n", SDL_GetError());
+    return 1;
+  }
 
-    window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-    if (window == NULL)
-    {
-        printf("Error creating window: %s\n", SDL_GetError());
-        return 1;
-    }
+  window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+  if (window == NULL)
+  {
+    printf("Error creating window: %s\n", SDL_GetError());
+    return 1;
+  }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == NULL)
-    {
-        printf("Error creating renderer: %s\n", SDL_GetError());
-        return 1;
-    }
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  if (renderer == NULL)
+  {
+    printf("Error creating renderer: %s\n", SDL_GetError());
+    return 1;
+  }
 
   /* Creation of main structure and initialize player at coordinate (15;15) */
   Maze * maze = create_maze("maze/", 15, 15);
@@ -144,14 +145,15 @@ int main() {
   Texture *texture = load_textures(renderer);
   Interface *interface = load_interfaces(renderer, maze);
 
-    Interface *interface = load_interfaces(renderer);
+  Interface *interface = load_interfaces(renderer);
 
-    while (!quit)
+  while (!quit)
+  {
+    if (get_current_screen() == 0)
     {
-        if (get_current_screen() == 0) {
-            quit = 1;
-            break;
-        }
+      quit = 1;
+      break;
+    }
 
     while (SDL_PollEvent(&event) != 0) {
       switch (event.type) {
@@ -189,36 +191,38 @@ int main() {
             case SDLK_p:
               display_player(maze->state->player);
               break;
-             // show GUI menu window on escape
-        case SDLK_ESCAPE:
-          if (get_current_screen() == 2) {
-            set_current_screen(1);
+            case SDLK_ESCAPE:
+              if (get_current_screen() == 2)
+              {
+                set_current_screen(1);
+              }
+              else
+              {
+                set_current_screen(2);
+              }
+            default:
+              break;
+          } break;
+        case SDL_MOUSEBUTTONDOWN:
+          for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
+          {
+              if (gui_clicked(event.button, interface->menu[i]))
+              {
+                interface->menu[i]->callback(i);
+              }
           }
-          else {
-            set_current_screen(2);
+          for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
+          {
+              if (gui_clicked(event.button, interface->hud[i]))
+              {
+                interface->menu[i]->callback(i);
+              }
           }
-        default:
           break;
-        }
-        break;
-
-      // Look for GUI clicks on mouse down
-      case SDL_MOUSEBUTTONDOWN:
-        for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++) {
-          if (gui_clicked(event.button, interface->menu[i])) {
-            interface->menu[i]->callback(i);
-          }
-        }
-        for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++) {
-          if (gui_clicked(event.button, interface->hud[i])) {
-            interface->menu[i]->callback(i);
-          }
-        }
-        break;
-      default:
-        break;
+        default: break;
       }
     }
+
     /* drawing */
     SDL_RenderClear(renderer);
     animation_step(animator, texture);
