@@ -148,8 +148,6 @@ int main() {
 
     while (!quit)
     {
-
-
         if (get_current_screen() == 0) {
             quit = 1;
             break;
