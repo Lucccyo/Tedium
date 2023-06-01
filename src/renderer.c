@@ -70,9 +70,9 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
         if (floor->rooms[i]->x == target_room->x && floor->rooms[i]->y == target_room->y) {
-            SDL_SetRenderDrawColor(renderer, 76, 0, 153, 255);
+            SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
         } else {
-            SDL_SetRenderDrawColor(renderer, 0, 0, 102, 255);
+            SDL_SetRenderDrawColor(renderer, 75, 75, 90, 255);
         }
         Rect_dest.x = WINDOW_WIDTH - 100 + floor->rooms[i]->x * DRAW_TILE_SIZE;
         Rect_dest.y = floor->rooms[i]->y * DRAW_TILE_SIZE + 10;
