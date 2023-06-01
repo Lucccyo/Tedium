@@ -105,7 +105,6 @@ void draw_menu(SDL_Renderer *renderer, Interface *interface)
 
 void draw_hud(SDL_Renderer *renderer, Interface *interface)
 {
-    printf("draw gui \n");
     // for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
     // {
     //     gui_display(renderer, interface->hud[i]);
