@@ -117,7 +117,7 @@ int main()
 
   Texture *texture = load_textures(renderer);
 
-  Interface *interface = load_interfaces(renderer);
+  Interface *interface = load_interfaces(renderer, maze);
 
   while (!quit)
   {
