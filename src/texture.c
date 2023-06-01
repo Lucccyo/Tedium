@@ -18,7 +18,6 @@ Texture * load_textures(SDL_Renderer* renderer) {
     SDL_Surface *wall_image = SDL_LoadBMP("img/wall.bmp");
     SDL_Surface *noir_image = SDL_LoadBMP("img/noir.bmp");
     SDL_Surface *health_powerup_image = SDL_LoadBMP("img/health_powerup.bmp");
-    SDL_Surface *attack_powerup_image = SDL_LoadBMP("img/attack_powerup.bmp");
     SDL_Surface *defense_powerup_image = SDL_LoadBMP("img/defense_powerup.bmp");
     SDL_Surface *key_image = SDL_LoadBMP("img/key.bmp");
     SDL_Surface *player_image = SDL_LoadBMP("img/player.bmp");
@@ -44,12 +43,29 @@ Texture * load_textures(SDL_Renderer* renderer) {
     SDL_Surface *key_animation1_image = SDL_LoadBMP("img/clee2.bmp");
     SDL_Surface *key_animation2_image = SDL_LoadBMP("img/clee3.bmp");
     SDL_Surface *key_animation3_image = SDL_LoadBMP("img/clee4.bmp");
+    /* attack power up anim test */
+    SDL_Surface *attack_powerup_animation0_image = SDL_LoadBMP("img/attack/attack_powerup0.bmp");
+    SDL_Surface *attack_powerup_animation1_image = SDL_LoadBMP("img/attack/attack_powerup1.bmp");
+    SDL_Surface *attack_powerup_animation2_image = SDL_LoadBMP("img/attack/attack_powerup2.bmp");
+    SDL_Surface *attack_powerup_animation3_image = SDL_LoadBMP("img/attack/attack_powerup3.bmp");
+    SDL_Surface *attack_powerup_animation4_image = SDL_LoadBMP("img/attack/attack_powerup4.bmp");
+    SDL_Surface *attack_powerup_animation5_image = SDL_LoadBMP("img/attack/attack_powerup5.bmp");
+    SDL_Surface *attack_powerup_animation6_image = SDL_LoadBMP("img/attack/attack_powerup6.bmp");
+    SDL_Surface *attack_powerup_animation7_image = SDL_LoadBMP("img/attack/attack_powerup7.bmp");
+    /* defense power up anim test */
+    SDL_Surface *defense_powerup_animation0_image = SDL_LoadBMP("img/defense/defense_powerup0.bmp");
+    SDL_Surface *defense_powerup_animation1_image = SDL_LoadBMP("img/defense/defense_powerup1.bmp");
+    SDL_Surface *defense_powerup_animation2_image = SDL_LoadBMP("img/defense/defense_powerup2.bmp");
+    SDL_Surface *defense_powerup_animation3_image = SDL_LoadBMP("img/defense/defense_powerup3.bmp");
+    SDL_Surface *defense_powerup_animation4_image = SDL_LoadBMP("img/defense/defense_powerup4.bmp");
+    SDL_Surface *defense_powerup_animation5_image = SDL_LoadBMP("img/defense/defense_powerup5.bmp");
+    SDL_Surface *defense_powerup_animation6_image = SDL_LoadBMP("img/defense/defense_powerup6.bmp");
+    SDL_Surface *defense_powerup_animation7_image = SDL_LoadBMP("img/defense/defense_powerup7.bmp");
 
     textures->floor = SDL_CreateTextureFromSurface(renderer, floor_image);
     textures->wall = SDL_CreateTextureFromSurface(renderer, wall_image);
     textures->noir = SDL_CreateTextureFromSurface(renderer, noir_image);
     textures->health_powerup = SDL_CreateTextureFromSurface(renderer, health_powerup_image);
-    textures->attack_powerup = SDL_CreateTextureFromSurface(renderer, attack_powerup_image);
     textures->defense_powerup = SDL_CreateTextureFromSurface(renderer, defense_powerup_image);
     textures->key = SDL_CreateTextureFromSurface(renderer, key_image);
     textures->player = SDL_CreateTextureFromSurface(renderer, player_image);
@@ -75,15 +91,32 @@ Texture * load_textures(SDL_Renderer* renderer) {
     textures->key_animation1 = SDL_CreateTextureFromSurface(renderer, key_animation1_image);
     textures->key_animation2 = SDL_CreateTextureFromSurface(renderer, key_animation2_image);
     textures->key_animation3 = SDL_CreateTextureFromSurface(renderer, key_animation3_image);
+    /* attack power up anim test */
+    textures->attack_powerup_animation0 = SDL_CreateTextureFromSurface(renderer, attack_powerup_animation0_image);
+    textures->attack_powerup_animation1 = SDL_CreateTextureFromSurface(renderer, attack_powerup_animation1_image);
+    textures->attack_powerup_animation2 = SDL_CreateTextureFromSurface(renderer, attack_powerup_animation2_image);
+    textures->attack_powerup_animation3 = SDL_CreateTextureFromSurface(renderer, attack_powerup_animation3_image);
+    textures->attack_powerup_animation4 = SDL_CreateTextureFromSurface(renderer, attack_powerup_animation4_image);
+    textures->attack_powerup_animation5 = SDL_CreateTextureFromSurface(renderer, attack_powerup_animation5_image);
+    textures->attack_powerup_animation6 = SDL_CreateTextureFromSurface(renderer, attack_powerup_animation6_image);
+    textures->attack_powerup_animation7 = SDL_CreateTextureFromSurface(renderer, attack_powerup_animation7_image);
+    /* defense power up anim test */
+    textures->defense_powerup_animation0 = SDL_CreateTextureFromSurface(renderer, defense_powerup_animation0_image);
+    textures->defense_powerup_animation1 = SDL_CreateTextureFromSurface(renderer, defense_powerup_animation1_image);
+    textures->defense_powerup_animation2 = SDL_CreateTextureFromSurface(renderer, defense_powerup_animation2_image);
+    textures->defense_powerup_animation3 = SDL_CreateTextureFromSurface(renderer, defense_powerup_animation3_image);
+    textures->defense_powerup_animation4 = SDL_CreateTextureFromSurface(renderer, defense_powerup_animation4_image);
+    textures->defense_powerup_animation5 = SDL_CreateTextureFromSurface(renderer, defense_powerup_animation5_image);
+    textures->defense_powerup_animation6 = SDL_CreateTextureFromSurface(renderer, defense_powerup_animation6_image);
+    textures->defense_powerup_animation7 = SDL_CreateTextureFromSurface(renderer, defense_powerup_animation7_image);
 
-    /* set texture blend mode for all textures */
+    /* set texture blend mode for light textures */
     SDL_SetTextureBlendMode(textures->light, SDL_BLENDMODE_ADD);
 
     SDL_FreeSurface(floor_image);
     SDL_FreeSurface(wall_image);
     SDL_FreeSurface(noir_image);
     SDL_FreeSurface(health_powerup_image);
-    SDL_FreeSurface(attack_powerup_image);
     SDL_FreeSurface(defense_powerup_image);
     SDL_FreeSurface(key_image);
     SDL_FreeSurface(player_image);
@@ -109,6 +142,24 @@ Texture * load_textures(SDL_Renderer* renderer) {
     SDL_FreeSurface(key_animation1_image);
     SDL_FreeSurface(key_animation2_image);
     SDL_FreeSurface(key_animation3_image);
+    /* attack power up anim test */
+    SDL_FreeSurface(attack_powerup_animation0_image);
+    SDL_FreeSurface(attack_powerup_animation1_image);
+    SDL_FreeSurface(attack_powerup_animation2_image);
+    SDL_FreeSurface(attack_powerup_animation3_image);
+    SDL_FreeSurface(attack_powerup_animation4_image);
+    SDL_FreeSurface(attack_powerup_animation5_image);
+    SDL_FreeSurface(attack_powerup_animation6_image);
+    SDL_FreeSurface(attack_powerup_animation7_image);
+    /* defense power up anim test */
+    SDL_FreeSurface(defense_powerup_animation0_image);
+    SDL_FreeSurface(defense_powerup_animation1_image);
+    SDL_FreeSurface(defense_powerup_animation2_image);
+    SDL_FreeSurface(defense_powerup_animation3_image);
+    SDL_FreeSurface(defense_powerup_animation4_image);
+    SDL_FreeSurface(defense_powerup_animation5_image);
+    SDL_FreeSurface(defense_powerup_animation6_image);
+    SDL_FreeSurface(defense_powerup_animation7_image);
 
     return textures;
 }

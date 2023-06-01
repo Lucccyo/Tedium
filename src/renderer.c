@@ -70,11 +70,65 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture, Animator *a
                     break;
                 case ATTACK_POWERUP:
                     SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    SDL_RenderCopy(renderer, texture->attack_powerup, &rect_source, &rect_dest);
+                    switch (animator->animation_states[ATTACK_POWERUP_STATE]) {
+                        case 0:
+                            SDL_RenderCopy(renderer, texture->attack_powerup_animation0, &rect_source, &rect_dest);
+                            break;
+                        case 1:
+                            SDL_RenderCopy(renderer, texture->attack_powerup_animation1, &rect_source, &rect_dest);
+                            break;
+                        case 2:
+                            SDL_RenderCopy(renderer, texture->attack_powerup_animation2, &rect_source, &rect_dest);
+                            break;
+                        case 3:
+                            SDL_RenderCopy(renderer, texture->attack_powerup_animation3, &rect_source, &rect_dest);
+                            break;
+                        case 4:
+                            SDL_RenderCopy(renderer, texture->attack_powerup_animation4, &rect_source, &rect_dest);
+                            break;
+                        case 5:
+                            SDL_RenderCopy(renderer, texture->attack_powerup_animation5, &rect_source, &rect_dest);
+                            break;
+                        case 6:
+                            SDL_RenderCopy(renderer, texture->attack_powerup_animation6, &rect_source, &rect_dest);
+                            break;
+                        case 7:
+                            SDL_RenderCopy(renderer, texture->attack_powerup_animation7, &rect_source, &rect_dest);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case DEFENSE_POWERUP:
                     SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    SDL_RenderCopy(renderer, texture->defense_powerup, &rect_source, &rect_dest);
+                    switch (animator->animation_states[DEFENSE_POWERUP_STATE]) {
+                        case 0:
+                            SDL_RenderCopy(renderer, texture->defense_powerup_animation0, &rect_source, &rect_dest);
+                            break;
+                        case 1:
+                            SDL_RenderCopy(renderer, texture->defense_powerup_animation1, &rect_source, &rect_dest);
+                            break;
+                        case 2:
+                            SDL_RenderCopy(renderer, texture->defense_powerup_animation2, &rect_source, &rect_dest);
+                            break;
+                        case 3:
+                            SDL_RenderCopy(renderer, texture->defense_powerup_animation3, &rect_source, &rect_dest);
+                            break;
+                        case 4:
+                            SDL_RenderCopy(renderer, texture->defense_powerup_animation4, &rect_source, &rect_dest);
+                            break;
+                        case 5:
+                            SDL_RenderCopy(renderer, texture->defense_powerup_animation5, &rect_source, &rect_dest);
+                            break;
+                        case 6:
+                            SDL_RenderCopy(renderer, texture->defense_powerup_animation6, &rect_source, &rect_dest);
+                            break;
+                        case 7:
+                            SDL_RenderCopy(renderer, texture->defense_powerup_animation7, &rect_source, &rect_dest);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case HEALTH_POWERUP:
                     SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
