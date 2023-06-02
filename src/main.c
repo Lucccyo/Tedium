@@ -145,7 +145,7 @@ int main() {
 
     /* drawing */
     SDL_RenderClear(renderer);
-    animation_step(animator);
+    animation_step(animator, texture);
     draw_game(renderer, c_floor, c_room, player, texture, animator);
     SDL_RenderPresent(renderer);
   }

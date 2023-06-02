@@ -26,144 +26,47 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture, Animator *a
             switch (room->tiles[j][i]) {
                 case EMPTY:
                     if (j - 1 >= 0 && room->tiles[j-1][i] != '#') {
-                        SDL_RenderCopy(renderer, texture->wall, &rect_source, &rect_dest);
-                    } else { SDL_RenderCopy(renderer, texture->noir, &rect_source, &rect_dest); }
+                        SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_WALL], &rect_dest);
+                    } else { SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_VOID], &rect_dest); }
                     break;
                 case KEY:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    switch (animator->animation_states[KEY_STATE]) {
-                        case 0:
-                            SDL_RenderCopy(renderer, texture->key_animation0, &rect_source, &rect_dest);
-                            break;
-                        case 1:
-                            SDL_RenderCopy(renderer, texture->key_animation1, &rect_source, &rect_dest);
-                            break;
-                        case 2:
-                            SDL_RenderCopy(renderer, texture->key_animation2, &rect_source, &rect_dest);
-                            break;
-                        case 3:
-                            SDL_RenderCopy(renderer, texture->key_animation3, &rect_source, &rect_dest);
-                            break;
-                        default:
-                            break;
-                    }
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_KEY], &rect_dest);
                     break;
                 case POTION:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    /* for test purpose, rects are going to be in an array so we can do array[state] */
-                    switch (animator->animation_states[POTION_STATE]) {
-                        case 0:
-                            SDL_RenderCopy(renderer, texture->potion_animation0, &rect_source, &rect_dest);
-                            break;
-                        case 1:
-                            SDL_RenderCopy(renderer, texture->potion_animation1, &rect_source, &rect_dest);
-                            break;
-                        case 2:
-                            SDL_RenderCopy(renderer, texture->potion_animation2, &rect_source, &rect_dest);
-                            break;
-                        case 3:
-                            SDL_RenderCopy(renderer, texture->potion_animation3, &rect_source, &rect_dest);
-                            break;
-                        default:
-                            break;
-                    }
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_POTION], &rect_dest);
                     break;
                 case ATTACK_POWERUP:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    switch (animator->animation_states[ATTACK_POWERUP_STATE]) {
-                        case 0:
-                            SDL_RenderCopy(renderer, texture->attack_powerup_animation0, &rect_source, &rect_dest);
-                            break;
-                        case 1:
-                            SDL_RenderCopy(renderer, texture->attack_powerup_animation1, &rect_source, &rect_dest);
-                            break;
-                        case 2:
-                            SDL_RenderCopy(renderer, texture->attack_powerup_animation2, &rect_source, &rect_dest);
-                            break;
-                        case 3:
-                            SDL_RenderCopy(renderer, texture->attack_powerup_animation3, &rect_source, &rect_dest);
-                            break;
-                        case 4:
-                            SDL_RenderCopy(renderer, texture->attack_powerup_animation4, &rect_source, &rect_dest);
-                            break;
-                        case 5:
-                            SDL_RenderCopy(renderer, texture->attack_powerup_animation5, &rect_source, &rect_dest);
-                            break;
-                        case 6:
-                            SDL_RenderCopy(renderer, texture->attack_powerup_animation6, &rect_source, &rect_dest);
-                            break;
-                        case 7:
-                            SDL_RenderCopy(renderer, texture->attack_powerup_animation7, &rect_source, &rect_dest);
-                            break;
-                        default:
-                            break;
-                    }
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_ATTACK_POWERUP], &rect_dest);
                     break;
                 case DEFENSE_POWERUP:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    switch (animator->animation_states[DEFENSE_POWERUP_STATE]) {
-                        case 0:
-                            SDL_RenderCopy(renderer, texture->defense_powerup_animation0, &rect_source, &rect_dest);
-                            break;
-                        case 1:
-                            SDL_RenderCopy(renderer, texture->defense_powerup_animation1, &rect_source, &rect_dest);
-                            break;
-                        case 2:
-                            SDL_RenderCopy(renderer, texture->defense_powerup_animation2, &rect_source, &rect_dest);
-                            break;
-                        case 3:
-                            SDL_RenderCopy(renderer, texture->defense_powerup_animation3, &rect_source, &rect_dest);
-                            break;
-                        case 4:
-                            SDL_RenderCopy(renderer, texture->defense_powerup_animation4, &rect_source, &rect_dest);
-                            break;
-                        case 5:
-                            SDL_RenderCopy(renderer, texture->defense_powerup_animation5, &rect_source, &rect_dest);
-                            break;
-                        case 6:
-                            SDL_RenderCopy(renderer, texture->defense_powerup_animation6, &rect_source, &rect_dest);
-                            break;
-                        case 7:
-                            SDL_RenderCopy(renderer, texture->defense_powerup_animation7, &rect_source, &rect_dest);
-                            break;
-                        default:
-                            break;
-                    }
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_DEFENSE_POWERUP], &rect_dest);
                     break;
                 case HEALTH_POWERUP:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    SDL_RenderCopy(renderer, texture->health_powerup, &rect_source, &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_HEALTH_POWERUP], &rect_dest);
                     break;
                 case SKULL:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    SDL_RenderCopy(renderer, texture->skull, &rect_source, &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_SKULL], &rect_dest);
                     break;
                 case TORCH:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    SDL_RenderCopy(renderer, texture->torch, &rect_source, &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_TORCH], &rect_dest);
                     break;
                 case FIRE:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    switch (animator->animation_states[FIRE_STATE]) {
-                        case 0:
-                            SDL_RenderCopy(renderer, texture->fire_animation0, &rect_source, &rect_dest);
-                            break;
-                        case 1:
-                            SDL_RenderCopy(renderer, texture->fire_animation1, &rect_source, &rect_dest);
-                            break;
-                        case 2:
-                            SDL_RenderCopy(renderer, texture->fire_animation2, &rect_source, &rect_dest);
-                            break;
-                        default:
-                            break;
-                        }
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FIRE], &rect_dest);
                     break;
                 case BLOOD:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
-                    SDL_RenderCopy(renderer, texture->blood, &rect_source, &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_BLOOD], &rect_dest);
                     break;
                 default:
-                    SDL_RenderCopy(renderer, texture->floor, &rect_source, &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
                     break;
             }
         }
@@ -184,16 +87,7 @@ void draw_lights(SDL_Renderer* renderer, Room *room, Texture *texture, Animator 
                 case FIRE:
                     rect_dest.x = i * TILE_SIZE - LIGHT_SIZE / 2 + TILE_SIZE / 2;
                     rect_dest.y = j * TILE_SIZE - LIGHT_SIZE / 2 + TILE_SIZE / 2;
-                    switch (animator->animation_states[FIRE_LIGHT_STATE]) {
-                        case 0:
-                            SDL_RenderCopy(renderer, texture->fire_light_animation0, NULL, &rect_dest);
-                            break;
-                        case 1:
-                            SDL_RenderCopy(renderer, texture->fire_light_animation1, NULL, &rect_dest);
-                            break;
-                        default:
-                            break;
-                    }
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_LIGHT], &rect_dest);
                     break;
                 default:
                     break;
@@ -221,5 +115,5 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
 
 void draw_player(SDL_Renderer *renderer, Player *player, Texture *texture) {
     SDL_Rect newRect = {player->coordinate[0] * TILE_SIZE, player->coordinate[1] * TILE_SIZE, 24, 24};
-    SDL_RenderCopy(renderer, texture->player, NULL, &newRect);
+    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER], &newRect);
 }
