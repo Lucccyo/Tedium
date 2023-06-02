@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../include/monster_hashtbl.h"
-#include "../include/monster.h"
+#include "monster_hashtbl.h"
+#include "monster.h"
 
 int main(int argc, char const *argv[]) {
 

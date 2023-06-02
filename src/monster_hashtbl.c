@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <string.h>
-#include "../include/monster_hashtbl.h"
+#include "monster_hashtbl.h"
 
 void reset_elem (Elem * e, int x, int y, char room_name[], int floor_num, Monster * m) {
   e->key = x + y + floor_num;

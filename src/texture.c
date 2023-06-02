@@ -1,4 +1,4 @@
-#include "../include/texture.h"
+#include "texture.h"
 
 Texture * load_textures(SDL_Renderer* renderer) {
     /* Load the tileset.bmp file into a texture */
@@ -23,6 +23,9 @@ Texture * load_textures(SDL_Renderer* renderer) {
     textures->rects[RECT_SKULL] = create_rect(0, 216, 24, 24);
     textures->rects[RECT_TORCH] = create_rect(0, 240, 24, 24);
     textures->rects[RECT_LIGHT] = create_rect(0, 264, 72, 72);
+    textures->rects[RECT_MONSTER_A] = create_rect(0, 336, 24, 24);
+    textures->rects[RECT_MONSTER_B] = create_rect(0, 360, 24, 24);
+    textures->rects[RECT_MONSTER_C] = create_rect(0, 384, 24, 24);
 
     return textures;
 }

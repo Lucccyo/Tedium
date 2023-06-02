@@ -1,6 +1,8 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include "animator.h"
+
 #define WINDOW_WIDTH 720
 #define WINDOW_HEIGHT 720
 #define TILE_SIZE 24

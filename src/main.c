@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include <string.h>
-#include <../include/SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #include <time.h>
-#include "../include/renderer.h"
-#include "../include/texture.h"
+#include "renderer.h"
+#include "texture.h"
 /* will be replaced with main game struct when it is done */
-#include "../include/room.h"
-#include "../include/floor.h"
-#include "../include/player.h"
-#include "../include/monster_hashtbl.h"
-#include "../include/monster.h"
-#include "../include/maze.h"
-#include "../include/animator.h"
+#include "room.h"
+#include "floor.h"
+#include "player.h"
+#include "monster_hashtbl.h"
+#include "monster.h"
+#include "maze.h"
+#include "animator.h"
 
 
 int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir) {
@@ -61,7 +61,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir) {
       update_max_health((maze->state->player->health), 3);
       *tile = ' ';
       return 1;
-    case 'z':
+    case 'Z':
       // potion
       full_health(maze->state->player->health);
       *tile = ' ';
@@ -189,7 +189,7 @@ int main() {
     /* drawing */
     SDL_RenderClear(renderer);
     animation_step(animator, texture);
-    draw_game(renderer, maze->state->current_floor, maze->state->current_room, maze->state->player, texture);
+    draw_game(renderer, maze->state->current_floor, maze->state->current_room, maze->state->player, texture, animator);
     SDL_RenderPresent(renderer);
   }
 

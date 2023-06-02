@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../include/monster.h"
+#include "monster.h"
 
 /* create a monster */
 Monster * create_monster(int health_max, int attack, int defense, int x, int y){

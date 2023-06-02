@@ -1,4 +1,4 @@
-#include<../include/renderer.h>
+#include<renderer.h>
 
 void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture *texture, Animator *animator) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -66,20 +66,20 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture, Animator *a
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_BLOOD], &rect_dest);
                     break;
                 case 'o':
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture->door, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_DOOR], &rect_dest);
                     break;
                 case 'A':
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture->monster_a, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_A], &rect_dest);
                     break;
                 case 'B':
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture->monster_b, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_B], &rect_dest);
                     break;
                 case 'C':
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture->monster_c, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_C], &rect_dest);
                     break;
                 default:
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
@@ -127,6 +127,6 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
 }
 
 void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
-    SDL_Rect newRect = {player->coordinate[0]*TILE_SIZE, player->coordinate[1]*TILE_SIZE, 24, 24};
-    SDL_RenderCopy(renderer, texture->player, NULL, &newRect);
+    SDL_Rect rect_dest = {player->coordinate[0]*TILE_SIZE, player->coordinate[1]*TILE_SIZE, 24, 24};
+    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER], &rect_dest);
 }

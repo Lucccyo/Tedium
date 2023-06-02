@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../include/player.h"
+#include "player.h"
 
 /* create a player */
 Player * create_player(int x_grid, int y_grid) {

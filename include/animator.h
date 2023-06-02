@@ -5,7 +5,7 @@
 #include "texture.h"
 
 #define FRAME_DURATION 250 // ms
-#define ANIMATIONS_AMOUNT 15
+#define ANIMATIONS_AMOUNT 18
 
 enum {
     FLOOR_ANIMATION_FRAMES = 1,
@@ -23,27 +23,12 @@ enum {
     SKULL_ANIMATION_FRAMES = 1,
     TORCH_ANIMATION_FRAMES = 1,
     LIGHT_ANIMATION_FRAMES = 2,
+    MONSTER_A_ANIMATION_FRAMES = 1,
+    MONSTER_B_ANIMATION_FRAMES = 1,
+    MONSTER_C_ANIMATION_FRAMES = 1,
 };
 
 const int FRAME_AMOUNTS[ANIMATIONS_AMOUNT];
-
-typedef enum {
-    FLOOR_STATE,
-    VOID_STATE,
-    WALL_STATE,
-    DOOR_STATE,
-    PLAYER_STATE,
-    ATTACK_POWERUP_STATE,
-    DEFENSE_POWERUP_STATE,
-    HEALTH_POWERUP_STATE,
-    KEY_STATE,
-    POTION_STATE,
-    FIRE_STATE,
-    BLOOD_STATE,
-    SKULL_STATE,
-    TORCH_STATE,
-    LIGHT_STATE,
-} AnimationStates;
 
 typedef struct {
     Uint32 last_update;
@@ -59,6 +44,6 @@ void animation_step(Animator *animator, Texture *texture);
 
 void activate_animation(Animator *animator);
 
-void deactivate_animation(Animator *animator);
+void desactivate_animation(Animator *animator);
 
 #endif

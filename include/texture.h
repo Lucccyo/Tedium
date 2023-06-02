@@ -3,7 +3,7 @@
 
 #include "SDL2/SDL.h"
 
-#define RECTS_AMOUNT 15
+#define RECTS_AMOUNT 18
 
 enum {
     RECT_FLOOR,
@@ -21,29 +21,16 @@ enum {
     RECT_SKULL,
     RECT_TORCH,
     RECT_LIGHT,
+    RECT_MONSTER_A,
+    RECT_MONSTER_B,
+    RECT_MONSTER_C,
 };
 
 /* Contains all SDL_Textures used in the game */
 typedef struct {
     SDL_Texture* tileset;
-
     /* Rects list */
     SDL_Rect rects[RECTS_AMOUNT];
-
-
-    SDL_Texture* player;
-    SDL_Texture* monster_a;
-    SDL_Texture* monster_b;
-    SDL_Texture* monster_c;
-    SDL_Texture* door;
-
-
-
-    /* fire light animation test */
-    SDL_Texture* fire_light_animation0;
-    SDL_Texture* fire_light_animation1;
-
-
 } Texture;
 
 Texture * load_textures(SDL_Renderer* renderer);

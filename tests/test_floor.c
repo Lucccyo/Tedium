@@ -1,6 +1,6 @@
-#include "../include/room.h"
-#include "../include/floor.h"
-#include "../include/monster_hashtbl.h"
+#include "room.h"
+#include "floor.h"
+#include "monster_hashtbl.h"
 
 int main() {
     Hashtbl * h = create_hashtbl();
