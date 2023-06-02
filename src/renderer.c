@@ -65,6 +65,22 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture, Animator *a
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_BLOOD], &rect_dest);
                     break;
+                case 'o':
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->door, &Rect_source, &Rect_dest);
+                    break;
+                case 'A':
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->monster_a, &Rect_source, &Rect_dest);
+                    break;
+                case 'B':
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->monster_b, &Rect_source, &Rect_dest);
+                    break;
+                case 'C':
+                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->monster_c, &Rect_source, &Rect_dest);
+                    break;
                 default:
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
                     break;
@@ -97,23 +113,20 @@ void draw_lights(SDL_Renderer* renderer, Room *room, Texture *texture, Animator 
 }
 
 void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
-    SDL_Rect rect_dest;
-    rect_dest.w = DRAW_TILE_SIZE/2;
-    rect_dest.h = DRAW_TILE_SIZE/2;
+    SDL_Rect Rect_dest;
+    Rect_dest.w = DRAW_TILE_SIZE/2;
+    Rect_dest.h = DRAW_TILE_SIZE/2;
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
-        if (floor->rooms[i] == target_room) {
-            SDL_SetRenderDrawColor(renderer, 124, 123, 171, 255);
+        if (floor->rooms[i]->x == target_room->x && floor->rooms[i]->y == target_room->y) {
+            SDL_SetRenderDrawColor(renderer, 76, 0, 153, 255);
         } else {
-            SDL_SetRenderDrawColor(renderer, 80, 79, 110, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 102, 255);
         }
-        rect_dest.x = WINDOW_WIDTH - 100 + floor->rooms[i]->x * DRAW_TILE_SIZE;
-        rect_dest.y = floor->rooms[i]->y * DRAW_TILE_SIZE + 10;
-        SDL_RenderDrawRect(renderer, &rect_dest);
     }
 }
 
-void draw_player(SDL_Renderer *renderer, Player *player, Texture *texture) {
-    SDL_Rect newRect = {player->coordinate[0] * TILE_SIZE, player->coordinate[1] * TILE_SIZE, 24, 24};
-    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER], &newRect);
+void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
+    SDL_Rect newRect = {player->coordinate[0]*TILE_SIZE, player->coordinate[1]*TILE_SIZE, 24, 24};
+    SDL_RenderCopy(renderer, texture->player, NULL, &newRect);
 }

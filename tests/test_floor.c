@@ -3,7 +3,6 @@
 #include "../include/monster_hashtbl.h"
 
 int main() {
-
     Hashtbl * h = create_hashtbl();
 
     /* floor creation test */

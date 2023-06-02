@@ -1,7 +1,7 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include <../include/SDL2/SDL.h>
+#include "SDL2/SDL.h"
 
 #define RECTS_AMOUNT 15
 
@@ -32,6 +32,10 @@ typedef struct {
 
 
     SDL_Texture* player;
+    SDL_Texture* monster_a;
+    SDL_Texture* monster_b;
+    SDL_Texture* monster_c;
+    SDL_Texture* door;
 
 
 

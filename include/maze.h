@@ -4,11 +4,11 @@
 
 #define MAX_FLOOR 30
 
-#include "../include/player.h"
-#include "../include/room.h"
-#include "../include/floor.h"
-#include "../include/monster.h"
-#include "../include/monster_hashtbl.h"
+#include "player.h"
+#include "room.h"
+#include "floor.h"
+#include "monster.h"
+#include "monster_hashtbl.h"
 
 struct state {
   Player * player;

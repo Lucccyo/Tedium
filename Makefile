@@ -30,5 +30,17 @@ debug:
 	./a.out
 
 test-floor:
-	$(CC) -W -Wall src/floor.c src/room.c tests/test_floor.c src/monster_hashtbl.c
+	$(CC) -W -Wall tests/test_floor.c src/floor.c src/room.c src/monster_hashtbl.c
+	./a.out
+
+test-hashtbl:
+	$(CC) -W -Wall tests/test_hashtbl.c src/monster_hashtbl.c src/monster.c
+	./a.out
+
+test-maze:
+	$(CC) -W -Wall tests/test_maze.c src/maze.c src/room.c src/floor.c src/monster_hashtbl.c src/player.c
+	./a.out
+
+test-player:
+	$(CC) -W -Wall tests/test_player.c src/player.c
 	./a.out
