@@ -95,14 +95,6 @@ void gui_display(SDL_Renderer *renderer, GUI_Element *element)
     element->displayed = 1;
 };
 
-void draw_menu(SDL_Renderer *renderer, Interface *interface)
-{
-    for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
-    {
-        gui_display(renderer, interface->menu[i]);
-    }
-}
-
 void draw_hud(SDL_Renderer *renderer, Interface *interface)
 {
     // for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
@@ -128,6 +120,15 @@ void draw_hud(SDL_Renderer *renderer, Interface *interface)
         dest.x = 24 + i * 24 + (i - 1) * 8;
         dest.y = 16;
         SDL_RenderCopy(renderer, heart_texture, &stencil, &dest);
+    }
+}
+
+void draw_menu(SDL_Renderer *renderer, Interface *interface)
+{
+    draw_hud(renderer, interface);
+    for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
+    {
+        gui_display(renderer, interface->menu[i]);
     }
 }
 
