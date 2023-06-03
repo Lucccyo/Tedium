@@ -28,8 +28,6 @@ enum {
     MONSTER_C_ANIMATION_FRAMES = 1,
 };
 
-const int FRAME_AMOUNTS[ANIMATIONS_AMOUNT];
-
 typedef struct {
     Uint32 last_update;
     int update;

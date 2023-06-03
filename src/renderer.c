@@ -1,23 +1,17 @@
 #include<renderer.h>
 
-void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture *texture, Animator *animator) {
+void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture *texture) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    draw_room(renderer, target_room, texture, animator);
+    draw_room(renderer, target_room, texture);
     draw_minimap(renderer, floor, target_room);
     draw_player(renderer, player, texture);
-    draw_lights(renderer, target_room, texture, animator);
+    draw_lights(renderer, target_room, texture);
 }
 
-void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture, Animator *animator) {
+void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture) {
     SDL_Rect rect_dest;
     rect_dest.w = DRAW_TILE_SIZE;
     rect_dest.h = DRAW_TILE_SIZE;
-
-    SDL_Rect rect_source;
-    rect_source.w = TILE_SIZE;
-    rect_source.h = TILE_SIZE;
-    rect_source.x = 0;
-    rect_source.y = 0;
 
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 30; j++) {
@@ -89,7 +83,7 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture, Animator *a
     }
 }
 
-void draw_lights(SDL_Renderer* renderer, Room *room, Texture *texture, Animator *animator) {
+void draw_lights(SDL_Renderer* renderer, Room *room, Texture *texture) {
     SDL_Rect rect_dest;
     rect_dest.w = LIGHT_SIZE;
     rect_dest.h = LIGHT_SIZE;
@@ -118,11 +112,14 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     Rect_dest.h = DRAW_TILE_SIZE/2;
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
-        if (floor->rooms[i]->x == target_room->x && floor->rooms[i]->y == target_room->y) {
-            SDL_SetRenderDrawColor(renderer, 76, 0, 153, 255);
+        if (floor->rooms[i] == target_room) {
+            SDL_SetRenderDrawColor(renderer, 124, 123, 171, 255);
         } else {
-            SDL_SetRenderDrawColor(renderer, 0, 0, 102, 255);
+            SDL_SetRenderDrawColor(renderer, 80, 79, 110, 255);
         }
+        Rect_dest.x = WINDOW_WIDTH - 100 + floor->rooms[i]->x * DRAW_TILE_SIZE;
+        Rect_dest.y = floor->rooms[i]->y * DRAW_TILE_SIZE + 10;
+        SDL_RenderDrawRect(renderer, &Rect_dest);
     }
 }
 
