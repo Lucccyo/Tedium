@@ -11,7 +11,7 @@ INC=-I include/
 
 # Define library path depending on OS
 ifeq ($(UNAME_S),Linux)
-	LIB= -l sdl2_ttf -l SDL2-2.0 
+	LIB= -l sdl2_ttf -l SDL2_mixer-2.0 -l SDL2-2.0 
 else ifeq ($(UNAME_S),Darwin)
 	LIB= -l sdl2_ttf -l SDL2_mixer-2.0.0 -l SDL2
 else ifeq ($(UNAME_S),Windows)
