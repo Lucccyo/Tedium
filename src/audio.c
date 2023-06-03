@@ -14,6 +14,9 @@ Sound *create_sounds() {
     sounds->player_death = Mix_LoadWAV_RW(SDL_RWFromFile("audio/sfx/player_death.wav", "rb"), 1);
     sounds->enemy_death = Mix_LoadWAV_RW(SDL_RWFromFile("audio/sfx/enemy_death.wav", "rb"), 1);
     sounds->heal = Mix_LoadWAV_RW(SDL_RWFromFile("audio/sfx/heal.wav", "rb"), 1);
+    sounds->open_door = Mix_LoadWAV_RW(SDL_RWFromFile("audio/sfx/open_door.wav", "rb"), 1);
+    sounds->key_pickup = Mix_LoadWAV_RW(SDL_RWFromFile("audio/sfx/key_pickup.wav", "rb"), 1);
+    sounds->powerup_pickup = Mix_LoadWAV_RW(SDL_RWFromFile("audio/sfx/powerup_pickup.wav", "rb"), 1);
 
     return sounds;
 }
@@ -26,6 +29,8 @@ void play_music(Sound *sound) {
     }
 }
 
+
+/* Maybe just call Mix_PlayChannel instead of making a useless function each time ... */
 void play_attack_sound(Sound *sound) {
     int random = rand() % ATTACKS_AMOUNT;
     Mix_PlayChannel(-1, sound->attacks[random], 0);
@@ -41,4 +46,16 @@ void play_enemy_death_sound(Sound *sound) {
 
 void play_heal_sound(Sound *sound) {
     Mix_PlayChannel(-1, sound->heal, 0);
+}
+
+void play_open_door_sound(Sound *sound) {
+    Mix_PlayChannel(-1, sound->open_door, 0);
+}
+
+void play_key_pickup_sound(Sound *sound) {
+    Mix_PlayChannel(-1, sound->key_pickup, 0);
+}
+
+void play_powerup_pickup_sound(Sound *sound) {
+    Mix_PlayChannel(-1, sound->powerup_pickup, 0);
 }
