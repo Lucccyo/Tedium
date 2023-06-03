@@ -1,4 +1,4 @@
-#include "../include/maze.h"
+#include "maze.h"
 
 int main() {
     printf("Maze creation test\n");

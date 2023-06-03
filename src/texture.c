@@ -1,55 +1,40 @@
-#include "../include/texture.h"
+#include "texture.h"
 
 Texture * load_textures(SDL_Renderer* renderer) {
-    /* need complete rework, only one texture will be used in the future */
-
+    /* Load the tileset.bmp file into a texture */
     Texture * textures = (Texture *) malloc(sizeof(Texture));
-    SDL_Surface *tileset_surface = SDL_LoadBMP("img/floor.bmp");
-
-
+    SDL_Surface *tileset_surface = SDL_LoadBMP("img/tileset.bmp");
     textures->tileset = SDL_CreateTextureFromSurface(renderer, tileset_surface);
-
     SDL_FreeSurface(tileset_surface);
 
-    /* everything after must be removed once we use a tilset */
-    SDL_Surface *floor_image = SDL_LoadBMP("img/floor.bmp");
-    SDL_Surface *wall_image = SDL_LoadBMP("img/wall.bmp");
-    SDL_Surface *noir_image = SDL_LoadBMP("img/noir.bmp");
-    SDL_Surface *heart_image = SDL_LoadBMP("img/heart.bmp");
-    SDL_Surface *sword_image = SDL_LoadBMP("img/sword.bmp");
-    SDL_Surface *shield_image = SDL_LoadBMP("img/shield.bmp");
-    SDL_Surface *key_image = SDL_LoadBMP("img/key.bmp");
-    SDL_Surface *player_image = SDL_LoadBMP("img/player.bmp");
-    SDL_Surface *monster_a_image = SDL_LoadBMP("img/monster_a.bmp");
-    SDL_Surface *monster_b_image = SDL_LoadBMP("img/monster_b.bmp");
-    SDL_Surface *monster_c_image = SDL_LoadBMP("img/monster_c.bmp");
-    SDL_Surface *door_image = SDL_LoadBMP("img/door.bmp");
-
-    textures->floor = SDL_CreateTextureFromSurface(renderer, floor_image);
-    textures->wall = SDL_CreateTextureFromSurface(renderer, wall_image);
-    textures->noir = SDL_CreateTextureFromSurface(renderer, noir_image);
-    textures->heart = SDL_CreateTextureFromSurface(renderer, heart_image);
-    textures->sword = SDL_CreateTextureFromSurface(renderer, sword_image);
-    textures->shield = SDL_CreateTextureFromSurface(renderer, shield_image);
-    textures->key = SDL_CreateTextureFromSurface(renderer, key_image);
-    textures->player = SDL_CreateTextureFromSurface(renderer, player_image);
-    textures->monster_a = SDL_CreateTextureFromSurface(renderer, monster_a_image);
-    textures->monster_b = SDL_CreateTextureFromSurface(renderer, monster_b_image);
-    textures->monster_c = SDL_CreateTextureFromSurface(renderer, monster_c_image);
-    textures->door = SDL_CreateTextureFromSurface(renderer, door_image);
-
-    SDL_FreeSurface(floor_image);
-    SDL_FreeSurface(wall_image);
-    SDL_FreeSurface(noir_image);
-    SDL_FreeSurface(heart_image);
-    SDL_FreeSurface(sword_image);
-    SDL_FreeSurface(shield_image);
-    SDL_FreeSurface(key_image);
-    SDL_FreeSurface(player_image);
-    SDL_FreeSurface(monster_a_image);
-    SDL_FreeSurface(monster_b_image);
-    SDL_FreeSurface(monster_c_image);
-    SDL_FreeSurface(door_image);
+    /* Set each rect position to the first frame of each tile */
+    textures->rects[RECT_FLOOR] = create_rect(0, 0, 24, 24);
+    textures->rects[RECT_VOID] = create_rect(24, 0, 24, 24);
+    textures->rects[RECT_WALL] = create_rect(48, 0, 24, 24);
+    textures->rects[RECT_DOOR] = create_rect(72, 0, 24, 24);
+    textures->rects[RECT_PLAYER] = create_rect(0, 24, 24, 24);
+    textures->rects[RECT_ATTACK_POWERUP] = create_rect(0, 48, 24, 24);
+    textures->rects[RECT_DEFENSE_POWERUP] = create_rect(0, 72, 24, 24);
+    textures->rects[RECT_HEALTH_POWERUP] = create_rect(0, 96, 24, 24);
+    textures->rects[RECT_KEY] = create_rect(0, 120, 24, 24);
+    textures->rects[RECT_POTION] = create_rect(0, 144, 24, 24);
+    textures->rects[RECT_FIRE] = create_rect(0, 168, 24, 24);
+    textures->rects[RECT_BLOOD] = create_rect(0, 192, 24, 24);
+    textures->rects[RECT_SKULL] = create_rect(0, 216, 24, 24);
+    textures->rects[RECT_TORCH] = create_rect(0, 240, 24, 24);
+    textures->rects[RECT_LIGHT] = create_rect(0, 264, 72, 72);
+    textures->rects[RECT_MONSTER_A] = create_rect(0, 336, 24, 24);
+    textures->rects[RECT_MONSTER_B] = create_rect(0, 360, 24, 24);
+    textures->rects[RECT_MONSTER_C] = create_rect(0, 384, 24, 24);
 
     return textures;
+}
+
+SDL_Rect create_rect(int x, int y, int w, int h) {
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
+    return rect;
 }

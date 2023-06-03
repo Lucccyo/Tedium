@@ -1,4 +1,4 @@
-#include "../include/floor.h"
+#include "floor.h"
 
 Floor* create_floor(char level_path[], Hashtbl *monsters) {
     /* get level number in level_path */

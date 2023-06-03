@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/player.h"
+#include "player.h"
 
 int main() {
     Player * p = create_player(0, 0);

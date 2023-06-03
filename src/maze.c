@@ -1,10 +1,10 @@
 #include <dirent.h>
 #include <string.h>
 #include <stdio.h>
-#include "../include/player.h"
-#include "../include/floor.h"
-#include "../include/maze.h"
-#include "../include/monster_hashtbl.h"
+#include "player.h"
+#include "floor.h"
+#include "maze.h"
+#include "monster_hashtbl.h"
 
 Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
   Maze * maze = (Maze*) malloc(sizeof(Maze));
