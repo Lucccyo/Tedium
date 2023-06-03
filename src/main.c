@@ -63,6 +63,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
       return 1;
     case 'Z':
       // potion
+      play_heal_sound(sounds);
       full_health(maze->state->player->health);
       *tile = ' ';
       return 1;
@@ -208,7 +209,7 @@ int main() {
     /* drawing */
     SDL_RenderClear(renderer);
     animation_step(animator, texture);
-    sound_step(sounds);
+    play_music(sounds);
     draw_game(renderer, maze->state->current_floor, maze->state->current_room, maze->state->player, texture, animator);
     SDL_RenderPresent(renderer);
   }
