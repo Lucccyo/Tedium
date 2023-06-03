@@ -37,6 +37,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
       break;
     case '!':
       // key
+      play_key_pickup_sound(sounds);
       update_key(&(maze->state->player->key_number), 1);
       *tile = ' ';
       return 1;
@@ -44,6 +45,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
     case '1':
       // attack powerup
       // increase by one the attack of the player
+      play_powerup_pickup_sound(sounds);
       update_stats((maze->state->player->stats), attack);
       *tile = ' ';
       return 1;
@@ -51,6 +53,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
     case '2':
       // defense powerup
       // increase by one the defense of the player
+      play_powerup_pickup_sound(sounds);
       update_stats((maze->state->player->stats), defense);
       *tile = ' ';
       return 1;
@@ -58,6 +61,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
     case '3':
       // health powerup
       // increase by three health and max_health
+      play_powerup_pickup_sound(sounds);
       update_max_health((maze->state->player->health), 3);
       *tile = ' ';
       return 1;
@@ -101,6 +105,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
     case 'o':
       // door
       if(maze->state->player->key_number > 0) {
+        play_open_door_sound(sounds);
         update_key(&(maze->state->player->key_number), -1);
         printf("\033[1;31mLa porte est ouverte.\033[0m\n");
         *tile = ' ';
