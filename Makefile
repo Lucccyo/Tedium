@@ -13,20 +13,20 @@ INC=-I include/
 ifeq ($(UNAME_S),Linux)
 	LIB=-L lib/linux/ -l SDL2-2.0
 else ifeq ($(UNAME_S),Darwin)
-	LIB=-L lib/mac/ -l SDL2-2.0.0
+	LIB=-L lib/mac/ -l SDL2_mixer-2.0.0 -l SDL2-2.0.0
 else ifeq ($(UNAME_S),Windows)
 	LIB=-L lib/win/ -l SDL2-2.0.0
 endif
 
-SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c src/monster_hashtbl.c src/renderer.c src/maze.c src/animator.c
+SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c src/monster_hashtbl.c src/renderer.c src/maze.c src/animator.c src/audio.c
 EXEC=main
 
 main:
-	$(CC) $(SRC) $(LIB) $(INC)
+	$(CC) $(SRC) $(INC) $(LIB)
 	./a.out
 
 debug:
-	$(CC) $(CFLAGS) $(SRC) $(LIB) $(INC)
+	$(CC) $(CFLAGS) $(SRC) $(INC) $(LIB)
 	./a.out
 
 test-floor:
