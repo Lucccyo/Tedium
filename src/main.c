@@ -116,7 +116,6 @@ int main() {
   SDL_Event event;
   SDL_Window *window = NULL;
   SDL_Renderer *renderer = NULL;
-  Uint32 last_update = SDL_GetTicks();
 
   int quit = 0;
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -143,8 +142,6 @@ int main() {
   Texture *texture = load_textures(renderer);
 
   while (!quit) {
-    Uint32 current_time = SDL_GetTicks();
-
     while (SDL_PollEvent(&event) != 0) {
       switch (event.type) {
         case SDL_QUIT:
@@ -183,13 +180,10 @@ int main() {
         default: break;
       }
     }
-
-    last_update = SDL_GetTicks();
-
     /* drawing */
     SDL_RenderClear(renderer);
     animation_step(animator, texture);
-    draw_game(renderer, maze->state->current_floor, maze->state->current_room, maze->state->player, texture, animator);
+    draw_game(renderer, maze->state->current_floor, maze->state->current_room, maze->state->player, texture);
     SDL_RenderPresent(renderer);
   }
 
