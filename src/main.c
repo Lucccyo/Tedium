@@ -251,7 +251,6 @@ int main()
         default: break;
       }
     }
-
     /* drawing */
     SDL_RenderClear(renderer);
     animation_step(animator, texture);
