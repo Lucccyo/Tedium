@@ -13,7 +13,7 @@ INC=-I include/
 ifeq ($(UNAME_S),Linux)
 	LIB=-L lib/linux/ -l SDL2-2.0
 else ifeq ($(UNAME_S),Darwin)
-	LIB=-L lib/mac/ -l SDL2-2.0.0
+	LIB=-L lib/mac/ -l SDL2
 else ifeq ($(UNAME_S),Windows)
 	LIB=-L lib/win/ -l SDL2-2.0.0
 endif

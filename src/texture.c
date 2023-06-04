@@ -12,7 +12,6 @@ Texture * load_textures(SDL_Renderer* renderer) {
     textures->rects[RECT_VOID] = create_rect(24, 0, 24, 24);
     textures->rects[RECT_WALL] = create_rect(48, 0, 24, 24);
     textures->rects[RECT_DOOR] = create_rect(72, 0, 24, 24);
-    textures->rects[RECT_PLAYER] = create_rect(0, 24, 24, 24);
     textures->rects[RECT_ATTACK_POWERUP] = create_rect(0, 48, 24, 24);
     textures->rects[RECT_DEFENSE_POWERUP] = create_rect(0, 72, 24, 24);
     textures->rects[RECT_HEALTH_POWERUP] = create_rect(0, 96, 24, 24);
@@ -26,7 +25,10 @@ Texture * load_textures(SDL_Renderer* renderer) {
     textures->rects[RECT_MONSTER_A] = create_rect(0, 336, 24, 24);
     textures->rects[RECT_MONSTER_B] = create_rect(0, 360, 24, 24);
     textures->rects[RECT_MONSTER_C] = create_rect(0, 384, 24, 24);
-
+    textures->rects[RECT_PLAYER_FRONT] = create_rect(0, 24, 24, 24);
+    textures->rects[RECT_PLAYER_BACK] = create_rect(24, 24, 24, 24);
+    textures->rects[RECT_PLAYER_LEFT] = create_rect(48, 24, 24, 24);
+    textures->rects[RECT_PLAYER_RIGHT] = create_rect(72, 24, 24, 24);
     return textures;
 }
 

@@ -152,24 +152,28 @@ int main() {
             case SDLK_a:
             case SDLK_q:
             case SDLK_LEFT:
-            move(maze, maze->state->player->coordinate[1],
-                 maze->state->player->coordinate[0] - 1, &go_left, WEST);
+              move(maze, maze->state->player->coordinate[1],
+                  maze->state->player->coordinate[0] - 1, &go_left, WEST);
+              maze->state->player->direction = left;
             break;
             case SDLK_d:
             case SDLK_RIGHT:
               move(maze, maze->state->player->coordinate[1],
                    maze->state->player->coordinate[0] + 1, &go_right, EAST);
+              maze->state->player->direction = right;
               break;
             case SDLK_w:
             case SDLK_z:
             case SDLK_UP:
               move(maze, maze->state->player->coordinate[1] - 1,
                    maze->state->player->coordinate[0], &go_up, NORTH);
+              maze->state->player->direction = back;
               break;
             case SDLK_s:
             case SDLK_DOWN:
               move(maze, maze->state->player->coordinate[1] + 1,
                    maze->state->player->coordinate[0], &go_down, SOUTH);
+              maze->state->player->direction = front;
               break;
             case SDLK_p:
               display_player(maze->state->player);

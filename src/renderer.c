@@ -125,5 +125,20 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
 
 void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
     SDL_Rect rect_dest = {player->coordinate[0]*TILE_SIZE, player->coordinate[1]*TILE_SIZE, 24, 24};
-    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER], &rect_dest);
+    switch (player->direction) {
+        case left:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_LEFT], &rect_dest);
+            break;
+        case right:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_RIGHT], &rect_dest);
+            break;
+        case back:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_BACK], &rect_dest);
+            break;
+        case front:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_FRONT], &rect_dest);
+            break;
+        default:
+            break;
+        }
 }

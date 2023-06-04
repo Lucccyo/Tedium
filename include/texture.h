@@ -3,14 +3,13 @@
 
 #include "SDL2/SDL.h"
 
-#define RECTS_AMOUNT 18
+#define RECTS_AMOUNT 21
 
 enum {
     RECT_FLOOR,
     RECT_VOID,
     RECT_WALL,
     RECT_DOOR,
-    RECT_PLAYER,
     RECT_ATTACK_POWERUP,
     RECT_DEFENSE_POWERUP,
     RECT_HEALTH_POWERUP,
@@ -24,6 +23,10 @@ enum {
     RECT_MONSTER_A,
     RECT_MONSTER_B,
     RECT_MONSTER_C,
+    RECT_PLAYER_FRONT,
+    RECT_PLAYER_BACK,
+    RECT_PLAYER_LEFT,
+    RECT_PLAYER_RIGHT,
 };
 
 /* Contains all SDL_Textures used in the game */

@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 
+enum {left, right, back, front};
 enum {x, y};
 enum {attack, defense};
 enum {health, max_health};
@@ -19,6 +20,7 @@ struct player {
   /* coordinate[0] -> x position in current room
      coordinate[1] -> y position in current room */
   int coordinate[2];
+  int direction;
 };
 typedef struct player Player ;
 
