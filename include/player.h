@@ -1,6 +1,7 @@
 #ifndef PLAYER_FILE
 #define PLAYER_FILE
 
+#include <stdio.h>
 #include <stdlib.h>
 
 enum {left, right, back, front};

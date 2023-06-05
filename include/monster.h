@@ -1,6 +1,7 @@
 #ifndef MONSTER_FILE
 #define MONSTER_FILE
 
+#include <stdio.h>
 #include <stdlib.h>
 
 struct monster {
