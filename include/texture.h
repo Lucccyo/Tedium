@@ -5,7 +5,8 @@
 
 #define RECTS_AMOUNT 21
 
-enum {
+enum
+{
     RECT_FLOOR,
     RECT_VOID,
     RECT_WALL,
@@ -30,8 +31,9 @@ enum {
 };
 
 /* Contains all SDL_Textures used in the game */
-typedef struct {
-    SDL_Texture* tileset;
+typedef struct
+{
+    SDL_Texture *tileset;
     /* Rects list */
     SDL_Rect rects[RECTS_AMOUNT];
 
@@ -46,6 +48,5 @@ typedef struct {
 Texture *load_textures(SDL_Renderer *renderer);
 
 SDL_Rect create_rect(int x, int y, int w, int h);
-
 
 #endif
