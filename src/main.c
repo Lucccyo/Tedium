@@ -112,15 +112,13 @@ void move(Maze * maze, int x, int y, void (*pf)(int *), Direction d) {
     (*pf)(maze->state->player->coordinate);
 }
 
-int main()
-{
+int main() {
   SDL_Event event;
   SDL_Window *window = NULL;
   SDL_Renderer *renderer = NULL;
 
   int quit = 0;
-  if (SDL_Init(SDL_INIT_VIDEO) < 0)
-  {
+  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     printf("Error inititializing SDL: %s\n", SDL_GetError());
     return 1;
   }
@@ -133,8 +131,7 @@ int main()
   }
 
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  if (renderer == NULL)
-  {
+  if (renderer == NULL) {
     printf("Error creating renderer: %s\n", SDL_GetError());
     return 1;
   }
@@ -189,12 +186,10 @@ int main()
               break;
              // show GUI menu window on escape
         case SDLK_ESCAPE:
-          if (get_current_screen() == 2)
-          {
+          if (get_current_screen() == 2) {
             set_current_screen(1);
           }
-          else
-          {
+          else {
             set_current_screen(2);
           }
         default:
@@ -204,17 +199,13 @@ int main()
 
       // Look for GUI clicks on mouse down
       case SDL_MOUSEBUTTONDOWN:
-        for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
-        {
-          if (gui_clicked(event.button, interface->menu[i]))
-          {
+        for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++) {
+          if (gui_clicked(event.button, interface->menu[i])) {
             interface->menu[i]->callback(i);
           }
         }
-        for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
-        {
-          if (gui_clicked(event.button, interface->hud[i]))
-          {
+        for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++) {
+          if (gui_clicked(event.button, interface->hud[i])) {
             interface->menu[i]->callback(i);
           }
         }
