@@ -145,8 +145,6 @@ int main()
   Texture *texture = load_textures(renderer);
   Interface *interface = load_interfaces(renderer, maze);
 
-  Interface *interface = load_interfaces(renderer, maze);
-
   while (!quit)
   {
     // Quit game on quit button clicked
