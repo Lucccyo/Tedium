@@ -1,8 +1,10 @@
 #ifndef PLAYER_FILE
 #define PLAYER_FILE
 
+#include <stdio.h>
 #include <stdlib.h>
 
+enum {left, right, back, front};
 enum {x, y};
 enum {attack, defense};
 enum {health, max_health};
@@ -19,6 +21,7 @@ struct player {
   /* coordinate[0] -> x position in current room
      coordinate[1] -> y position in current room */
   int coordinate[2];
+  int direction;
 };
 typedef struct player Player ;
 
@@ -32,11 +35,11 @@ void go_up    (int* coordinate);
 void go_down  (int* coordinate);
 
 /* stats functions */
-void full_health(int* health);
-void update_health(int* health, int update);
-void update_max_health(int* health, int update);
-void update_stats(int* stats, int branch);
-void update_key(int* key_number, int update);
+void full_health (int* health);
+void update_health (int* health, int update);
+void update_max_health (int* health, int update);
+void update_stats (int* stats, int branch);
+void update_key (int* key_number, int update);
 
 /* display debug */
 void display_player(Player *p);

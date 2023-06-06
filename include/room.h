@@ -1,16 +1,16 @@
 #ifndef ROOM_H
 #define ROOM_H
 
-#define ROOM_SIZE 30
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/* used to remove problematic non-ascii char from level files */
 #include <wchar.h>
 #include <wctype.h>
 #include <locale.h>
-#include "../include/monster_hashtbl.h"
+#include <time.h>
+#include "monster_hashtbl.h"
+
+#define ROOM_SIZE 30
 
 typedef enum {
     NORTH,
@@ -35,6 +35,9 @@ void handle_neighbor(Room* room, char *path, char *line, Direction direction, Ro
 
 /* Set all the coordinates by recursively traveling through rooms neighbors */
 void set_rooms_coordinates(Room *room);
+
+/* Randomly add decorations on the floor tiles s*/
+void add_decorations(Room *room);
 
 /* Free the specified room and all of its attributes */
 void free_room(Room *room);

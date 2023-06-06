@@ -1,10 +1,4 @@
-#include <dirent.h>
-#include <string.h>
-#include <stdio.h>
-#include "../include/player.h"
-#include "../include/floor.h"
-#include "../include/maze.h"
-#include "../include/monster_hashtbl.h"
+#include "maze.h"
 
 Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
   Maze * maze = (Maze*) malloc(sizeof(Maze));
@@ -24,7 +18,7 @@ Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
         strcpy(path, path_to_dir);
         strcat(path, dir->d_name);
         strcat(path, "/");
-        Floor *floor = create_floor(path, maze->monsters);
+        Floor *floor = create_floor(path, monsters);
         maze->floors[maze->max_floor] = floor;
         (maze->max_floor)++;
       }
@@ -32,9 +26,7 @@ Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
   }
   closedir(fd);
   maze->state->current_floor = maze->floors[0];
-  Room *starting_room = malloc(sizeof(Room));
-  memcpy(starting_room, maze->floors[0]->rooms[0], sizeof(Room));
-  maze->state->current_room = starting_room;
+  maze->state->current_room = maze->floors[0]->rooms[0];
   maze->state->player = player;
   return maze;
 }

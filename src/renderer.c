@@ -1,66 +1,111 @@
-#include<../include/renderer.h>
+#include<renderer.h>
 
-void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture * texture) {
+void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *player, Texture *texture) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     draw_room(renderer, target_room, texture);
     draw_minimap(renderer, floor, target_room);
     draw_player(renderer, player, texture);
+    draw_lights(renderer, target_room, texture);
 }
 
-void draw_room(SDL_Renderer* renderer, Room *room, Texture * texture) {
-    SDL_Rect Rect_dest;
-    Rect_dest.w = DRAW_TILE_SIZE;
-    Rect_dest.h = DRAW_TILE_SIZE;
-
-    SDL_Rect Rect_source;
-    Rect_source.w = TILE_SIZE;
-    Rect_source.h = TILE_SIZE;
-    Rect_source.x = 0;
-    Rect_source.y = 0;
+void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture) {
+    SDL_Rect rect_dest;
+    rect_dest.w = DRAW_TILE_SIZE;
+    rect_dest.h = DRAW_TILE_SIZE;
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 30; j++) {
-            Rect_dest.x = i * DRAW_TILE_SIZE;
-            Rect_dest.y = j * DRAW_TILE_SIZE;
+            rect_dest.x = i * DRAW_TILE_SIZE;
+            rect_dest.y = j * DRAW_TILE_SIZE;
             switch (room->tiles[j][i]) {
-                case '#':
+                case EMPTY:
                     if (j - 1 >= 0 && room->tiles[j-1][i] != '#') {
-                        SDL_RenderCopy(renderer, texture->wall, &Rect_source, &Rect_dest);
-                    } else { SDL_RenderCopy(renderer, texture->noir, &Rect_source, &Rect_dest); }
+                        SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_WALL], &rect_dest);
+                    } else { SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_VOID], &rect_dest); }
                     break;
-                case '!':
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture->key, &Rect_source, &Rect_dest);
+                case KEY:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_KEY], &rect_dest);
                     break;
-                case '1':
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture->sword, &Rect_source, &Rect_dest);
+                case POTION:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_POTION], &rect_dest);
                     break;
-                case '2':
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture->shield, &Rect_source, &Rect_dest);
+                case ATTACK_POWERUP:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_ATTACK_POWERUP], &rect_dest);
                     break;
-                case '3':
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
-                    SDL_RenderCopy(renderer, texture->heart, &Rect_source, &Rect_dest);
+                case DEFENSE_POWERUP:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_DEFENSE_POWERUP], &rect_dest);
+                    break;
+                case HEALTH_POWERUP:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_HEALTH_POWERUP], &rect_dest);
+                    break;
+                case SKULL:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_SKULL], &rect_dest);
+                    break;
+                case TORCH:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_TORCH], &rect_dest);
+                    break;
+                case FIRE:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FIRE], &rect_dest);
+                    break;
+                case BLOOD:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_BLOOD], &rect_dest);
+                    break;
+                case 'o':
+                    rect_dest.y = (j-1) * TILE_SIZE;
+                    rect_dest.h = TILE_SIZE * 2;
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_DOOR], &rect_dest);
+                    rect_dest.h = TILE_SIZE;
+                    break;
+                case 'A':
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    draw_monster(renderer, i, j, room->tiles[j][i], texture);
+                    break;
+                case 'B':
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    draw_monster(renderer, i, j, room->tiles[j][i], texture);
+                    break;
+                case 'C':
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    draw_monster(renderer, i, j, room->tiles[j][i], texture);
                     break;
                 default:
-                    SDL_RenderCopy(renderer, texture->floor, &Rect_source, &Rect_dest);
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
                     break;
             }
         }
     }
 }
 
-void draw_light(SDL_Renderer* renderer, int x, int y) {
-    SDL_Surface *light_surface = SDL_LoadBMP("img/light.bmp");
-    SDL_Texture *light = SDL_CreateTextureFromSurface(renderer, light_surface);
-    SDL_SetTextureBlendMode(light, SDL_BLENDMODE_ADD);
-    SDL_Rect Rect_dest;
-    Rect_dest.w = TILE_SIZE * 5;
-    Rect_dest.h = TILE_SIZE * 5;
-    Rect_dest.x = x;
-    Rect_dest.y = y;
-    SDL_RenderCopy(renderer, light, NULL, &Rect_dest);
+void draw_lights(SDL_Renderer* renderer, Room *room, Texture *texture) {
+    SDL_Rect rect_dest;
+    rect_dest.w = LIGHT_SIZE;
+    rect_dest.h = LIGHT_SIZE;
+    /* Draw light over room objects */
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 30; j++) {
+            rect_dest.x = i * DRAW_TILE_SIZE;
+            rect_dest.y = j * DRAW_TILE_SIZE;
+            switch (room->tiles[j][i]) {
+                /* Torch light */
+                case FIRE:
+                    rect_dest.x = i * TILE_SIZE - LIGHT_SIZE / 2 + TILE_SIZE / 2;
+                    rect_dest.y = j * TILE_SIZE - LIGHT_SIZE / 2 + TILE_SIZE / 2;
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_LIGHT], &rect_dest);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
@@ -69,10 +114,10 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     Rect_dest.h = DRAW_TILE_SIZE/2;
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
-        if (floor->rooms[i]->x == target_room->x && floor->rooms[i]->y == target_room->y) {
-            SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
+        if (floor->rooms[i] == target_room) {
+            SDL_SetRenderDrawColor(renderer, 124, 123, 171, 255);
         } else {
-            SDL_SetRenderDrawColor(renderer, 75, 75, 90, 255);
+            SDL_SetRenderDrawColor(renderer, 80, 79, 110, 255);
         }
         Rect_dest.x = WINDOW_WIDTH - 100 + floor->rooms[i]->x * DRAW_TILE_SIZE;
         Rect_dest.y = floor->rooms[i]->y * DRAW_TILE_SIZE + 10;
@@ -80,7 +125,39 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     }
 }
 
+void draw_monster(SDL_Renderer *renderer, int x, int y, char monster_type, Texture *texture) {
+    SDL_Rect rect_dest = {x * TILE_SIZE, (y - 1) * TILE_SIZE, 24, 48};
+    switch (monster_type) {
+        case 'A':
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_A], &rect_dest);
+            break;
+        case 'B':
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_B], &rect_dest);
+            break;
+        case 'C':
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_C], &rect_dest);
+            break;
+        default:
+            break;
+    }
+}
+
 void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
-    SDL_Rect newRect = {player->coordinate[0]*TILE_SIZE, player->coordinate[1]*TILE_SIZE, 24, 24};
-    SDL_RenderCopy(renderer, texture->player, NULL, &newRect);
+    SDL_Rect rect_dest = {player->coordinate[0] * TILE_SIZE, (player->coordinate[1] - 1) * TILE_SIZE, 24, 48};
+    switch (player->direction) {
+        case left:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_LEFT], &rect_dest);
+            break;
+        case right:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_RIGHT], &rect_dest);
+            break;
+        case back:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_BACK], &rect_dest);
+            break;
+        case front:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_FRONT], &rect_dest);
+            break;
+        default:
+            break;
+        }
 }

@@ -1,13 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../include/player.h"
+#include "player.h"
 
-enum {attack, defense};
-
-int main(int argc, char const *argv[])
-{
-    Player * p = create_player();
+int main() {
+    Player * p = create_player(0, 0);
     display_player(p);
     go_right(p->coordinate);
     update_max_health(p->health, 3);

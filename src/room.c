@@ -1,8 +1,16 @@
-#include "../include/room.h"
+#include "room.h"
 
 Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount, Hashtbl *monsters) {
     /* format file to replace '§' with 'Z' */
     replace_character_in_file(room_path, L'§', L'Z');
+
+    /* format room_path to keep only the level name and extract level id */
+    char level_name[30];
+    char *str = strchr(room_path + 1, '/');
+    strcpy(level_name, str + 1);
+    char *str2 = strchr(level_name + 1, '/');
+    *str2 = '\0';
+    int level_id = atoi(level_name + 5);
 
     /* Room initialization */
     Room *room = calloc(1, sizeof(Room));
@@ -26,7 +34,10 @@ Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_d
     (*rooms_done_amount)++;
 
     /* Used as temp variable for monsters stats */
-    int hp, force, armor;
+    int health_a, attack_a, defense_a;
+    int health_b, attack_b, defense_b;
+    int health_c, attack_c, defense_c;
+    health_a = health_b = health_c = attack_a = attack_b = attack_c = defense_a = defense_b = defense_c = 0;
 
     char line[31];
     int actual_line = 0;
@@ -42,7 +53,7 @@ Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_d
         if (strspn(line, " \t\n\r") == strlen(line))
             continue;
         /* Tiles */
-        if (actual_line < 30){ 
+        if (actual_line < 30){
             strncpy(room->tiles[actual_line], line, 30);
             actual_line++;
         /* Neigbors */
@@ -57,35 +68,55 @@ Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_d
         /* Monsters */
         } else if (strncmp(line, "A ", 1) == 0) {
             fgets(line, sizeof(line), file);
-            sscanf(line, "Pv : %d", &hp);
+            sscanf(line, "Pv : %d", &health_a);
             fgets(line, sizeof(line), file);
-            sscanf(line, "Force : %d", &force);
+            sscanf(line, "Force : %d", &attack_a);
             fgets(line, sizeof(line), file);
-            sscanf(line, "Armure : %d", &armor);
+            sscanf(line, "Armure : %d", &defense_a);
             /* TODO: populate hashtable */
         } else if (strncmp(line, "B : ", 1) == 0) {
             fgets(line, sizeof(line), file);
-            sscanf(line, "Pv : %d", &hp);
+            sscanf(line, "Pv : %d", &health_b);
             fgets(line, sizeof(line), file);
-            sscanf(line, "Force : %d", &force);
+            sscanf(line, "Force : %d", &attack_b);
             fgets(line, sizeof(line), file);
-            sscanf(line, "Armure : %d", &armor);
+            sscanf(line, "Armure : %d", &defense_b);
             /* TODO: populate hashtable */
         } else if (strncmp(line, "C : ", 1) == 0) {
             fgets(line, sizeof(line), file);
-            sscanf(line, "Pv : %d", &hp);
+            sscanf(line, "Pv : %d", &health_c);
             fgets(line, sizeof(line), file);
-            sscanf(line, "Force : %d", &force);
+            sscanf(line, "Force : %d", &attack_b);
             fgets(line, sizeof(line), file);
-            sscanf(line, "Armure : %d", &armor);
+            sscanf(line, "Armure : %d", &defense_c);
             /* TODO: populate hashtable */
         }
     }
     fclose(file);
-    
+
+    for (int i = 0; i < ROOM_SIZE; i++) {
+        for (int j = 0; j < ROOM_SIZE; j++) {
+            if (room->tiles[i][j] == 'A' || room->tiles[i][j] == 'B' || room->tiles[i][j] == 'C') {
+                switch (room->tiles[i][j]) {
+                    case 'A':
+                        insert_monster(monsters, j, i, room->name, level_id, health_a, attack_a, defense_a);
+                        break;
+                    case 'B':
+                        insert_monster(monsters, j, i, room->name, level_id, health_b, attack_b, defense_b);
+                        break;
+                    case 'C':
+                        insert_monster(monsters, j, i, room->name, level_id, health_c, attack_c, defense_c);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
     /* format file again to replace 'Z' with '§' */
     replace_character_in_file(room_path, L'Z', L'§');
-    
+
+    add_decorations(room);
     return room;
 }
 
@@ -127,6 +158,21 @@ void handle_neighbor(Room* room, char *path, char *line, Direction direction, Ro
     }
 }
 
+void add_decorations(Room *room) {
+    /* must be set in the maze creation to have the same seed for all rooms */
+    srand(time(NULL));
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 30; j++) {
+            if (room->tiles[i][j] == ' ' && rand() % 100 < 5) {
+                int decoration_value = rand() % 5 + 4;
+                char decoration_char[2];
+                sprintf(decoration_char, "%d", decoration_value);
+                room->tiles[i][j] = decoration_char[0];
+            }
+        }
+    }
+}
+
 void free_room(Room *room) {
     free(room);
     room = NULL;
@@ -134,7 +180,7 @@ void free_room(Room *room) {
 
 void replace_character_in_file(const char* file_path, wchar_t target_char, wchar_t replacement_char) {
     // Set the locale to use the system's default encoding
-    setlocale(LC_ALL, ""); 
+    setlocale(LC_ALL, "");
 
     // Open the input file
     FILE* input_file = fopen(file_path, "r");
@@ -183,6 +229,6 @@ void display_room(Room *room) {
     }
     if (room->neighbors[NORTH] != NULL) { printf("North : %s\n", room->neighbors[NORTH]->name); }
     if (room->neighbors[SOUTH] != NULL) { printf("South : %s\n", room->neighbors[SOUTH]->name); }
-    if (room->neighbors[EAST] != NULL)  { printf("East : %s\n", room->neighbors[EAST]->name); }
-    if (room->neighbors[WEST] != NULL)  { printf("West : %s\n", room->neighbors[WEST]->name); }
+    if (room->neighbors[EAST]  != NULL)  { printf("East : %s\n", room->neighbors[EAST]->name); }
+    if (room->neighbors[WEST]  != NULL)  { printf("West : %s\n", room->neighbors[WEST]->name); }
 }

@@ -1,16 +1,24 @@
 #ifndef HASHTBL_FILE
 #define HASHTBL_FILE
 
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <assert.h>
+#include <string.h>
 #include "monster.h"
+
 #define MAX_SIZE 1024
 
 struct elem {
-  /* the sum of x,y and room_id */
+  /* the sum of x, y, room_name and floor_num */
   int key;
-  int x;
-  int y;
-  int room_id;
   Monster * value;
+  int x_tile;
+  int y_tile;
+  char room_name[15];
+  int floor_num;
 };
 typedef struct elem Elem;
 
@@ -21,13 +29,23 @@ struct hashtbl {
 };
 typedef struct hashtbl Hashtbl;
 
-Hashtbl * create_hashtbl ();
-void reset_elem (Elem * e, int x, int y, int room_id, struct monster * m);
-void insert_monster (Hashtbl * h, int x, int y, int room_id, struct monster * m);
-void display_h (Hashtbl * h);
-void display_e (Elem * h);
+Hashtbl * create_hashtbl();
+void insert_monster (
+    Hashtbl * h,
+    int x_tile, int y_tile,
+    char room_name[],
+    int floor_num,
+    int health_max,
+    int attack, int defense);
+void reset_elem (
+    Elem * e,
+    int x_tile, int y_tile,
+    char room_name[],
+    int floor_num,
+    Monster * m);
+Monster * find_monster (Hashtbl * h, int x, int y, char room_name[], int floor_num);
+void remove_monster    (Hashtbl * h, int x, int y, char room_name[], int floor_num);
 
-Monster * find_monster(Hashtbl * h, int x, int y, int room_id);
-void remove_monster (Hashtbl * h, int x, int y, int room_id);
+void display_hashtbl(Hashtbl * h);
 
 #endif
