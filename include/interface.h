@@ -27,6 +27,5 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface);
 
 void set_current_screen(int screen);
 int get_current_screen();
-int current_screen;
 
 #endif
