@@ -58,4 +58,7 @@ void draw_monster(SDL_Renderer *renderer, int x, int y, char monster_type, Textu
 /* Draw the player (test sprite actually) */
 void draw_player(SDL_Renderer *renderer, Player *player, Texture *texture);
 
+/* Draw all the doors of the room (must be caled after draw_player to prevent overlap) */
+void draw_doors(SDL_Renderer *renderer, Room *room, Texture *texture);
+
 #endif

@@ -5,6 +5,7 @@ void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *
     draw_room(renderer, target_room, texture);
     draw_minimap(renderer, floor, target_room);
     draw_player(renderer, player, texture);
+    draw_doors(renderer, target_room, texture);
     draw_lights(renderer, target_room, texture);
 }
 
@@ -60,13 +61,6 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture) {
                 case FIRE:
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FIRE], &rect_dest);
-                    break;
-                case DOOR:
-                    rect_dest.y = (j-1) * TILE_SIZE;
-                    rect_dest.h = TILE_SIZE * 2;
-                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
-                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_DOOR], &rect_dest);
-                    rect_dest.h = TILE_SIZE;
                     break;
                 case MONSTER_A:
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
@@ -163,4 +157,19 @@ void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
         default:
             break;
         }
+}
+
+void draw_doors(SDL_Renderer *renderer, Room *room, Texture *texture) {
+    SDL_Rect rect_dest;
+    rect_dest.w = TILE_SIZE;
+    rect_dest.h = TILE_SIZE * 2;
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 30; j++) {
+            rect_dest.x = i * DRAW_TILE_SIZE;
+            rect_dest.y = (j-1) * DRAW_TILE_SIZE;
+            if (room->tiles[j][i] == DOOR) {
+                SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_DOOR], &rect_dest);
+            }
+        }
+    }
 }

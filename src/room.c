@@ -163,11 +163,25 @@ void add_decorations(Room *room) {
     srand(time(NULL));
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 30; j++) {
-            if (room->tiles[i][j] == ' ' && rand() % 100 < 5) {
-                int decoration_value = rand() % 4 + 4;
+            /* Tiles decorations */
+            if (room->tiles[i][j] == ' ' && rand() % 100 < 15) {
+                int decoration_value = rand() % 3 + 4;
                 char decoration_char[2];
                 sprintf(decoration_char, "%d", decoration_value);
                 room->tiles[i][j] = decoration_char[0];
+            /* Fire decoration */
+            } else if (room->tiles[i][j] == ' ' && rand() % 100 < 2) {
+                int can_have_fire = 1;
+                for (int dx = -1; dx < 2; dx++) {
+                    for (int dy = -1; dy < 2; dy++) {
+                        if (i + dx >= 0 && i + dx < 30 && j + dy >= 0 && j + dy < 30 && room->tiles[i + dx][j + dy] == '#') {
+                            can_have_fire = 0;
+                        }
+                    }
+                }
+                if (can_have_fire == 1) {
+                    room->tiles[i][j] = '7';
+                }
             }
         }
     }

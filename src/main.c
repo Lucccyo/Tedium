@@ -59,6 +59,11 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir) {
       update_max_health((maze->state->player->health), 3);
       *tile = ' ';
       return 1;
+    case '7':
+    // Fire decoration
+    // Block the player
+      return 0;
+      break;
     case 'Z':
       // potion
       full_health(maze->state->player->health);
