@@ -4,9 +4,13 @@
 #include "../include/gui.h"
 #include "../include/renderer.h"
 #include "../include/maze.h"
+#include "../include/SDL2/SDL_ttf.h"
 
 int current_screen = 2;
 SDL_Texture *heart_texture;
+
+SDL_Surface *surface;
+SDL_Texture *text;
 
 int get_current_screen()
 {
@@ -46,6 +50,9 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
 {
     Interface *interface = (Interface *)malloc(sizeof(Interface));
     interface->maze = maze;
+
+    interface->font = TTF_OpenFont("./gfx/arial.ttf", 16);
+    printf("Opened font: %d\n", interface->font != NULL);
 
     // todo: interface groups
 
@@ -121,6 +128,72 @@ void draw_hud(SDL_Renderer *renderer, Interface *interface)
         dest.y = 16;
         SDL_RenderCopy(renderer, heart_texture, &stencil, &dest);
     }
+
+    // int health[2];
+     /* stats[0] -> attack damage
+        stats[1] -> defense */
+    // int stats[2];
+    // int key_number;
+    // int room_id;
+     /* coordinate[0] -> x position in current room
+        coordinate[1] -> y position in current room */
+    // int coordinate[2];
+    // int direction;
+
+    char *titles[] = {
+        "Health",
+        "Max Health",
+        "Attack",
+        "Defense",
+        "Keys",
+        // "Room ID",
+        // "Pos X",
+        // "Pos Y",
+        // "Direction",
+    };
+
+    int values[] = {
+        interface->maze->state->player->health[0],
+        interface->maze->state->player->health[1],
+        interface->maze->state->player->stats[0],
+        interface->maze->state->player->stats[1],
+        interface->maze->state->player->key_number,
+        // interface->maze->state->player->room_id,
+        // interface->maze->state->player->coordinate[0],
+        // interface->maze->state->player->coordinate[1],
+        // interface->maze->state->player->direction,
+    };
+
+    SDL_Color color = {255, 255, 255, 255};
+
+    /* dynamic text */
+    for (int i = 0; i < sizeof(values) / sizeof(values[0]); i++) {
+        char str[32];
+        int keys = interface->maze->state->player->key_number;
+        sprintf(str, "%s: %d", titles[i], values[i]);
+
+        surface = TTF_RenderText_Blended(interface->font, str, color);
+        text = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_Rect dstrect = {24, 40 + i*32, surface->w, surface->h};
+
+        SDL_RenderCopy(renderer, text, NULL, &dstrect);
+    }
+
+    //
+    // /* dynamic text */
+    // SDL_Color color = {255, 255, 255, 255};
+    // char str[32];
+    // int keys = interface->maze->state->player->key_number;
+    // sprintf(str, "Keys: %d", keys);
+
+    // SDL_DestroyTexture(text);
+    // SDL_FreeSurface(surface);
+
+    // surface = TTF_RenderText_Blended(interface->font, str, color);
+    // text = SDL_CreateTextureFromSurface(renderer, surface);
+    // SDL_Rect dstrect = {100, 100, surface->w, surface->h};
+
+    // SDL_RenderCopy(renderer, text, NULL, &dstrect);
 }
 
 void draw_menu(SDL_Renderer *renderer, Interface *interface)
@@ -158,3 +231,9 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface)
         break;
     }
 }
+
+void destroy_interface(Interface *interface) {
+    SDL_DestroyTexture(text);
+    SDL_FreeSurface(surface);
+    TTF_CloseFont(interface->font);
+};

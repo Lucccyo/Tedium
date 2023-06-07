@@ -9,6 +9,8 @@
 #include "../include/gui.h"
 #include "../include/interface.h"
 
+#include "SDL2/SDL_ttf.h"
+
 // Redefine main on windows
 #ifdef __WIN32__
 #undef main
@@ -125,6 +127,13 @@ int main()
     return 1;
   }
 
+  if (TTF_Init() < 0)
+  {
+    // Error handling code
+    printf("Error inititializing TTF: %s\n", TTF_GetError());
+    return 1;
+  }
+
   window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
   if (window == NULL)
   {
@@ -227,11 +236,16 @@ int main()
     animation_step(animator, texture);
     draw_game(renderer, maze->state->current_floor, maze->state->current_room, maze->state->player, texture);
     draw_gui(renderer, interface);
+
     SDL_RenderPresent(renderer);
   }
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
+
+  destroy_interface(interface);
+
+  TTF_Quit();
 
   SDL_Quit();
   return 0;

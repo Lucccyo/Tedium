@@ -11,9 +11,9 @@ INC=-I include/
 
 # Define library path depending on OS
 ifeq ($(UNAME_S),Linux)
-	LIB= -l SDL2-2.0
+	LIB= -l sdl2_ttf -l SDL2-2.0 
 else ifeq ($(UNAME_S),Darwin)
-	LIB= -l SDL2
+	LIB= -l sdl2_ttf -l SDL2
 else ifeq ($(UNAME_S),Windows)
 	LIB= -L ./lib -l mingw32 -l SDL2main -l SDL2
 
