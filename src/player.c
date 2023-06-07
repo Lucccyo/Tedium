@@ -23,6 +23,13 @@ void update_health (int* health, int update) {(*health)+=update;}
 void update_max_health (int* health, int update) {(*(health+1))+=update;}
 void update_stats (int* stats, int index) {(*(stats+index))++;}
 void update_key (int* key_number, int update) {(*key_number)+=update;}
+void enable_cheat (Player *player) {
+  player->health[1] = 1000;
+  player->health[0] = player->health[1];
+  player->stats[0] = 1000;
+  player->stats[1] = 1000;
+  player->key_number = 1000;
+}
 
 /* display debug */
 void display_player(Player * p) {
