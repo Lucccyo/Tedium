@@ -1,4 +1,3 @@
-#include <time.h>
 #include "room.h"
 
 Room* generate_rooms_from_file(char *room_path, Room *rooms_done[], int *rooms_done_amount, Hashtbl *monsters) {

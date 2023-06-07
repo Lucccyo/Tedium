@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "player.h"
 
 /* create a player */

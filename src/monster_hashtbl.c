@@ -1,9 +1,3 @@
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <assert.h>
-#include <string.h>
 #include "monster_hashtbl.h"
 
 void reset_elem (Elem * e, int x, int y, char room_name[], int floor_num, Monster * m) {

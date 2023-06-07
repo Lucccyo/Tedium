@@ -1,14 +1,17 @@
 #ifndef MAZE_FILE
 #define MAZE_FILE
+
+#include <stdio.h>
 #include <stdlib.h>
-
-#define MAX_FLOOR 30
-
+#include <dirent.h>
+#include <string.h>
 #include "player.h"
 #include "room.h"
 #include "floor.h"
 #include "monster.h"
 #include "monster_hashtbl.h"
+
+#define MAX_FLOOR 30
 
 struct state {
   Player * player;

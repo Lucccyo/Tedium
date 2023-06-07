@@ -1,16 +1,16 @@
 #ifndef ROOM_H
 #define ROOM_H
 
-#define ROOM_SIZE 30
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/* used to remove problematic non-ascii char from level files */
 #include <wchar.h>
 #include <wctype.h>
 #include <locale.h>
+#include <time.h>
 #include "monster_hashtbl.h"
+
+#define ROOM_SIZE 30
 
 typedef enum {
     NORTH,

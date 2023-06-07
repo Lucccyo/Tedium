@@ -1,7 +1,14 @@
 #ifndef HASHTBL_FILE
 #define HASHTBL_FILE
 
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <assert.h>
+#include <string.h>
 #include "monster.h"
+
 #define MAX_SIZE 1024
 
 struct elem {

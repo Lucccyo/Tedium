@@ -12,7 +12,6 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture) {
     SDL_Rect rect_dest;
     rect_dest.w = DRAW_TILE_SIZE;
     rect_dest.h = DRAW_TILE_SIZE;
-
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 30; j++) {
             rect_dest.x = i * DRAW_TILE_SIZE;
@@ -60,20 +59,23 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture) {
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_BLOOD], &rect_dest);
                     break;
                 case 'o':
+                    rect_dest.y = (j-1) * TILE_SIZE;
+                    rect_dest.h = TILE_SIZE * 2;
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_DOOR], &rect_dest);
+                    rect_dest.h = TILE_SIZE;
                     break;
                 case 'A':
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
-                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_A], &rect_dest);
+                    draw_monster(renderer, i, j, room->tiles[j][i], texture);
                     break;
                 case 'B':
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
-                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_B], &rect_dest);
+                    draw_monster(renderer, i, j, room->tiles[j][i], texture);
                     break;
                 case 'C':
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
-                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_C], &rect_dest);
+                    draw_monster(renderer, i, j, room->tiles[j][i], texture);
                     break;
                 default:
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
@@ -123,7 +125,39 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     }
 }
 
+void draw_monster(SDL_Renderer *renderer, int x, int y, char monster_type, Texture *texture) {
+    SDL_Rect rect_dest = {x * TILE_SIZE, (y - 1) * TILE_SIZE, 24, 48};
+    switch (monster_type) {
+        case 'A':
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_A], &rect_dest);
+            break;
+        case 'B':
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_B], &rect_dest);
+            break;
+        case 'C':
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_MONSTER_C], &rect_dest);
+            break;
+        default:
+            break;
+    }
+}
+
 void draw_player(SDL_Renderer *renderer, Player *player, Texture * texture) {
-    SDL_Rect rect_dest = {player->coordinate[0]*TILE_SIZE, player->coordinate[1]*TILE_SIZE, 24, 24};
-    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER], &rect_dest);
+    SDL_Rect rect_dest = {player->coordinate[0] * TILE_SIZE, (player->coordinate[1] - 1) * TILE_SIZE, 24, 48};
+    switch (player->direction) {
+        case left:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_LEFT], &rect_dest);
+            break;
+        case right:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_RIGHT], &rect_dest);
+            break;
+        case back:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_BACK], &rect_dest);
+            break;
+        case front:
+            SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PLAYER_FRONT], &rect_dest);
+            break;
+        default:
+            break;
+        }
 }
