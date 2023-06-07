@@ -164,7 +164,7 @@ void add_decorations(Room *room) {
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 30; j++) {
             if (room->tiles[i][j] == ' ' && rand() % 100 < 5) {
-                int decoration_value = rand() % 5 + 4;
+                int decoration_value = rand() % 4 + 4;
                 char decoration_char[2];
                 sprintf(decoration_char, "%d", decoration_value);
                 room->tiles[i][j] = decoration_char[0];

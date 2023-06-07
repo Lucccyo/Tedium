@@ -32,11 +32,10 @@ typedef enum {
 } Tiles;
 
 typedef enum {
-    SKULL = '4',
-    BLOOD = '5',
-    BONE = '6',
-    TORCH = '7',
-    FIRE = '8'
+    CRACKED = '4',
+    BLOOD1 = '5',
+    BLOOD2 = '6',
+    FIRE = '7'
 } Decoration;
 
 

@@ -9,7 +9,7 @@
 
 // Redefine main on windows
 #ifdef __WIN32__
-#undef main 
+#undef main
 #endif
 
 int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir) {
@@ -140,6 +140,13 @@ int main() {
   Texture *texture = load_textures(renderer);
 
   while (!quit) {
+    const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+    if (currentKeyStates[SDL_SCANCODE_C] && currentKeyStates[SDL_SCANCODE_H]
+        && currentKeyStates[SDL_SCANCODE_E] && currentKeyStates[SDL_SCANCODE_A]
+        && currentKeyStates[SDL_SCANCODE_T]) {
+      enable_cheat(maze->state->player);
+    }
+
     while (SDL_PollEvent(&event) != 0) {
       switch (event.type) {
         case SDL_QUIT:

@@ -40,6 +40,7 @@ void update_health (int* health, int update);
 void update_max_health (int* health, int update);
 void update_stats (int* stats, int branch);
 void update_key (int* key_number, int update);
+void enable_cheat (Player *player);
 
 /* display debug */
 void display_player(Player *p);
