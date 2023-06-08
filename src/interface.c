@@ -9,8 +9,11 @@
 int current_screen = 2;
 SDL_Texture *heart_texture;
 
-SDL_Surface *surface;
-SDL_Texture *text;
+int snapshot[5];
+SDL_Color ui_color = {255, 255, 255, 255};
+char *titles[] = {"Health", "Max Health", "Attack", "Defense", "Keys"};
+SDL_Texture *texts[5];
+SDL_Rect rects[5];
 
 int get_current_screen()
 {
@@ -104,11 +107,6 @@ void gui_display(SDL_Renderer *renderer, GUI_Element *element)
 
 void draw_hud(SDL_Renderer *renderer, Interface *interface)
 {
-    // for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
-    // {
-    //     gui_display(renderer, interface->hud[i]);
-    // }
-
     SDL_Rect stencil;
     stencil.w = 24;
     stencil.h = 24;
@@ -129,71 +127,38 @@ void draw_hud(SDL_Renderer *renderer, Interface *interface)
         SDL_RenderCopy(renderer, heart_texture, &stencil, &dest);
     }
 
-    // int health[2];
-     /* stats[0] -> attack damage
-        stats[1] -> defense */
-    // int stats[2];
-    // int key_number;
-    // int room_id;
-     /* coordinate[0] -> x position in current room
-        coordinate[1] -> y position in current room */
-    // int coordinate[2];
-    // int direction;
-
-    char *titles[] = {
-        "Health",
-        "Max Health",
-        "Attack",
-        "Defense",
-        "Keys",
-        // "Room ID",
-        // "Pos X",
-        // "Pos Y",
-        // "Direction",
-    };
-
+    // get current int values
+    Player *player = interface->maze->state->player;
     int values[] = {
-        interface->maze->state->player->health[0],
-        interface->maze->state->player->health[1],
-        interface->maze->state->player->stats[0],
-        interface->maze->state->player->stats[1],
-        interface->maze->state->player->key_number,
-        // interface->maze->state->player->room_id,
-        // interface->maze->state->player->coordinate[0],
-        // interface->maze->state->player->coordinate[1],
-        // interface->maze->state->player->direction,
+        player->health[0], // health
+        player->health[1], // max health
+        player->stats[0], // attack
+        player->stats[1], // defense
+        player->key_number, // keys
     };
 
-    SDL_Color color = {255, 255, 255, 255};
-
-    /* dynamic text */
-    for (int i = 0; i < sizeof(values) / sizeof(values[0]); i++) {
+    // display text hud
+    // TODO update with HUD icons
+    for (int i = 0; i < 5; i++) {
         char str[32];
-        int keys = interface->maze->state->player->key_number;
         sprintf(str, "%s: %d", titles[i], values[i]);
 
-        surface = TTF_RenderText_Blended(interface->font, str, color);
-        text = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_Rect dstrect = {24, 40 + i*32, surface->w, surface->h};
+        // update texures only if the value changed
+        if (snapshot[i] != values[i] || texts[i] == NULL) {
+            SDL_DestroyTexture(texts[i]);
 
-        SDL_RenderCopy(renderer, text, NULL, &dstrect);
+            SDL_Surface *surface = TTF_RenderText_Blended(interface->font, str, ui_color);
+            SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_Rect nr = {24, 48 + i * 32, surface->w, surface->h};
+            texts[i] = text;
+            rects[i] = nr;
+
+            SDL_FreeSurface(surface);
+            snapshot[i] = values[i];
+        }
+
+        SDL_RenderCopy(renderer, texts[i], NULL, &rects[i]);
     }
-
-    //
-    // /* dynamic text */
-    // SDL_Color color = {255, 255, 255, 255};
-    // char str[32];
-    // int keys = interface->maze->state->player->key_number;
-    // sprintf(str, "Keys: %d", keys);
-
-    // SDL_DestroyTexture(text);
-    // SDL_FreeSurface(surface);
-
-    // surface = TTF_RenderText_Blended(interface->font, str, color);
-    // text = SDL_CreateTextureFromSurface(renderer, surface);
-    // SDL_Rect dstrect = {100, 100, surface->w, surface->h};
-
-    // SDL_RenderCopy(renderer, text, NULL, &dstrect);
 }
 
 void draw_menu(SDL_Renderer *renderer, Interface *interface)
@@ -233,7 +198,9 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface)
 }
 
 void destroy_interface(Interface *interface) {
-    SDL_DestroyTexture(text);
-    SDL_FreeSurface(surface);
+    for (int i = 0; i < 5; i++) {
+        SDL_DestroyTexture(texts[i]);
+    }
+
     TTF_CloseFont(interface->font);
 };
