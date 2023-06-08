@@ -163,6 +163,7 @@ int main()
       break;
     }
 
+    // collect game inputs
     while (SDL_PollEvent(&event) != 0) {
       switch (event.type) {
         case SDL_QUIT:
@@ -242,7 +243,6 @@ int main()
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
-
   destroy_interface(interface);
 
   TTF_Quit();
