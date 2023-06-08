@@ -54,7 +54,7 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
     Interface *interface = (Interface *)malloc(sizeof(Interface));
     interface->maze = maze;
 
-    interface->font = TTF_OpenFont("./gfx/arial.ttf", 16);
+    interface->font = TTF_OpenFont("./gfx/nokiafc22.ttf", 12);
     printf("Opened font: %d\n", interface->font != NULL);
 
     // todo: interface groups
