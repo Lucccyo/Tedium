@@ -11,15 +11,15 @@ INC=-I include/
 
 # Define library path depending on OS
 ifeq ($(UNAME_S),Linux)
-	LIB= -l SDL2-2.0
+	LIB=-L lib/linux/ -l SDL2_mixer -l SDL2
 else ifeq ($(UNAME_S),Darwin)
-	LIB= -l SDL2
+	LIB= -l SDL2_mixer -l SDL2
 else ifeq ($(UNAME_S),Windows)
 	LIB= -L ./lib -l mingw32 -l SDL2main -l SDL2
 
 endif
 
-SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c src/monster_hashtbl.c src/renderer.c src/maze.c src/animator.c
+SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c src/monster_hashtbl.c src/renderer.c src/maze.c src/animator.c src/audio.c
 EXEC=main
 
 main:
