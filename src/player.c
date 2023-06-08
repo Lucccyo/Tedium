@@ -8,6 +8,7 @@ Player * create_player(int x_grid, int y_grid) {
   p->key_number = 0;
   p->room_id = 1;
   p->coordinate[0] = x_grid; p->coordinate[1] = y_grid;
+  p->direction = front;
   return p;
 }
 
