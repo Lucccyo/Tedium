@@ -9,6 +9,9 @@
 int current_screen = 2;
 SDL_Texture *heart_texture;
 
+/* need to be put in texture.c */
+SDL_Texture *hearts_texture[5];
+
 int snapshot[5];
 SDL_Color ui_color = {255, 255, 255, 255};
 char *titles[] = {"Health", "Max Health", "Attack", "Defense", "Keys"};
@@ -76,6 +79,19 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
     SDL_Surface *heart_asset = SDL_LoadBMP("gfx/heart-Sheet.bmp");
     heart_texture = SDL_CreateTextureFromSurface(renderer, heart_asset);
 
+    /* need to move to texture.c and use a tileset for all interface sprites */
+    SDL_Surface *heart1_asset = SDL_LoadBMP("img/heart1.bmp");
+    SDL_Surface *heart2_asset = SDL_LoadBMP("img/heart2.bmp");
+    SDL_Surface *heart3_asset = SDL_LoadBMP("img/heart3.bmp");
+    SDL_Surface *heart4_asset = SDL_LoadBMP("img/heart4.bmp");
+    SDL_Surface *heart5_asset = SDL_LoadBMP("img/heart5.bmp");
+
+    hearts_texture[0] = SDL_CreateTextureFromSurface(renderer, heart1_asset);
+    hearts_texture[1] = SDL_CreateTextureFromSurface(renderer, heart2_asset);
+    hearts_texture[2] = SDL_CreateTextureFromSurface(renderer, heart3_asset);
+    hearts_texture[3] = SDL_CreateTextureFromSurface(renderer, heart4_asset);
+    hearts_texture[4] = SDL_CreateTextureFromSurface(renderer, heart5_asset);
+
     printf("clearing surfaces \n");
     SDL_FreeSurface(menu_asset);
     SDL_FreeSurface(quit_btn_asset);
@@ -83,6 +99,12 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
     SDL_FreeSurface(resume_btn_asset);
     SDL_FreeSurface(credits_btn_asset);
     SDL_FreeSurface(heart_asset);
+
+    SDL_FreeSurface(heart1_asset);
+    SDL_FreeSurface(heart2_asset);
+    SDL_FreeSurface(heart3_asset);
+    SDL_FreeSurface(heart4_asset);
+    SDL_FreeSurface(heart5_asset);
 
     //
     int posx = (int)(WINDOW_WIDTH / 2 - 161 * 2 / 2);
@@ -110,21 +132,28 @@ void draw_hud(SDL_Renderer *renderer, Interface *interface)
     SDL_Rect stencil;
     stencil.w = 24;
     stencil.h = 24;
+    stencil.x = 0;
+    stencil.y = 0;
 
     SDL_Rect dest;
     dest.w = 24;
     dest.h = 24;
 
     // display health bar
-    int player_life = (int)(interface->maze->state->player->health[0] / 2);
-    for (int i = 0; i < player_life; i++)
-    {
-        stencil.x = 24;
-        stencil.y = 0;
-
+    int player_life = (int)(interface->maze->state->player->health[health]);
+    int max_health = (int)(interface->maze->state->player->health[1]);
+    int full_hearts = (int)(player_life / 4);
+    int half_hearts = (int)(player_life % 4);
+    int i;
+    for (i = 0; i < full_hearts; i++) {
         dest.x = 24 + i * 24 + (i - 1) * 8;
         dest.y = 16;
-        SDL_RenderCopy(renderer, heart_texture, &stencil, &dest);
+        SDL_RenderCopy(renderer, hearts_texture[4], &stencil, &dest);
+    }
+    if (half_hearts > 0) {
+        dest.x = 24 + i * 24 + (i - 1) * 8;
+        dest.y = 16;
+        SDL_RenderCopy(renderer, hearts_texture[half_hearts], &stencil, &dest);
     }
 
     // get current int values
