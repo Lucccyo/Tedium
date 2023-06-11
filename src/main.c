@@ -250,9 +250,44 @@ int main()
             /* debug purpose */
             case SDLK_v:
               Mix_PlayMusic(sounds->musics[1], -1);
+            case SDLK_ESCAPE:
+              if (get_current_screen() == 2)
+              {
+                set_current_screen(1);
+              }
+              else
+              {
+                set_current_screen(2);
+              }
+              break;
             default:
               break;
-          } break;
+          } 
+        break;
+        case SDL_MOUSEBUTTONDOWN:
+        for (int i = 0; i < (int)sizeof(interface->menu) / sizeof(interface->menu[0]); i++)
+        {
+              if (gui_clicked(event.button, interface->menu[i]))
+              {
+                interface->menu[i]->callback(i);
+              }
+        }
+        for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
+        {
+              if (gui_clicked(event.button, interface->hud[i]))
+              {
+                interface->menu[i]->callback(i);
+              }
+        }
+
+        for (int i = 0; i < (int)sizeof(interface->main_menu) / sizeof(interface->main_menu[0]); i++)
+        {
+              if (gui_clicked(event.button, interface->main_menu[i]))
+              {
+                interface->main_menu[i]->callback(i);
+              }
+        }
+        break;
         default: break;
       }
     }
