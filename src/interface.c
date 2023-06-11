@@ -6,7 +6,7 @@
 #include "../include/maze.h"
 #include "../include/SDL2/SDL_ttf.h"
 
-int current_screen = 2;
+int current_screen = 3;
 SDL_Texture *heart_texture;
 
 /* need to be put in texture.c */
@@ -26,6 +26,12 @@ int get_current_screen()
 void set_current_screen(int screen)
 {
     current_screen = screen;
+}
+
+void onPlayClick(int index)
+{
+    SDL_Log("click me clicked %i", index);
+    current_screen = 2;
 }
 
 void onClick(int index)
@@ -68,12 +74,14 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
     SDL_Surface *restart_btn_asset = SDL_LoadBMP("gfx/restart_btn.bmp");
     SDL_Surface *resume_btn_asset = SDL_LoadBMP("gfx/resume_btn.bmp");
     SDL_Surface *credits_btn_asset = SDL_LoadBMP("gfx/credits_btn.bmp");
+    SDL_Surface *title_background_asset = SDL_LoadBMP("gfx/background.bmp");
 
     SDL_Texture *menu = SDL_CreateTextureFromSurface(renderer, menu_asset);
     SDL_Texture *quit = SDL_CreateTextureFromSurface(renderer, quit_btn_asset);
     SDL_Texture *restart = SDL_CreateTextureFromSurface(renderer, restart_btn_asset);
     SDL_Texture *resume = SDL_CreateTextureFromSurface(renderer, resume_btn_asset);
     SDL_Texture *credits = SDL_CreateTextureFromSurface(renderer, credits_btn_asset);
+    SDL_Texture *background = SDL_CreateTextureFromSurface(renderer, title_background_asset);
 
     // load assets
     SDL_Surface *heart_asset = SDL_LoadBMP("gfx/heart-Sheet.bmp");
@@ -99,6 +107,11 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
     SDL_FreeSurface(resume_btn_asset);
     SDL_FreeSurface(credits_btn_asset);
     SDL_FreeSurface(heart_asset);
+    SDL_FreeSurface(title_background_asset);
+
+    // main menu text
+    SDL_Surface *surface = TTF_RenderText_Blended(interface->font, "Play", ui_color);
+    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(heart1_asset);
     SDL_FreeSurface(heart2_asset);
@@ -112,10 +125,14 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
     GUI_Element *menu_el = gui_create(posx, posy, 161 * 2, 220 * 2, menu, &onClick);
     GUI_Element *resume_el = gui_create((int)(posx + 161 - 81), (int)(posy + 220 / 2 + 26), 81 * 2, 26 * 2, resume, &onCloseClick);
     GUI_Element *quit_el = gui_create((int)(posx + 161 - 81), (int)(posy + 220 / 2 + 26 + 26 * 2.5), 81 * 2, 26 * 2, quit, &onQuitClick);
+    GUI_Element *background_el = gui_create(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, background, &onPlayClick);
+    //GUI_Element *play_btn_el = gui_create(WINDOW_)
 
     interface->menu[0] = menu_el;
     interface->menu[1] = resume_el;
     interface->menu[2] = quit_el;
+
+    interface->main_menu[0] = background_el;
 
     printf("interface generated\n");
     return interface;
@@ -199,6 +216,13 @@ void draw_menu(SDL_Renderer *renderer, Interface *interface)
     }
 }
 
+void draw_main_menu(SDL_Renderer * renderer, Interface * interface) {
+    for (int i = 0; i < (int)sizeof(interface->main_menu) / sizeof(interface->main_menu[0]); i++)
+    {
+        gui_display(renderer, interface->main_menu[i]);
+    }
+}
+
 void draw_gui(SDL_Renderer *renderer, Interface *interface)
 {
     // set all the frames to hidden
@@ -207,6 +231,11 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface)
         interface->menu[i]->displayed = 0;
     }
     for (int i = 0; i < (int)sizeof(interface->hud) / sizeof(interface->hud[0]); i++)
+    {
+        interface->hud[i]->displayed = 0;
+    }
+
+    for (int i = 0; i < (int)sizeof(interface->main_menu) / sizeof(interface->main_menu[0]); i++)
     {
         interface->hud[i]->displayed = 0;
     }
@@ -220,6 +249,9 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface)
     case 2: // hud
         draw_hud(renderer, interface);
         break;
+    case 3: // main meun screen
+        draw_main_menu(renderer, interface);
+        break;
 
     default:
         break;
@@ -230,6 +262,8 @@ void destroy_interface(Interface *interface) {
     for (int i = 0; i < 5; i++) {
         SDL_DestroyTexture(texts[i]);
     }
+
+    // todo : destroy interface textures
 
     TTF_CloseFont(interface->font);
 };

@@ -13,6 +13,7 @@ struct interface
     TTF_Font *font;
     GUI_Element *menu[3];
     GUI_Element *hud[0];
+    GUI_Element *main_menu[1];
     // SDL_Texture *close;
     // SDL_Texture *quit;
     // SDL_Texture *restart;
