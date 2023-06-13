@@ -11,9 +11,10 @@ struct interface
 {
     Maze *maze;
     TTF_Font *font;
+    TTF_Font *font_b;
     GUI_Element *menu[3];
     GUI_Element *hud[0];
-    GUI_Element *main_menu[1];
+    GUI_Element *main_menu[4];
     // SDL_Texture *close;
     // SDL_Texture *quit;
     // SDL_Texture *restart;
