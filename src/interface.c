@@ -1,6 +1,6 @@
 #include "interface.h"
 
-int current_screen = 3;
+int current_screen = MAIN_MENU;
 SDL_Texture *icons_texture;
 
 /* need to be put in texture.c */
