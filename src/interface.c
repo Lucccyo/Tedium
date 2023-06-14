@@ -15,6 +15,7 @@ SDL_Texture *icons_texture;
 SDL_Texture *hearts_texture[5];
 
 int snapshot[5];
+SDL_Color ui_color_white = {214, 245, 248, 255};
 SDL_Color ui_color = {200, 200, 200, 255};
 SDL_Texture *texts[5];
 SDL_Rect rects[5];
@@ -145,7 +146,7 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
     {
         char str[16];
         sprintf(str, "%s", options[i]);
-        SDL_Surface *surface = TTF_RenderText_Blended(interface->font_b, str, ui_color);
+        SDL_Surface *surface = TTF_RenderText_Blended(interface->font_b, str, ui_color_white);
         SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, surface);
 
         int x = WINDOW_WIDTH/2 - surface->w/2;
