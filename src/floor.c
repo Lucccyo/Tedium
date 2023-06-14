@@ -5,13 +5,12 @@ Floor* create_floor(char level_path[], Hashtbl *monsters) {
 
     Floor *floor = malloc(sizeof(Floor));
     floor->id = atoi(&level_path[10]);
-
     int rooms_amount = 0;
 
     /* generate rooms recursively */
     char starting_room[30];
     strcpy(starting_room, level_path);
-    strcat(starting_room, "entry.level");
+    strcat(starting_room, "room1.level");
 
     generate_rooms_from_file(starting_room, floor->rooms, &rooms_amount, monsters);
 
@@ -19,12 +18,15 @@ Floor* create_floor(char level_path[], Hashtbl *monsters) {
     floor->rooms[0]->x = 0;
     floor->rooms[0]->y = 0;
     set_rooms_coordinates(floor->rooms[0]);
+
     int min_x = 100;
     int min_y = 100;
+
     for (int i = 0; i < FLOOR_SIZE; i++) {
-        if (floor->rooms[i] == NULL) { break; }
-        if (floor->rooms[i]->x < min_x) { min_x = floor->rooms[i]->x; }
-        if (floor->rooms[i]->y < min_y) { min_y = floor->rooms[i]->y; }
+        if (floor->rooms[i] == NULL) { printf("END\n"); break; }
+        if (floor->rooms[i]->x < min_x) { min_x = floor->rooms[i]->x; printf("[x] i = %d\n", i); }
+        if (floor->rooms[i]->y < min_y) { min_y = floor->rooms[i]->y; printf("[y] i = %d\n", i); }
+        printf("[ ] i = %d\n", i);
     }
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
