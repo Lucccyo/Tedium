@@ -4,9 +4,9 @@
 #include "SDL2/SDL.h"
 
 #define RECTS_AMOUNT 21
+#define RECTS_UI_AMOUNT 8
 
-enum
-{
+enum {
     RECT_FLOOR,
     RECT_VOID,
     RECT_WALL,
@@ -30,19 +30,27 @@ enum
     RECT_PLAYER_RIGHT,
 };
 
+enum {
+    RECT_ATTACK_ICON,
+    RECT_DEFENSE_ICON,
+    RECT_KEY_ICON,
+    RECT_HEART_ICON,
+    RECT_PAUSE_TEXT,
+    RECT_RESTART_BUTTON,
+    RECT_RESUME_BUTTON,
+    RECT_QUIT_BUTTON,
+};
+
 /* Contains all SDL_Textures used in the game */
-typedef struct
-{
+typedef struct {
     SDL_Texture *tileset;
+    SDL_Texture *tileset_ui;
     /* Rects list */
     SDL_Rect rects[RECTS_AMOUNT];
+    SDL_Rect rects_ui[RECTS_UI_AMOUNT];
 
-    SDL_Texture *menu;
-    SDL_Texture *close;
-    SDL_Texture *quit;
-    SDL_Texture *restart;
-    SDL_Texture *resume;
-    SDL_Texture *credits;
+    SDL_Texture *hearts_texture[5];
+    SDL_Texture *background;
 } Texture;
 
 Texture *load_textures(SDL_Renderer *renderer);

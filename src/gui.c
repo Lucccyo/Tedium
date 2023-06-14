@@ -3,8 +3,7 @@
 #include "../include/gui.h"
 #include "../include/interface.h"
 
-GUI_Element *gui_create(int x, int y, int w, int h, SDL_Texture *texture, void (*callback)(int))
-{
+GUI_Element *gui_create(int x, int y, int w, int h, SDL_Texture *texture, void (*callback)(int)) {
     GUI_Element *newGui = malloc(sizeof(GUI_Element));
 
     SDL_Rect newRect = {x, y, w, h};
@@ -15,8 +14,7 @@ GUI_Element *gui_create(int x, int y, int w, int h, SDL_Texture *texture, void (
     return newGui;
 };
 
-int gui_clicked(SDL_MouseButtonEvent mouse, GUI_Element *element)
-{
+int gui_clicked(SDL_MouseButtonEvent mouse, GUI_Element *element) {
     if (element->displayed == 0) {
         return 0;
     }

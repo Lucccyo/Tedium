@@ -46,7 +46,6 @@ void draw_game(SDL_Renderer* renderer, Floor *floor, Room *target_room, Player *
 
 /* Draw the provided room on the screen */
 void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture);
-void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture);
 
 /* Draw light.bmp on the provided coordinates */
 void draw_lights(SDL_Renderer* renderer, Room *room, Texture *texture);

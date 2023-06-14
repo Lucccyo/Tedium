@@ -1,12 +1,12 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include "../include/SDL2/SDL.h"
+#include "SDL2/SDL.h"
 
-typedef struct
-{
+typedef struct {
     SDL_Rect rect;
     SDL_Texture *texture;
+    SDL_Rect source_rect;
     int displayed;
     void (*callback)(int);
 } GUI_Element;
