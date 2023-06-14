@@ -4,14 +4,14 @@
 #include "SDL2/SDL.h"
 
 typedef struct {
-    SDL_Rect rect;
+    SDL_Rect dest_rect;
+    SDL_Rect src_rect;
     SDL_Texture *texture;
-    SDL_Rect source_rect;
     int displayed;
     void (*callback)(int);
 } GUI_Element;
 
-GUI_Element *gui_create(int x, int y, int w, int h, SDL_Texture *texture, void (*callback)(int));
+GUI_Element *gui_create(SDL_Rect dest_rect, SDL_Rect src_rect, SDL_Texture *texture, void (*callback)(int));
 
 int gui_clicked(SDL_MouseButtonEvent mouse, GUI_Element *element);
 

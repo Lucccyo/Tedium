@@ -12,6 +12,14 @@
 #include "renderer.h"
 #include "texture.h"
 
+enum
+{
+    QUIT,
+    GAME,
+    PAUSE_MENU,
+    MAIN_MENU
+};
+
 /* Contains all SDL_Textures used in the game */
 struct interface {
     Maze *maze;

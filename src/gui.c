@@ -3,11 +3,11 @@
 #include "../include/gui.h"
 #include "../include/interface.h"
 
-GUI_Element *gui_create(int x, int y, int w, int h, SDL_Texture *texture, void (*callback)(int)) {
+GUI_Element *gui_create(SDL_Rect dest_rect, SDL_Rect src_rect, SDL_Texture *texture, void (*callback)(int)) {
     GUI_Element *newGui = malloc(sizeof(GUI_Element));
 
-    SDL_Rect newRect = {x, y, w, h};
-    newGui->rect = newRect;
+    newGui->dest_rect = dest_rect;
+    newGui->src_rect = src_rect;
     newGui->texture = texture;
     newGui->callback = callback;
 
@@ -21,7 +21,7 @@ int gui_clicked(SDL_MouseButtonEvent mouse, GUI_Element *element) {
 
     int x = mouse.x;
     int y = mouse.y;
-    SDL_Rect rect = element->rect;
+    SDL_Rect rect = element->dest_rect;
 
     int clicked = (x >= rect.x && y >= rect.y && x <= rect.x + rect.w && y <= rect.y + rect.h);
 
