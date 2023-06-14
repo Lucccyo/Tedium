@@ -127,10 +127,6 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze)
     SDL_FreeSurface(heart_asset);
     SDL_FreeSurface(title_background_asset);
 
-    // main menu text
-    SDL_Surface *surface = TTF_RenderText_Blended(interface->font, "Play", ui_color);
-    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, surface);
-
     SDL_FreeSurface(heart1_asset);
     SDL_FreeSurface(heart2_asset);
     SDL_FreeSurface(heart3_asset);
