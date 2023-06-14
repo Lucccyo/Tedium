@@ -50,7 +50,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sou
     break;
   case '!':
     // key
-      play_key_pickup_sound(sounds);
+    play_key_pickup_sound(sounds);
     update_key(&(maze->state->player->key_number), 1);
     *tile = ' ';
     return 1;
@@ -58,7 +58,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sou
   case '1':
     // attack powerup
     // increase by one the attack of the player
-      play_powerup_pickup_sound(sounds);
+    play_powerup_pickup_sound(sounds);
     update_stats((maze->state->player->stats), attack);
     *tile = ' ';
     return 1;
@@ -66,7 +66,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sou
   case '2':
     // defense powerup
     // increase by one the defense of the player
-      play_powerup_pickup_sound(sounds);
+    play_powerup_pickup_sound(sounds);
     update_stats((maze->state->player->stats), defense);
     *tile = ' ';
     return 1;
@@ -74,23 +74,23 @@ int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sou
   case '3':
     // health powerup
     // increase by three health and max_health
-      play_powerup_pickup_sound(sounds);
+    play_powerup_pickup_sound(sounds);
     update_max_health((maze->state->player->health), 3);
     *tile = ' ';
     return 1;
-    case '7':
+  case '7':
     // Fire decoration
     // Block the player
-      return 0;
-      break;
+    return 0;
+    break;
   case 'Z':
     // potion
-      play_heal_sound(sounds);
+    play_heal_sound(sounds);
     full_health(maze->state->player->health);
     *tile = ' ';
     return 1;
   case 'A' ... 'Y': // 'Z' is used for keys
-      play_attack_sound(sounds);
+    play_attack_sound(sounds);
     monster = find_monster(maze->monsters,
                            y_tile, x_tile,
                            maze->state->current_room->name,
@@ -137,7 +137,60 @@ int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sou
   return 0;
 }
 
-void move(Maze * maze, int x, int y, void (*pf)(int *), Direction d, Sound *sounds) {
+SDL_Texture *text;
+SDL_Surface *surface;
+
+int clamp(int min, int value, int max)
+{
+  if (value < min)
+    return min;
+  if (value > max)
+    return max;
+  return value;
+}
+
+// display monster info if monster nearby
+void monster_info_display(Maze *maze, SDL_Renderer *renderer, Interface *interface)
+{
+  Player *player = maze->state->player;
+  Monster *monster;
+  SDL_Color ui_color = {200, 200, 200, 255};
+
+  int ways[4][2] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+  for (int i = 0; i < 4; i++)
+  {
+    // clamp checks to game board
+    int xpos = clamp(0, player->coordinate[0] + ways[i][0], ROOM_SIZE - 1);
+    int ypos = clamp(0, player->coordinate[1] + ways[i][1], ROOM_SIZE - 1);
+
+    // test for monster
+    monster = find_monster(maze->monsters,
+                           xpos, ypos,
+                           maze->state->current_room->name,
+                           maze->state->current_floor->id);
+                           
+    if (monster)
+      break;
+  }
+
+  // if a monster is found, display its stats
+  if (monster)
+  {
+    char str[32];
+    sprintf(str, "HP%i/%i - A%i - D%i", monster->health[0], monster->health[1], monster->stats[0], monster->stats[1]);
+
+    SDL_DestroyTexture(text);
+    surface = TTF_RenderText_Blended(interface->font, str, ui_color);
+    text = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_Rect nr = {(int)(24 * monster->coordinate[0] - surface->w / 2 + 12), (int)(24 * monster->coordinate[1] - 12 - surface->h), surface->w, surface->h};
+    // SDL_Rect nr = {24 * monster->coordinate[0] + 12, 24 * monster->coordinate[0] - 12, surface->w, surface->h};
+    SDL_FreeSurface(surface);
+    SDL_RenderCopy(renderer, text, NULL, &nr);
+  }
+}
+
+void move(Maze *maze, int x, int y, void (*pf)(int *), Direction d, Sound *sounds)
+{
   if (event_on_tiles(x, y, maze, d, sounds))
     (*pf)(maze->state->player->coordinate);
 }
@@ -176,7 +229,8 @@ int main(){
     return 1;
   }
 
-  if (Mix_Init(0) < 0) {
+  if (Mix_Init(0) < 0)
+  {
     printf("Error initializing SDL_mixer: %s\n", Mix_GetError());
     return 1;
   }
@@ -265,7 +319,8 @@ int main(){
               }
         }
         break;
-        default: break;
+      default:
+        break;
       }
     }
     /* drawing */
@@ -273,6 +328,7 @@ int main(){
     animation_step(animator, texture);
     play_music(sounds);
     draw_game(renderer, maze->state->current_floor, maze->state->current_room, maze->state->player, texture);
+    monster_info_display(maze, renderer, interface);
     draw_gui(renderer, interface, texture);
 
     SDL_RenderPresent(renderer);
