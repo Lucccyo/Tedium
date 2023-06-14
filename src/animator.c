@@ -51,10 +51,6 @@ void animation_step(Animator *animator, Texture *texture) {
     animator->last_update = current_time;
 }
 
-void activate_animation(Animator *animator) {
-    animator->update = 1;
-}
-
-void deactivate_animation(Animator *animator) {
-    animator->update = 0;
+void toggle_animation(Animator *animator, int val) {
+    animator->update = val;
 }

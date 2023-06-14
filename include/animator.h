@@ -43,8 +43,6 @@ Animator* create_animator();
 
 void animation_step(Animator *animator, Texture *texture);
 
-void activate_animation(Animator *animator);
-
-void desactivate_animation(Animator *animator);
+void toggle_animation(Animator *animator, int val);
 
 #endif
