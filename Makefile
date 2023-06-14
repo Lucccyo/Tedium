@@ -16,7 +16,6 @@ else ifeq ($(UNAME_S),Darwin)
 	LIB= -l SDL2_mixer -l SDL2
 else ifeq ($(UNAME_S),Windows)
 	LIB= -L ./lib -l mingw32 -l SDL2main -l SDL2
-
 endif
 
 SRC=src/main.c src/room.c src/floor.c src/monster.c src/player.c src/texture.c src/monster_hashtbl.c src/renderer.c src/maze.c src/animator.c src/audio.c

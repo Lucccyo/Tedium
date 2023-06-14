@@ -1,8 +1,8 @@
 #include "floor.h"
 
 Floor* create_floor(char level_path[], Hashtbl *monsters) {
-    /* get level number in level_path */
 
+    /* get level number in level_path */
     Floor *floor = malloc(sizeof(Floor));
     floor->id = atoi(&level_path[10]);
     int rooms_amount = 0;
@@ -79,7 +79,7 @@ void display_floor(Floor* floor) {
     printf("Floor %d:\n", floor->id);
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] != NULL) {
-            printf(" - %s | %d, %d\n", floor->rooms[i]->name, floor->rooms[i]->x, floor->rooms[i]->y); 
+            printf(" - %s | %d, %d\n", floor->rooms[i]->name, floor->rooms[i]->x, floor->rooms[i]->y);
         }
     }
 }

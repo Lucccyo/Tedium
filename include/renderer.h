@@ -28,7 +28,8 @@ typedef enum {
     HEALTH_POWERUP = '3',
     MONSTER_A = 'A',
     MONSTER_B = 'B',
-    MONSTER_C = 'C'
+    MONSTER_C = 'C',
+    PORTAL = '@'
 } Tiles;
 
 typedef enum {

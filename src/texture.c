@@ -24,18 +24,12 @@ Texture * load_textures(SDL_Renderer* renderer) {
     textures->rects[RECT_PLAYER_BACK] = create_rect(48, 168, 24, 24);
     textures->rects[RECT_PLAYER_LEFT] = create_rect(96, 168, 24, 24);
     textures->rects[RECT_PLAYER_RIGHT] = create_rect(144, 168, 24, 24);
-    // player dead : 120 168
-    // player walk front : 0 192
-    // player walk back : 0 216
-    // player walk left : 0 240
-    // player walk right : 0 264
     textures->rects[RECT_MONSTER_A] = create_rect(0, 288, 24, 24);
     textures->rects[RECT_MONSTER_B] = create_rect(0, 312, 24, 24);
     textures->rects[RECT_MONSTER_C] = create_rect(0, 336, 24, 24);
-    // heart not sure if it belongs here : 0 360
     textures->rects[RECT_DOOR] = create_rect(0, 384, 24, 48);
-    // exit portal : 48 384
     textures->rects[RECT_LIGHT] = create_rect(0, 432, 72, 72);
+    textures->rects[RECT_PORTAL] = create_rect(48, 384, 24, 48);
     return textures;
 }
 

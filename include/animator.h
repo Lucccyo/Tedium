@@ -5,7 +5,7 @@
 #include "texture.h"
 
 #define FRAME_DURATION 250 // ms
-#define ANIMATIONS_AMOUNT 21
+#define ANIMATIONS_AMOUNT 22
 
 enum {
     FLOOR_ANIMATION_FRAMES = 1,
@@ -29,6 +29,7 @@ enum {
     PLAYER_BACK_ANIMATION_FRAMES = 1,
     PLAYER_LEFT_ANIMATION_FRAMES = 1,
     PLAYER_RIGHT_ANIMATION_FRAMES = 1,
+    PORTAL_ANIMATION_FRAMES = 1,
 };
 
 typedef struct {

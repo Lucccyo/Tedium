@@ -21,6 +21,8 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
   char * tile = &(maze->state->current_room->tiles[x_tile][y_tile]);
   Monster * monster;
   switch (*tile) {
+    case '@':
+      maze->state->current_floor = maze->state->current_floor->next;
     case '#':
       // empty
       return 0; break;

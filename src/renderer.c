@@ -74,6 +74,16 @@ void draw_room(SDL_Renderer* renderer, Room *room, Texture *texture) {
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
                     draw_monster(renderer, i, j, room->tiles[j][i], texture);
                     break;
+                case PORTAL:
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
+                    SDL_Rect dest;
+                    dest.x = i * DRAW_TILE_SIZE;
+                    dest.y = (j-1) * DRAW_TILE_SIZE;
+                    dest.w = DRAW_TILE_SIZE;
+                    dest.h = DRAW_TILE_SIZE*2;
+
+                    SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_PORTAL], &dest);
+                    break;
                 default:
                     SDL_RenderCopy(renderer, texture->tileset, &texture->rects[RECT_FLOOR], &rect_dest);
                     break;

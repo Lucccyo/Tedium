@@ -3,7 +3,7 @@
 
 #include "SDL2/SDL.h"
 
-#define RECTS_AMOUNT 21
+#define RECTS_AMOUNT 22
 
 enum {
     RECT_FLOOR,
@@ -27,6 +27,7 @@ enum {
     RECT_PLAYER_BACK,
     RECT_PLAYER_LEFT,
     RECT_PLAYER_RIGHT,
+    RECT_PORTAL,
 };
 
 /* Contains all SDL_Textures used in the game */
