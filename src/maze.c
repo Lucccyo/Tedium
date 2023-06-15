@@ -24,16 +24,28 @@ Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
         strcat(path, dir->d_name);
         strcat(path, "/");
         /* creation of the floor */
-        printf("ready to add floor : %s\n", path);
         Floor *floor = create_floor(path, monsters);
         maze->floors[maze->max_floor] = floor;
         (maze->max_floor)++;
-        printf("new floor added : %s\n", path);
       }
     }
   }
   /* closing the file descriptor is important :) */
   closedir(fd);
+  for (int i = 0; i < maze->max_floor ; i++) {
+    display_floor(maze->floors[i]);
+  }
+
+  for (int i = 0; i < maze->max_floor - 1; i++) {
+    if (i == 0) { continue; }
+    maze->floors[i]->previous = maze->floors[i - 1];
+  }
+
+  for (int i = maze->max_floor - 1; i > 0; i--) {
+    if (i == maze->max_floor) { continue; }
+    maze->floors[i]->next = maze->floors[i + 1];
+  }
+
   /* making links to start the game */
   maze->state->current_floor = maze->floors[0];
   maze->state->current_room = maze->floors[0]->rooms[0];

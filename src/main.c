@@ -22,7 +22,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
   Monster * monster;
   switch (*tile) {
     case '@':
-      maze->state->current_floor = maze->state->current_floor->next;
+      // QUE LA WIN
     case '#':
       // empty
       return 0; break;
