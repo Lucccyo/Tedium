@@ -120,6 +120,7 @@ int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sou
     if (maze->state->player->health[0] <= 0)
     {
       play_player_death_sound(sounds);
+      set_current_screen(END_SCREEN);
       printf("\033[1;31mGAME OVER\033[0m\n");
     }
     display_player(maze->state->player);

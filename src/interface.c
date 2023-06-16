@@ -7,7 +7,9 @@ SDL_Texture *icons_texture;
 SDL_Texture *hearts_texture[5];
 
 int snapshot[5];
-SDL_Color ui_color_white = {214, 245, 248, 255};
+SDL_Color ui_color_main = {214, 245, 248, 255};
+SDL_Color ui_color_red = {225, 255, 255, 255};
+SDL_Color ui_color_green = {255, 225, 255, 255};
 SDL_Color ui_color = {200, 200, 200, 255};
 SDL_Texture *texts[5];
 SDL_Rect rects[5];
@@ -80,7 +82,7 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
     for (int i = 0; i < 3; i++)
     {
         sprintf(str, "%s", options[i]);
-        SDL_Surface *surface = TTF_RenderText_Blended(interface->font_b, str, ui_color_white);
+        SDL_Surface *surface = TTF_RenderText_Blended(interface->font_b, str, ui_color_main);
         SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, surface);
 
         int x = WINDOW_WIDTH / 2 - surface->w / 2;
@@ -122,6 +124,29 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
     interface->menu[0] = pause_el;
     interface->menu[1] = resume_el;
     interface->menu[2] = quit_el;
+
+    // end screen stuff
+    char str2[16];
+    char *options2[] = {"You lost!", "You won!"};
+    for (int i = 0; i < 2; i++)
+    {
+        sprintf(str2, "%s", options2[i]);
+        SDL_Color color = i == 0 ? ui_color_red : ui_color_green;
+        SDL_Surface *surface = TTF_RenderText_Blended(interface->font_b, str2, color);
+        SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, surface);
+
+        int x = WINDOW_WIDTH / 2 - surface->w / 2;
+        int y = (int)((WINDOW_HEIGHT * 2 / 5));
+
+        interface->end_screen[i + 1] = gui_create(create_rect(x, y, surface->w, surface->h),
+                                                 create_rect(0, 0, surface->w, surface->h),
+                                                 text,
+                                                 &onDefaultClick);
+
+        SDL_FreeSurface(surface);
+    }
+
+    interface->end_screen[0] = quit_el;
 
     printf("interface generated\n");
     return interface;
@@ -219,6 +244,18 @@ void draw_main_menu(SDL_Renderer *renderer, Interface *interface, Texture *textu
     }
 }
 
+void draw_end_screen(SDL_Renderer *renderer, Interface *interface, Texture *texture)
+{
+    gui_display(renderer, interface->end_screen[0], texture);
+
+    Player *player = interface->maze->state->player;
+    if (player->health[0] <= 0) {
+        gui_display(renderer, interface->end_screen[1], texture);
+    } else {
+        gui_display(renderer, interface->end_screen[2], texture);
+    }
+}
+
 void draw_gui(SDL_Renderer *renderer, Interface *interface, Texture *texture)
 {
     // set all the frames to hidden
@@ -247,8 +284,10 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface, Texture *texture)
     case MAIN_MENU: // main meun screen
         draw_main_menu(renderer, interface, texture);
         break;
-
-    default:
+    case END_SCREEN:
+        draw_end_screen(renderer, interface, texture);
+        break;
+     default:
         break;
     }
 }
