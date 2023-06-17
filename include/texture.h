@@ -5,6 +5,7 @@
 
 #define RECTS_AMOUNT 21
 
+/* Used to reduce code later when dealing with tilesets */
 enum {
     RECT_FLOOR,
     RECT_VOID,
@@ -36,8 +37,11 @@ typedef struct {
     SDL_Rect rects[RECTS_AMOUNT];
 } Texture;
 
+/* Load img as surface, transform them to textures and free priviously created surfaces */
 Texture * load_textures(SDL_Renderer* renderer);
 
+
+/* Return a SDL_Rect object created with his parameters */
 SDL_Rect create_rect(int x, int y, int w, int h);
 
 

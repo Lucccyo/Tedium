@@ -4,9 +4,11 @@
 #include "SDL2/SDL.h"
 #include "texture.h"
 
-#define FRAME_DURATION 250 // ms
+#define FRAME_DURATION 250
 #define ANIMATIONS_AMOUNT 21
 
+/* Amount of frames of every animation
+Innanimated sprites have only 1 frame */
 enum {
     FLOOR_ANIMATION_FRAMES = 1,
     VOID_ANIMATION_FRAMES = 1,
@@ -33,18 +35,20 @@ enum {
 
 typedef struct {
     Uint32 last_update;
+    /* Used to stop all the animations */
     int update;
     /* actual animation state of every objects */
     int animation_states[ANIMATIONS_AMOUNT];
-    // int animation_frames[ANIMATIONS_AMOUNT];
 } Animator;
 
+/* Return an animator struct pointer wich handle all animation states of the game */
 Animator* create_animator();
 
+/* Incresase the animation states depending on the time elapsed since the last step call */
 void animation_step(Animator *animator, Texture *texture);
 
+/* Toggle animations */
 void activate_animation(Animator *animator);
-
 void desactivate_animation(Animator *animator);
 
 #endif

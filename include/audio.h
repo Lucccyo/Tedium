@@ -8,11 +8,11 @@
 #define ATTACKS_AMOUNT 3
 
 typedef struct Sound {
-    /* Loading musics */
+    /* Musics */
     Mix_Music *musics[2];
     int current_music;
 
-    /* Loading sounds */
+    /* Sounds */
     Mix_Chunk *attacks[3];
     Mix_Chunk *player_death;
     Mix_Chunk *enemy_death;
@@ -22,8 +22,13 @@ typedef struct Sound {
     Mix_Chunk *powerup_pickup;
 } Sound;
 
+/* Return a pointer to Sound struct which handle sounds/music playing */
 Sound *create_sounds();
+
+/* Start the next music or reset count if all have been played */
 void play_music(Sound *sound);
+
+/* Folowing functions play a specific sound */
 void play_attack_sound(Sound *sound);
 void play_player_death_sound(Sound *sound);
 void play_enemy_death_sound(Sound *sound);

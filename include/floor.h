@@ -1,6 +1,7 @@
 #ifndef FLOOR_H
 #define FLOOR_H
 
+/* Floor can't excess this size */
 #define FLOOR_SIZE 16
 
 #include <stdio.h>
@@ -12,6 +13,7 @@ typedef struct Floor Floor;
 struct Floor {
     int id;
     Room *rooms[FLOOR_SIZE];
+    /* Pointers to others floors */
     Floor *next;
     Floor *previous;
 };
