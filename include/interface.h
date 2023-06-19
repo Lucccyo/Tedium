@@ -37,7 +37,7 @@ typedef struct interface Interface;
 Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture * texture);
 void destroy_interface(Interface *interface);
 
-void gui_display(SDL_Renderer *renderer, GUI_Element *element, Texture *texture);
+void gui_display(SDL_Renderer *renderer, GUI_Element *element);
 void draw_gui(SDL_Renderer *renderer, Interface *interface, Texture *texture);
 
 void set_current_screen(int screen);

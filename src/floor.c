@@ -2,30 +2,32 @@
 
 Floor* create_floor(char level_path[], Hashtbl *monsters) {
     /* get level number in level_path */
-
     Floor *floor = malloc(sizeof(Floor));
     floor->id = atoi(&level_path[10]);
 
     int rooms_amount = 0;
 
-    /* generate rooms recursively */
+    /* Get the name of the first room */
     char starting_room[30];
     strcpy(starting_room, level_path);
     strcat(starting_room, "entry.level");
 
+    /* Generate rooms recursively */
     generate_rooms_from_file(starting_room, floor->rooms, &rooms_amount, monsters);
 
-    /* set coordinates and make them positives */
+    /* set rooms coordinates and make them positives */
     floor->rooms[0]->x = 0;
     floor->rooms[0]->y = 0;
     set_rooms_coordinates(floor->rooms[0]);
     int min_x = 100;
     int min_y = 100;
+    /* find min x and y */
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
         if (floor->rooms[i]->x < min_x) { min_x = floor->rooms[i]->x; }
         if (floor->rooms[i]->y < min_y) { min_y = floor->rooms[i]->y; }
     }
+    /* Increment coords by min x and y values */
     for (int i = 0; i < FLOOR_SIZE; i++) {
         if (floor->rooms[i] == NULL) { break; }
         floor->rooms[i]->x -= min_x;
@@ -34,6 +36,7 @@ Floor* create_floor(char level_path[], Hashtbl *monsters) {
     return floor;
 }
 
+/* Recursively set coords of each rooms by moving trough them */
 void set_rooms_coordinates(Room *room) {
     if (room->neighbors[EAST] != NULL) {
         if (room->neighbors[EAST]->x == -100) {

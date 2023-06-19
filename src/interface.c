@@ -152,7 +152,7 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
     return interface;
 }
 
-void gui_display(SDL_Renderer *renderer, GUI_Element *element, Texture *texture)
+void gui_display(SDL_Renderer *renderer, GUI_Element *element)
 {
     SDL_RenderCopy(renderer, element->texture, &element->src_rect, &element->dest_rect);
     element->displayed = 1;
@@ -232,27 +232,27 @@ void draw_menu(SDL_Renderer *renderer, Interface *interface, Texture *texture)
     draw_hud(renderer, interface, texture);
     for (int i = 0; i < (int)(sizeof(interface->menu) / sizeof(interface->menu[0])); i++)
     {
-        gui_display(renderer, interface->menu[i], texture);
+        gui_display(renderer, interface->menu[i]);
     }
 }
 
-void draw_main_menu(SDL_Renderer *renderer, Interface *interface, Texture *texture)
+void draw_main_menu(SDL_Renderer *renderer, Interface *interface)
 {
     for (int i = 0; i < (int)(sizeof(interface->main_menu) / sizeof(interface->main_menu[0])); i++)
     {
-        gui_display(renderer, interface->main_menu[i], texture);
+        gui_display(renderer, interface->main_menu[i]);
     }
 }
 
-void draw_end_screen(SDL_Renderer *renderer, Interface *interface, Texture *texture)
+void draw_end_screen(SDL_Renderer *renderer, Interface *interface)
 {
-    gui_display(renderer, interface->end_screen[0], texture);
+    gui_display(renderer, interface->end_screen[0]);
 
     Player *player = interface->maze->state->player;
     if (player->health[0] <= 0) {
-        gui_display(renderer, interface->end_screen[1], texture);
+        gui_display(renderer, interface->end_screen[1]);
     } else {
-        gui_display(renderer, interface->end_screen[2], texture);
+        gui_display(renderer, interface->end_screen[2]);
     }
 }
 
@@ -282,10 +282,10 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface, Texture *texture)
         draw_hud(renderer, interface, texture);
         break;
     case MAIN_MENU: // main meun screen
-        draw_main_menu(renderer, interface, texture);
+        draw_main_menu(renderer, interface);
         break;
     case END_SCREEN:
-        draw_end_screen(renderer, interface, texture);
+        draw_end_screen(renderer, interface);
         break;
      default:
         break;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include <string.h>
 #include <SDL2/SDL_mixer.h>
 #include <time.h>
@@ -18,8 +19,7 @@
 #undef main
 #endif
 
-int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sounds)
-{
+int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *sounds) {
   /* return 1 if the player can go on this tile and 0 otherwise */
   /* operates here events of special tiles */
   srand(time(NULL));
@@ -228,9 +228,9 @@ int main()
     return 1;
   }
 
-  window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-  if (window == NULL)
-  {
+  window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED,
+           SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+  if (window == NULL) {
     printf("Error creating window: %s\n", SDL_GetError());
     return 1;
   }

@@ -13,7 +13,7 @@ INC=-I include/
 ifeq ($(UNAME_S),Linux)
 	LIB= -l SDL2_ttf -l SDL2_mixer -l SDL2
 else ifeq ($(UNAME_S),Darwin)
-	LIB= -l sdl2_ttf -l SDL2_mixer-2.0.0 -l SDL2
+	LIB= -l sdl2_ttf -l SDL2_mixer -l SDL2
 else ifeq ($(UNAME_S),Windows)
 	LIB= -L ./lib -l mingw32 -l SDL2main -l SDL2
 

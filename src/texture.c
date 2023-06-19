@@ -50,7 +50,6 @@ Texture * load_textures(SDL_Renderer* renderer) {
     SDL_Surface *heart3_surface = SDL_LoadBMP("img/heart3.bmp");
     SDL_Surface *heart4_surface = SDL_LoadBMP("img/heart4.bmp");
     SDL_Surface *heart5_surface = SDL_LoadBMP("img/heart5.bmp");
-    SDL_Surface *background_surface = SDL_LoadBMP("img/main_menu.bmp");
 
     textures->hearts_texture[0] = SDL_CreateTextureFromSurface(renderer, heart1_surface);
     textures->hearts_texture[1] = SDL_CreateTextureFromSurface(renderer, heart2_surface);
