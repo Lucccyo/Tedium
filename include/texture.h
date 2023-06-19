@@ -3,7 +3,7 @@
 
 #include "SDL2/SDL.h"
 
-#define RECTS_AMOUNT 21
+#define RECTS_AMOUNT 22
 #define RECTS_UI_AMOUNT 8
 
 /* Used to reduce code later when dealing with tilesets */
@@ -29,6 +29,7 @@ enum {
     RECT_PLAYER_BACK,
     RECT_PLAYER_LEFT,
     RECT_PLAYER_RIGHT,
+    RECT_PORTAL,
 };
 
 enum {

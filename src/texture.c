@@ -32,6 +32,7 @@ Texture * load_textures(SDL_Renderer* renderer) {
     textures->rects[RECT_MONSTER_C] = create_rect(0, 336, 24, 24);
     textures->rects[RECT_DOOR] = create_rect(0, 384, 24, 48);
     textures->rects[RECT_LIGHT] = create_rect(0, 432, 72, 72);
+    textures->rects[RECT_PORTAL] = create_rect(48, 384, 24, 48);
 
     /* same with the ui rects */
     textures->rects_ui[RECT_ATTACK_ICON] = create_rect(0, 0, 12, 12);
