@@ -3,6 +3,7 @@
 /* create a player */
 Player * create_player(int x_grid, int y_grid) {
   Player *p = malloc(sizeof(Player));
+  /* initialize the player with default values */
   p->health[health] = 10; p->health[max_health] = 10;
   p->stats[attack] = 2; p->stats[defense] = 1;
   p->key_number = 0;

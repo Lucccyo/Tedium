@@ -1,6 +1,7 @@
 #include "maze.h"
 
 Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
+  /* initializing everithing to create the maze */
   Maze * maze = (Maze*) malloc(sizeof(Maze));
   State * state = (State*) malloc(sizeof(State));
   Player * player = create_player(x_player, y_player);
@@ -36,11 +37,12 @@ Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
     display_floor(maze->floors[i]);
   }
 
+  /* if there is more than one floor, we set up their connection,
+     as a double linked list */
   for (int i = 0; i < maze->max_floor - 1; i++) {
     if (i == 0) { continue; }
     maze->floors[i]->previous = maze->floors[i - 1];
   }
-
   for (int i = maze->max_floor - 1; i > 0; i--) {
     if (i == maze->max_floor) { continue; }
     maze->floors[i]->next = maze->floors[i + 1];

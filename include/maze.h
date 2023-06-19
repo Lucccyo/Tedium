@@ -13,6 +13,8 @@
 
 #define MAX_FLOOR 30
 
+/* Store the displayed environment.
+   This part is going to evolve through the game. */
 struct state {
   Player * player;
   Floor  * current_floor;
@@ -22,10 +24,11 @@ typedef struct state State;
 
 struct maze {
   int max_floor;
+  /* We can store several floors connected to the others,
+     in order to add more fun to Tedium */
   Floor * floors[MAX_FLOOR];
   Hashtbl * monsters;
   State * state;
-
 };
 typedef struct maze Maze;
 

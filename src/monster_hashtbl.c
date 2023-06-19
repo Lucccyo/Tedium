@@ -1,6 +1,7 @@
 #include "monster_hashtbl.h"
 
 void reset_elem (Elem * e, int x, int y, char room_name[], int floor_num, Monster * m) {
+  /* the malloc is made outside, here is just reinitializations */
   e->key = x + y + floor_num;
   e->x_tile = x;
   e->y_tile = y;
@@ -10,13 +11,17 @@ void reset_elem (Elem * e, int x, int y, char room_name[], int floor_num, Monste
 }
 
 Hashtbl * create_hashtbl(){
+  /* The hashtable is created empty,
+     the 1024 elements are allocated in memory to simplify adds and removes*/
   Hashtbl * h = malloc(sizeof(Hashtbl));
   for (int i = 0 ; i < MAX_SIZE ; i++) {
     Elem * e = (Elem*) malloc(sizeof(Elem));
     e->key = -1;
     h->array[i] = e;
   }
+  /* cap is the maximal size of the hashtable */
   h->cap = MAX_SIZE;
+  /* size is the number of real elements added inside */
   h->size = 0;
   return h;
 }
@@ -36,9 +41,7 @@ void insert_monster (Hashtbl * h,
     i++;
     if (i >= h->cap){
       assert(false);
-      /* We resize by multiplying the hashtable by two, to store more values */
-      // h->array[0] = (Elem *) realloc((void*) h->array, sizeof(Elem)*2*h->cap);
-      // (h->cap)*=2;
+      /* Later feature: We resize by multiplying the hashtable by two, to store more values */
     }
   }
   Monster * m = create_monster(health_max, attack, defense, x_tile, y_tile);
@@ -59,6 +62,7 @@ Monster * linear_search(Hashtbl * h, int x, int y, char room_name[], int floor_n
 
 Monster * find_monster(Hashtbl * h, int y, int x, char room_name[], int floor_num) {
   int i = hash(x, y, floor_num, room_name, h->cap);
+  /* we calculate the hash of the key to know the region of the value in the hashtbl */
   return(linear_search(h, y, x, room_name, floor_num, &i));
 }
 
