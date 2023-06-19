@@ -47,8 +47,6 @@ Animator* create_animator();
 /* Incresase the animation states depending on the time elapsed since the last step call */
 void animation_step(Animator *animator, Texture *texture);
 
-/* Toggle animations */
-void activate_animation(Animator *animator);
-void desactivate_animation(Animator *animator);
+void toggle_animation(Animator *animator, int val);
 
 #endif
