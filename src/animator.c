@@ -1,5 +1,6 @@
 #include "animator.h"
 
+/* Fill an array with all the amounts of frames per animations to reduce code later */
 const int FRAME_AMOUNTS[ANIMATIONS_AMOUNT] = {
     FLOOR_ANIMATION_FRAMES,
     VOID_ANIMATION_FRAMES,
@@ -27,8 +28,10 @@ const int FRAME_AMOUNTS[ANIMATIONS_AMOUNT] = {
 
 Animator* create_animator() {
     Animator *animator = (Animator*) malloc(sizeof(Animator));
+    /* Activate animations */
     animator->update = 1;
     animator->last_update = SDL_GetTicks();
+    /* Set all animatiobs states to 0 */
     for (int i = 0; i < ANIMATIONS_AMOUNT; i++) {
         animator->animation_states[i] = 0;
     }
@@ -36,11 +39,13 @@ Animator* create_animator() {
 }
 
 void animation_step(Animator *animator, Texture *texture) {
+    /* If the time elapsed is not enought, stop the step function here */
     if (animator->update == 0) { return; }
 
     Uint32 current_time = SDL_GetTicks();
     float delta_time = (current_time - animator->last_update);
     if (delta_time < FRAME_DURATION) { return; }
+    /* Increment all states by 1 and reset them if the last frame is reached */
     for (int i = 0; i < ANIMATIONS_AMOUNT; i++) {
         animator->animation_states[i] += 1;
         texture->rects[i].x += texture->rects[i].w;
@@ -52,10 +57,6 @@ void animation_step(Animator *animator, Texture *texture) {
     animator->last_update = current_time;
 }
 
-void activate_animation(Animator *animator) {
-    animator->update = 1;
-}
-
-void deactivate_animation(Animator *animator) {
-    animator->update = 0;
+void toggle_animation(Animator *animator, int val) {
+    animator->update = val;
 }
