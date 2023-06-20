@@ -25,20 +25,20 @@ Avec une clé, vous pourrez ouvrir une porte qui disparaîtra pour toujours une 
 
 ### Consommables
 
-| ![](./rules_images/cle.png) Clé | La clé est stockée dans l'inventaire et s'utilise automatiquement lorsque vous entrez dans une porte. |
+| <img src="./rules_images/cle.png" width="40" height="40"> Clé | La clé est stockée dans l'inventaire et s'utilise automatiquement lorsque vous entrez dans une porte. |
 | --- | --- |
-| ![](./rules_images/potion.png) Potion | La potion redonne toute la vie au joueur. |
-| ![](./rules_images/atk.png) Power-up d'attaque | Votre attaque augmente de 1. |
-| ![](./rules_images/def.png) Power-up de défense | Votre défense augmente de 1. |
-| ![](./rules_images/hp.png) Power-up de vie | Votre vie maximale augmente de 3. |
+| <img src="./rules_images/potion.png" width="40" height="40"> Potion | La potion redonne toute la vie au joueur. |
+| <img src="./rules_images/atk.png" width="40" height="40"> Power-up d'attaque | Votre attaque augmente de 1. |
+| <img src="./rules_images/def.png" width="40" height="40"> Power-up de défense | Votre défense augmente de 1. |
+| <img src="./rules_images/hp.png" width="40" height="40"> Power-up de vie | Votre vie maximale augmente de 3. |
 
 ### Les monstres
 
 |  | PV | Force  | Armure |
 | --- | --- | --- | --- |
-| ![](./rules_images/squelette.png) Squelette | 5 | 1 | 1 |
-| ![](./rules_images/gobelin.png) Gobelin | 10 | 3 | 2 |
-| ![](./rules_images/fantome.png) Fantôme | 20 | 5 | 4 |
+| <img src="./rules_images/squelette.png" width="40" height="40"> Squelette | 5 | 1 | 1 |
+| <img src="./rules_images/gobelin.png" width="40" height="40"> Gobelin | 10 | 3 | 2 |
+| <img src="./rules_images/fantome.png" width="40" height="40"> Fantôme | 20 | 5 | 4 |
 
 ### Commandes de jeu
 
