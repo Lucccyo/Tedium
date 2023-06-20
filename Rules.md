@@ -44,8 +44,8 @@ Avec une clé, vous pourrez ouvrir une porte qui disparaîtra pour toujours une 
 
 ### Commandes de jeu
 
-Vous pouvez jouer au jeu en utilisant les commandes ZQSD ou les flèches.
+Vous pouvez jouer au jeu en utilisant les commandes ZQSD ou WASD ou les flèches.
 
 ### Mode de triche
 
-En appuyant simultanément sur les touches "triche", vous passez en mode de triche.
+En appuyant simultanément sur les touches "cheat", vous passez en mode de triche.
