@@ -3,7 +3,7 @@
 int current_screen = MAIN_MENU;
 SDL_Texture *icons_texture;
 
-/* need to be put in texture.c */
+// TODO move to texture.c
 SDL_Texture *hearts_texture[5];
 
 int snapshot[5];
@@ -14,52 +14,48 @@ SDL_Color ui_color = {200, 200, 200, 255};
 SDL_Texture *texts[5];
 SDL_Rect rects[5];
 
-int get_current_screen()
-{
+// module methods
+int get_current_screen() {
     return current_screen;
 }
 
-void set_current_screen(int screen)
-{
+void set_current_screen(int screen) {
     current_screen = screen;
 }
 
-void onPlayClick()
-{
+// click callbacks functions
+void onPlayClick() {
     current_screen = GAME;
 }
 
-void onDefaultClick()
-{
+void onDefaultClick() {
+    // do nothing
+    return;
 }
 
-void onClick()
-{
+void onClick() {
     current_screen = PAUSE_MENU; // open menu
 }
 
-void onCloseClick()
-{
+void onCloseClick() {
     current_screen = GAME;
 }
 
-void onCreditsClick()
-{
+void onCreditsClick() {
     current_screen = CREDITS;
 }
 
-void goToMainMenu()
-{
+void goToMainMenu() {
     current_screen = MAIN_MENU;
 }
 
-void onQuitClick()
-{
-    current_screen = QUIT; // quit game
+void onQuitClick() {
+    current_screen = QUIT;
 }
 
 void (*callback)(int);
 
+// initialise the game's UIs
 Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
 {
     Interface *interface = (Interface *)malloc(sizeof(Interface));
@@ -111,6 +107,7 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
         SDL_FreeSurface(surface);
     }
 
+    // game esc menu
     int posx = (int)(WINDOW_WIDTH / 2 - 161 * 2 / 2);
     int posy = (int)(WINDOW_HEIGHT * 1 / 4);
 
@@ -133,7 +130,7 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
     interface->menu[1] = resume_el;
     interface->menu[2] = quit_el;
 
-    // end screen stuff
+    // end screen
     char str2[16];
     char *options2[] = {"You lost!", "You won!"};
     for (int i = 0; i < 2; i++)
@@ -174,6 +171,7 @@ void gui_display(SDL_Renderer *renderer, GUI_Element *element)
     element->displayed = 1;
 };
 
+// display player's "HUD"
 void draw_hud(SDL_Renderer *renderer, Interface *interface, Texture *texture)
 {
     SDL_Rect stencil;
@@ -243,6 +241,7 @@ void draw_hud(SDL_Renderer *renderer, Interface *interface, Texture *texture)
     }
 }
 
+// display the in game pause menu
 void draw_menu(SDL_Renderer *renderer, Interface *interface, Texture *texture)
 {
     draw_hud(renderer, interface, texture);
@@ -252,6 +251,7 @@ void draw_menu(SDL_Renderer *renderer, Interface *interface, Texture *texture)
     }
 }
 
+// display the main screen
 void draw_main_menu(SDL_Renderer *renderer, Interface *interface)
 {
     for (int i = 0; i < (int)(sizeof(interface->main_menu) / sizeof(interface->main_menu[0])); i++)
@@ -260,14 +260,15 @@ void draw_main_menu(SDL_Renderer *renderer, Interface *interface)
     }
 }
 
+// display win or lose window
 void draw_end_screen(SDL_Renderer *renderer, Interface *interface)
 {
     gui_display(renderer, interface->end_screen[0]);
 
     Player *player = interface->maze->state->player;
-    if (player == NULL || player->health[0] <= 0)
+    if (player->health[0] <= 0)
     {
-        gui_display(renderer, interface->end_screen[2]);
+        gui_display(renderer, interface->end_screen[1]);
     }
     else
     {
@@ -275,6 +276,7 @@ void draw_end_screen(SDL_Renderer *renderer, Interface *interface)
     }
 }
 
+// display the credits
 void draw_credits(SDL_Renderer *renderer, Interface *interface)
 {
     for (int i = 0; i < (int)(sizeof(interface->credits) / sizeof(interface->credits[0])); i++)
@@ -283,6 +285,7 @@ void draw_credits(SDL_Renderer *renderer, Interface *interface)
     }
 }
 
+// draw the correct GUI depending on the current_screen settings, and reset GUIs active states
 void draw_gui(SDL_Renderer *renderer, Interface *interface, Texture *texture)
 {
     // set all the frames to hidden
@@ -327,6 +330,7 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface, Texture *texture)
     }
 }
 
+// function to call at the end of the program to free ressources
 void destroy_interface(Interface *interface)
 {
     for (int i = 0; i < 5; i++)
@@ -335,7 +339,25 @@ void destroy_interface(Interface *interface)
     }
     SDL_DestroyTexture(icons_texture);
 
-    // todo : destroy interface textures
+    // destroy interface textures
+    for (int i = 0; i < (int)(sizeof(interface->menu) / sizeof(interface->menu[0])); i++)
+    {
+        interface->menu[i]->texture = 0;
+    }
+    for (int i = 0; i < (int)(sizeof(interface->hud) / sizeof(interface->hud[0])); i++)
+    {
+        interface->menu[i]->texture = 0;
+    }
+    for (int i = 0; i < (int)(sizeof(interface->main_menu) / sizeof(interface->main_menu[0])); i++)
+    {
+        interface->menu[i]->texture = 0;
+    }
+
+    for (int i = 0; i < (int)(sizeof(interface->credits) / sizeof(interface->credits[0])); i++)
+    {
+        interface->menu[i]->texture = 0;
+    }
+
 
     TTF_CloseFont(interface->font);
     TTF_CloseFont(interface->font_b);
