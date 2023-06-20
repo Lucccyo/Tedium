@@ -265,9 +265,9 @@ void draw_end_screen(SDL_Renderer *renderer, Interface *interface)
     gui_display(renderer, interface->end_screen[0]);
 
     Player *player = interface->maze->state->player;
-    if (player->health[0] <= 0)
+    if (player == NULL || player->health[0] <= 0)
     {
-        gui_display(renderer, interface->end_screen[1]);
+        gui_display(renderer, interface->end_screen[2]);
     }
     else
     {
