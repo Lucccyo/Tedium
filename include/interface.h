@@ -18,7 +18,8 @@ enum
     GAME,
     PAUSE_MENU,
     MAIN_MENU,
-    END_SCREEN
+    END_SCREEN,
+    CREDITS,
 };
 
 /* Contains all SDL_Textures used in the game */
@@ -30,6 +31,7 @@ struct interface {
     GUI_Element *hud[0];
     GUI_Element *main_menu[4];
     GUI_Element *end_screen[3];
+    GUI_Element *credits[2];
 };
 
 typedef struct interface Interface;

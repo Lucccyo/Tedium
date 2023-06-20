@@ -19,13 +19,15 @@
 #undef main
 #endif
 
-int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *sounds) {
+int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sounds)
+{
   /* return 1 if the player can go on this tile and 0 otherwise */
   /* operates here events of special tiles */
   srand(time(NULL));
   char *tile = &(maze->state->current_room->tiles[x_tile][y_tile]);
   Monster *monster;
-  switch (*tile) {
+  switch (*tile)
+  {
   case '#':
     // empty
     return 0;
@@ -33,11 +35,20 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
   case '?':
     // exit
     maze->state->current_room = maze->state->current_room->neighbors[dir];
-    switch (dir) {
-      case NORTH: maze->state->player->coordinate[y] = ROOM_SIZE - 1; break;
-      case SOUTH: maze->state->player->coordinate[y] = 0; break;
-      case EAST: maze->state->player->coordinate[x] = 0; break;
-      case WEST: maze->state->player->coordinate[x] = ROOM_SIZE - 1; break;
+    switch (dir)
+    {
+    case NORTH:
+      maze->state->player->coordinate[y] = ROOM_SIZE - 1;
+      break;
+    case SOUTH:
+      maze->state->player->coordinate[y] = 0;
+      break;
+    case EAST:
+      maze->state->player->coordinate[x] = 0;
+      break;
+    case WEST:
+      maze->state->player->coordinate[x] = ROOM_SIZE - 1;
+      break;
     }
     return 1;
     break;
@@ -90,7 +101,8 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
                            maze->state->current_floor->id);
     int delta_atk = maze->state->player->stats[attack] - monster->stats[defense];
     update_health_monster(monster->health, ((delta_atk > 0) ? -delta_atk : -1));
-    if (monster->health[0] <= 0) {
+    if (monster->health[0] <= 0)
+    {
       play_enemy_death_sound(sounds);
       printf("\033[1;31mle monstre est mort\033[0m\n");
       remove_monster(maze->monsters,
@@ -106,7 +118,8 @@ int event_on_tiles(int x_tile, int y_tile, Maze * maze, Direction dir, Sound *so
     }
     delta_atk = monster->stats[attack] - maze->state->player->stats[defense];
     update_health(maze->state->player->health, ((delta_atk > 0) ? -delta_atk : -1));
-    if (maze->state->player->health[0] <= 0) {
+    if (maze->state->player->health[0] <= 0)
+    {
       play_player_death_sound(sounds);
       set_current_screen(END_SCREEN);
       printf("\033[1;31mGAME OVER\033[0m\n");
@@ -217,8 +230,9 @@ int main()
   }
 
   window = SDL_CreateWindow("Tedium", SDL_WINDOWPOS_UNDEFINED,
-           SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-  if (window == NULL) {
+                            SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+  if (window == NULL)
+  {
     printf("Error creating window: %s\n", SDL_GetError());
     return 1;
   }
@@ -311,6 +325,11 @@ int main()
           display_player(maze->state->player);
           break;
         case SDLK_ESCAPE: // toggle pause menu on escape
+          if (get_current_screen() != GAME)
+          {
+            break;
+          }
+
           if (get_current_screen() == PAUSE_MENU)
           {
             set_current_screen(GAME);
@@ -348,6 +367,14 @@ int main()
           if (gui_clicked(event.button, interface->main_menu[i]))
           {
             interface->main_menu[i]->callback(i);
+          }
+        }
+        
+        for (int i = 0; i < (int)(sizeof(interface->credits) / sizeof(interface->credits[0])); i++)
+        {
+          if (gui_clicked(event.button, interface->credits[i]))
+          {
+            interface->credits[i]->callback(i);
           }
         }
         break;
