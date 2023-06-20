@@ -25,12 +25,14 @@ Avec une clé, vous pourrez ouvrir une porte qui disparaîtra pour toujours une 
 
 ### Consommables
 
-| <img src="./rules_images/cle.png" width="40" height="40"> Clé | La clé est stockée dans l'inventaire et s'utilise automatiquement lorsque vous entrez dans une porte. |
-| --- | --- |
-| <img src="./rules_images/potion.png" width="40" height="40"> Potion | La potion redonne toute la vie au joueur. |
-| <img src="./rules_images/atk.png" width="40" height="40"> Power-up d'attaque | Votre attaque augmente de 1. |
-| <img src="./rules_images/def.png" width="40" height="40"> Power-up de défense | Votre défense augmente de 1. |
-| <img src="./rules_images/hp.png" width="40" height="40"> Power-up de vie | Votre vie maximale augmente de 3. |
+|  | Item | Explication |
+| --- | --- | --- |
+| <img src="./rules_images/cle.png" width="40" height="40"> | Clé | La clé est stockée dans l'inventaire et s'utilise automatiquement lorsque vous entrez dans une porte. |
+| <img src="./rules_images/potion.png" width="40" height="40"> | Potion | La potion redonne toute la vie au joueur. |
+| <img src="./rules_images/atk.png" width="40" height="40"> | Power-up d'attaque | Votre attaque augmente de 1. |
+| <img src="./rules_images/def.png" width="40" height="40"> | Power-up de défense | Votre défense augmente de 1. |
+| <img src="./rules_images/hp.png" width="40" height="40"> | Power-up de vie | Votre vie maximale augmente de 3. |
+
 
 ### Les monstres
 
