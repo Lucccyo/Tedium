@@ -43,6 +43,11 @@ void onCloseClick()
     current_screen = GAME;
 }
 
+void onCreditsClick()
+{
+    current_screen = CREDITS;
+}
+
 void goToMainMenu()
 {
     current_screen = MAIN_MENU;
@@ -64,13 +69,16 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
     interface->font_b = TTF_OpenFont("./gfx/nokiafc22.ttf", 48);
 
     SDL_Surface *title_background_asset = SDL_LoadBMP("gfx/mainmenubg.bmp");
+    SDL_Surface *credits_asset = SDL_LoadBMP("gfx/credits.bmp");
     SDL_Surface *icons_asset = SDL_LoadBMP("gfx/ui_tileset.bmp");
 
     SDL_Texture *background = SDL_CreateTextureFromSurface(renderer, title_background_asset);
+    SDL_Texture *credits = SDL_CreateTextureFromSurface(renderer, credits_asset);
     icons_texture = SDL_CreateTextureFromSurface(renderer, icons_asset);
 
     SDL_FreeSurface(icons_asset);
     SDL_FreeSurface(title_background_asset);
+    SDL_FreeSurface(credits_asset);
 
     // main display
     interface->main_menu[0] = gui_create(create_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT),
@@ -91,7 +99,7 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
         if (i == 0)
             callback = &onPlayClick;
         else if (i == 1)
-            callback = &onDefaultClick;
+            callback = &onCreditsClick;
         else if (i == 2)
             callback = &onQuitClick;
 
@@ -139,16 +147,24 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
         int y = (int)((WINDOW_HEIGHT * 2 / 5));
 
         interface->end_screen[i + 1] = gui_create(create_rect(x, y, surface->w, surface->h),
-                                                 create_rect(0, 0, surface->w, surface->h),
-                                                 text,
-                                                 &onDefaultClick);
+                                                  create_rect(0, 0, surface->w, surface->h),
+                                                  text,
+                                                  &onDefaultClick);
 
         SDL_FreeSurface(surface);
     }
 
     interface->end_screen[0] = quit_el;
 
-    printf("interface generated\n");
+    // credits screen
+    GUI_Element *credits_el = gui_create(
+        create_rect((int)(WINDOW_WIDTH / 2 - 160), (int)(WINDOW_HEIGHT / 2 - 110), 320, 440),
+        create_rect(0, 0, 320, 440),
+        credits, &goToMainMenu);
+
+    interface->credits[0] = interface->main_menu[0];
+    interface->credits[1] = credits_el;
+
     return interface;
 }
 
@@ -249,10 +265,21 @@ void draw_end_screen(SDL_Renderer *renderer, Interface *interface)
     gui_display(renderer, interface->end_screen[0]);
 
     Player *player = interface->maze->state->player;
-    if (player->health[0] <= 0) {
-        gui_display(renderer, interface->end_screen[1]);
-    } else {
+    if (player == NULL || player->health[0] <= 0)
+    {
         gui_display(renderer, interface->end_screen[2]);
+    }
+    else
+    {
+        gui_display(renderer, interface->end_screen[2]);
+    }
+}
+
+void draw_credits(SDL_Renderer *renderer, Interface *interface)
+{
+    for (int i = 0; i < (int)(sizeof(interface->credits) / sizeof(interface->credits[0])); i++)
+    {
+        gui_display(renderer, interface->credits[i]);
     }
 }
 
@@ -272,6 +299,11 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface, Texture *texture)
         interface->hud[i]->displayed = 0;
     }
 
+    for (int i = 0; i < (int)(sizeof(interface->credits) / sizeof(interface->credits[0])); i++)
+    {
+        interface->credits[i]->displayed = 0;
+    }
+
     // show the correct interfaces depending on the state
     switch (current_screen)
     {
@@ -287,7 +319,10 @@ void draw_gui(SDL_Renderer *renderer, Interface *interface, Texture *texture)
     case END_SCREEN:
         draw_end_screen(renderer, interface);
         break;
-     default:
+    case CREDITS:
+        draw_credits(renderer, interface);
+        break;
+    default:
         break;
     }
 }
