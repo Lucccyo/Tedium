@@ -165,7 +165,6 @@ Interface *load_interfaces(SDL_Renderer *renderer, Maze *maze, Texture *texture)
     interface->credits[0] = interface->main_menu[0];
     interface->credits[1] = credits_el;
 
-    printf("interface generated\n");
     return interface;
 }
 

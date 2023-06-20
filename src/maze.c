@@ -33,9 +33,6 @@ Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
   }
   /* closing the file descriptor is important :) */
   closedir(fd);
-  for (int i = 0; i < maze->max_floor ; i++) {
-    display_floor(maze->floors[i]);
-  }
 
   /* if there is more than one floor, we set up their connection,
      as a double linked list */

@@ -93,6 +93,9 @@ int event_on_tiles(int x_tile, int y_tile, Maze *maze, Direction dir, Sound *sou
     full_health(maze->state->player->health);
     *tile = ' ';
     return 1;
+  case '@':
+    /* finish the game */
+    set_current_screen(END_SCREEN);
   case 'A' ... 'Y': // 'Z' is used for keys
     play_attack_sound(sounds);
     monster = find_monster(maze->monsters,
