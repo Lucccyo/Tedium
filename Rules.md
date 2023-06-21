@@ -1,5 +1,8 @@
-# Règles du jeu Tedium
+Installer l'extension VS Code pour visionner le fichier markdown avec les images.
+Name: Markdown All in One
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one
 
+# Règles du jeu Tedium
 ## Histoire
 
 Dans un monde déchiré par les conflits et envahi par les forces du mal, une légende raconte l'existence d'un être exceptionnel connu sous le nom de "l'Errant". Personne ne connaît son véritable nom ni son origine, mais sa présence est annoncée par des rumeurs sinistres et des signes étranges.
