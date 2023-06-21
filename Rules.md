@@ -2,6 +2,8 @@ Installer l'extension VS Code pour visionner le fichier markdown avec les images
 Name: Markdown All in One
 VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one
 
+Notre repo Github: https://github.com/Lucccyo/Tedium/
+
 # Règles du jeu Tedium
 ## Histoire
 
