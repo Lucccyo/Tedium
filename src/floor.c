@@ -23,13 +23,14 @@ Floor* create_floor(char level_path[], Hashtbl *monsters) {
     int min_y = 100;
     /* find min x and y */
     for (int i = 0; i < FLOOR_SIZE; i++) {
-        if (floor->rooms[i] == NULL) { break; }
+        if (i > rooms_amount - 1) { break; }
         if (floor->rooms[i]->x < min_x) { min_x = floor->rooms[i]->x; }
         if (floor->rooms[i]->y < min_y) { min_y = floor->rooms[i]->y; }
     }
+
     /* Increment coords by min x and y values */
     for (int i = 0; i < FLOOR_SIZE; i++) {
-        if (floor->rooms[i] == NULL) { break; }
+        if (i > rooms_amount - 1) { break; }
         floor->rooms[i]->x -= min_x;
         floor->rooms[i]->y -= min_y;
     }
