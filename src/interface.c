@@ -361,4 +361,5 @@ void destroy_interface(Interface *interface)
 
     TTF_CloseFont(interface->font);
     TTF_CloseFont(interface->font_b);
+    free(interface);
 };

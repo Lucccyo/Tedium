@@ -62,4 +62,6 @@ Texture * load_textures(SDL_Renderer* renderer);
 /* Return a SDL_Rect object created with his parameters */
 SDL_Rect create_rect(int x, int y, int w, int h);
 
+void free_texture(Texture * texture);
+
 #endif

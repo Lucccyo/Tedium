@@ -75,3 +75,7 @@ SDL_Rect create_rect(int x, int y, int w, int h) {
     rect.h = h;
     return rect;
 }
+
+void free_texture(Texture * texture){
+    free(texture);
+}
