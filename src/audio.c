@@ -25,8 +25,8 @@ void play_music(Sound *sound) {
     if (Mix_PlayingMusic() == 0) {
         /* Increment music count */
         sound->current_music += 1;
-        if (sound->current_music >= MUSICS_AMOUNT) { sound->current_music = 0; }
-        Mix_PlayMusic(sound->musics[sound->current_music], 0);
+        if (sound->current_music >= MUSICS_AMOUNT || sound->current_music < 0) { sound->current_music = 0; }
+        Mix_PlayMusic(sound->musics[sound->current_music], 1);
     }
 }
 
