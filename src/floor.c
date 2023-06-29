@@ -71,7 +71,7 @@ void set_rooms_coordinates(Room *room) {
 }
 
 void free_floor(Floor* floor) {
-    for (int i = 0; i < FLOOR_SIZE; i++) {
+    for (int i = 0; i < floor->rooms_amount; i++) {
         free_room(floor->rooms[i]);
     }
     free(floor);

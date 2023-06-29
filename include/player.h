@@ -45,4 +45,6 @@ void enable_cheat (Player *player);
 /* display debug */
 void display_player(Player *p);
 
+void free_player(Player *player);
+
 #endif

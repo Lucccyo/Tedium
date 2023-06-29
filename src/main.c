@@ -406,7 +406,7 @@ int main()
 
     SDL_RenderPresent(renderer);
   }
-  // free_maze(maze);
+  free_maze(maze);
   free_animator(animator);
   free_texture(texture);
   Mix_CloseAudio();
