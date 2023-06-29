@@ -34,6 +34,7 @@ Floor* create_floor(char level_path[], Hashtbl *monsters) {
         floor->rooms[i]->x -= min_x;
         floor->rooms[i]->y -= min_y;
     }
+    floor->rooms_amount = rooms_amount;
     return floor;
 }
 
