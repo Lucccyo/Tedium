@@ -94,15 +94,10 @@ void display_hashtbl(Hashtbl * h){
   printf("\n");
 }
 
-void free_elem(Elem * elem){
-  free_monster(elem->value);
-  free(elem);
-}
-
 void free_hashtbl(Hashtbl * hashtbl){
-for (int i = 0; i < hashtbl->cap ; i++) {
-    if (hashtbl->array[i]->key != -1)
-      free_elem(hashtbl->array[i]);
+  for (int i = 0; i < hashtbl->cap; i++) {
+    if (hashtbl->array[i]->key != -1) free_monster(hashtbl->array[i]->value);
+    free(hashtbl->array[i]);
   }
   free(hashtbl);
 }

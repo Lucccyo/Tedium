@@ -52,8 +52,6 @@ void remove_monster    (Hashtbl * h, int x, int y, char room_name[], int floor_n
 
 void display_hashtbl(Hashtbl * h);
 
-void free_elem(Elem * elem);
-
 void free_hashtbl(Hashtbl * hashtbl);
 
 #endif

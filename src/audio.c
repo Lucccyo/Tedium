@@ -59,3 +59,7 @@ void play_key_pickup_sound(Sound *sound) {
 void play_powerup_pickup_sound(Sound *sound) {
     Mix_PlayChannel(-1, sound->powerup_pickup, 0);
 }
+
+void free_sound(Sound* sound){
+    free(sound);
+}

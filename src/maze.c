@@ -59,4 +59,5 @@ void free_maze(Maze * maze){
     free_floor(maze->floors[i]);
   }
   free(maze->state);
+  free(maze);
 }

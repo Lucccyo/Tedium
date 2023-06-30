@@ -409,6 +409,7 @@ int main()
   free_maze(maze);
   free_animator(animator);
   free_texture(texture);
+  free_sound(sounds);
   Mix_CloseAudio();
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);

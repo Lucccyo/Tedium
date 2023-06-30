@@ -37,4 +37,6 @@ void play_open_door_sound(Sound *sound);
 void play_key_pickup_sound(Sound *sound);
 void play_powerup_pickup_sound(Sound *sound);
 
+void free_sound(Sound* sound);
+
 #endif
