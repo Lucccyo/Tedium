@@ -78,7 +78,8 @@ void remove_monster (Hashtbl * h, int x, int y, char room_name[], int floor_num)
   Monster * m = h->array[i]->value;
   h->array[i]->key = -1;
   (h->size)--;
-  free(m);
+  free_monster(m);
+  h->array[i]->value = NULL;
 }
 
 void display_hashtbl(Hashtbl * h){
