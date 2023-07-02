@@ -29,3 +29,7 @@ int gui_clicked(SDL_MouseButtonEvent mouse, GUI_Element *element) {
 
     return clicked;
 };
+
+void free_gui(GUI_Element* gui){
+    free(gui);
+}

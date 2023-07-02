@@ -373,7 +373,6 @@ int main()
             interface->main_menu[i]->callback(i);
           }
         }
-        
         for (int i = 0; i < (int)(sizeof(interface->credits) / sizeof(interface->credits[0])); i++)
         {
           if (gui_clicked(event.button, interface->credits[i]))
@@ -407,7 +406,10 @@ int main()
 
     SDL_RenderPresent(renderer);
   }
-
+  free_maze(maze);
+  free_animator(animator);
+  free_texture(texture);
+  free_sound(sounds);
   Mix_CloseAudio();
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);

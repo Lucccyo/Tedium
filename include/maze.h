@@ -34,4 +34,6 @@ typedef struct maze Maze;
 
 Maze * create_maze(char path[], int x_player, int y_player);
 
+void free_maze(Maze * maze);
+
 #endif

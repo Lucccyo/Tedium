@@ -51,3 +51,13 @@ Maze * create_maze(char path_to_dir[], int x_player, int y_player) {
   maze->state->player = player;
   return maze;
 }
+
+void free_maze(Maze * maze){
+  free_player(maze->state->player);
+  free_hashtbl(maze->monsters);
+  for (int i = 0 ; i < maze->max_floor; i++ ){
+    free_floor(maze->floors[i]);
+  }
+  free(maze->state);
+  free(maze);
+}

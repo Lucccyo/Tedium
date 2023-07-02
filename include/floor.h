@@ -13,6 +13,7 @@ typedef struct Floor Floor;
 struct Floor {
     int id;
     Room *rooms[FLOOR_SIZE];
+    int rooms_amount;
     /* Pointers to others floors */
     Floor *next;
     Floor *previous;

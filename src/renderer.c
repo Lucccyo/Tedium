@@ -120,7 +120,7 @@ void draw_minimap(SDL_Renderer* renderer, Floor *floor, Room *target_room) {
     Rect_dest.w = DRAW_TILE_SIZE/2;
     Rect_dest.h = DRAW_TILE_SIZE/2;
     for (int i = 0; i < FLOOR_SIZE; i++) {
-        if (floor->rooms[i] == NULL) { break; }
+        if (i > floor->rooms_amount - 1) { break; }
         if (floor->rooms[i] == target_room) {
             SDL_SetRenderDrawColor(renderer, 124, 123, 171, 255);
         } else {

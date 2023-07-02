@@ -361,4 +361,17 @@ void destroy_interface(Interface *interface)
 
     TTF_CloseFont(interface->font);
     TTF_CloseFont(interface->font_b);
+    /* main title, credit, play, quit*/
+    int main_amount = 4;
+    for (int i = 0; i < main_amount; i++){
+        free_gui(interface->main_menu[i]);
+    }
+    free_gui(interface->menu[1]);   // resume
+    free_gui(interface->menu[0]);   // pause
+    free_gui(interface->credits[1]); // credit at one point ??
+    int end_amount = 3;
+    for (int i = 0; i < end_amount; i++){
+        free_gui(interface->end_screen[i]);
+    }
+    free(interface);
 };

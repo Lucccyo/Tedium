@@ -26,7 +26,7 @@ main:
 	./a.out
 
 debug:
-	$(CC) $(CFLAGS) $(SRC) $(INC) $(LIB)
+	$(CC) -fsanitize=address -g $(CFLAGS) $(SRC) $(INC) $(LIB)
 	./a.out
 
 test-floor:

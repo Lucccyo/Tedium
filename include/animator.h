@@ -50,4 +50,6 @@ void animation_step(Animator *animator, Texture *texture);
 
 void toggle_animation(Animator *animator, int val);
 
+void free_animator(Animator* animator);
+
 #endif
