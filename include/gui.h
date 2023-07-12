@@ -15,4 +15,6 @@ GUI_Element *gui_create(SDL_Rect dest_rect, SDL_Rect src_rect, SDL_Texture *text
 
 int gui_clicked(SDL_MouseButtonEvent mouse, GUI_Element *element);
 
+void free_gui(GUI_Element* gui);
+
 #endif

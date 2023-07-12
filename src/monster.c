@@ -28,3 +28,7 @@ void display_monster(Monster * m) {
   m->coordinate[0],
   m->coordinate[1]);
 }
+
+void free_monster(Monster* monster){
+  free(monster);
+}

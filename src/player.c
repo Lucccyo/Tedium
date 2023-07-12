@@ -51,3 +51,7 @@ void display_player(Player * p) {
           p->coordinate[0],
           p->coordinate[1]);
 }
+
+void free_player(Player *player){
+  free(player);
+}

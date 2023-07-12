@@ -78,7 +78,8 @@ void remove_monster (Hashtbl * h, int x, int y, char room_name[], int floor_num)
   Monster * m = h->array[i]->value;
   h->array[i]->key = -1;
   (h->size)--;
-  free(m);
+  free_monster(m);
+  h->array[i]->value = NULL;
 }
 
 void display_hashtbl(Hashtbl * h){
@@ -92,4 +93,12 @@ void display_hashtbl(Hashtbl * h){
       printf("   [%d] -> (%d;%d)   ", i, h->array[i]->value->health[0], h->array[i]->value->health[1]);
   }
   printf("\n");
+}
+
+void free_hashtbl(Hashtbl * hashtbl){
+  for (int i = 0; i < hashtbl->cap; i++) {
+    if (hashtbl->array[i]->key != -1) free_monster(hashtbl->array[i]->value);
+    free(hashtbl->array[i]);
+  }
+  free(hashtbl);
 }

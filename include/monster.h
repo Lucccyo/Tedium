@@ -26,4 +26,6 @@ void update_health_monster(int* health, int update);
 /* display debug */
 void display_monster(Monster * m);
 
+void free_monster(Monster* monster);
+
 #endif
